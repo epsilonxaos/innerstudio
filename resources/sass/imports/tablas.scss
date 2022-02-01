@@ -1,0 +1,87 @@
+.style-table {
+    width: 100%;
+    text-align: center;
+
+    thead {
+        th {
+            background-color: $color3;
+            color: $blanco;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: .6px;
+            padding: 14px;
+        }
+    }
+
+    tbody {
+        font-size: 12px;
+        font-weight: 300;
+        letter-spacing: 0.6px;
+        color: $negro;
+
+        @media screen and (min-width: 500px) {
+            font-size: 14px;
+        }
+
+        tr {
+            border-bottom: 1px solid #ece5e0;
+        }
+
+        td {
+            padding: 6px 14px;
+
+            @media screen and (min-width: 500px) {
+                padding: 14px;
+            }
+
+            &:last-child {
+                text-transform: uppercase;
+            }
+        }
+    }
+}
+.bg-cancel { background-color: #9e81861f; }
+.can {  }
+$breakpoint-alpha: 500px;
+
+.rwd-table {
+
+
+    th {
+        display: none;
+    }
+
+    @media screen and (max-width: $breakpoint-alpha) {
+        tr:nth-child(even) {
+            background-color: #fbb7904d;
+        }
+
+    }
+
+    td {
+        display: block;
+
+        &:before {
+            content: attr(data-th)": ";
+            font-weight: bold;
+            width: 100px;
+            text-transform: initial;
+            display: inline-block;
+
+            @media (min-width: $breakpoint-alpha) {
+                display: none;
+            }
+        }
+    }
+
+    th,
+    td {
+        text-align: left;
+
+        @media (min-width: $breakpoint-alpha) {
+            display: table-cell;
+            text-align: center;
+        }
+
+    }
+}

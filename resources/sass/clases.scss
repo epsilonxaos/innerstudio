@@ -1,0 +1,87 @@
+@import 'variables';
+body {
+    background-color: $color2;
+    background-image: url('/images/backgrounds/bg-style-3.png');
+    background-repeat: repeat;
+    background-position: center;
+    background-size: auto;
+    min-height: 100vh;
+    
+}
+
+.clases{
+    // padding: 97px 0px;
+   
+    display: flex;
+    align-items: center;
+    padding: 60px 0px;
+    
+    .h2clases{
+        font-size: 50px;
+        color: $color3;
+        @media (max-width: 768px){
+            font-size: 35px;
+            z-index: 100;
+        }
+    }
+    .imgcontainer{
+        img{
+            margin-bottom: 25px;
+        }
+        h4{
+            color:$color-text1;
+            font-weight: 500;
+        }
+        p{
+            b{
+                color:$color-text1;
+                font-weight: 500;
+            }
+        }
+    }
+
+    h4{
+        font-size: 17px;
+    }
+    p{
+        font-size: 16px;
+        margin: 0;
+    }
+    .interval{
+        position: relative;
+        z-index: 2;
+    }
+
+    @media screen and (max-width: 1199px) {
+        height:auto;    
+        padding: 60px 0px;  
+    }
+    @media (max-width: 768px){
+        .container {
+            max-width: 720px;
+        }
+        .interval,.power{
+            margin-top: 40px;
+            
+        }
+        .classicpower{
+            display: flex;
+            justify-content: center !important;
+
+            .positionflex{
+                @media (max-width: 768px){
+                    display: flex;
+                    justify-content: center !important;
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 575px) {   
+        padding: 60px 20px;  
+    }
+
+   
+    
+    
+
+}

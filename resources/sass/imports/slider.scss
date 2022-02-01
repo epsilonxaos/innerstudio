@@ -1,0 +1,76 @@
+.slider {
+    position: relative;
+    padding: 40px 0px;
+
+    .container{
+        position: relative;
+    }
+
+    &.bg-main{
+        background-color: $color2;
+    }
+
+    .bg{
+        min-height: 350px;
+        max-height: 700px;
+    }
+
+    &.deco{
+        .container::after {
+            content:"";
+            width: 120px;
+            height: 140px;
+              background-image: url('/images/decoraciones/mancha-slider.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            bottom: -40px;
+            right: 0px;
+            z-index: 1;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        &.deco{
+            .container::after {
+                width: 150px;
+                height: 160px;
+                bottom: -50px;
+                right: -20px;
+            }
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        &.deco{
+            .container::after {
+                width: 180px;
+                height: 190px;
+                bottom: -70px;
+                right: -30px;
+            }
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        overflow: hidden;
+        padding-bottom: 80px;
+
+        .container{
+            width: 95%;
+        }
+
+        &.deco{
+            .container::after {
+                content:"";
+                width: 220px;
+                height: 233px;
+                bottom: -90px;
+                right: -40px;
+                z-index: 1;
+            }
+        }
+    }
+}
+

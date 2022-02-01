@@ -1,0 +1,245 @@
+@import 'variables';
+
+.blog{
+    padding-bottom: 40px;
+    .blog-header{
+        background-color: $main;
+        img{
+            width: 100%;
+            height: 300px;
+            background-size:cover;
+            @media screen and (max-width: 992px) {
+                width: 100%;
+               height: 230px;
+            }
+        }
+        .header{
+            position: relative;
+            @media screen and (max-width: 992px) {
+                width: 100vw;
+               
+            }
+            .blog-cards h2{
+                position: absolute;
+                top: 0px;
+                text-align: center;
+                width: 100%;
+                top: 30%;
+                font-size: 55px;
+                color: $blanco;
+                z-index: 1;
+                @media screen and (max-width: 768px) {
+                    
+                    font-size: 35px;
+                }
+            }
+            .backgroundgradiente{
+                background: rgb(251,183,144);
+                background: linear-gradient(0deg, rgba(251,183,144,0.5732668067226891) 52%, rgba(251,183,144,1) 52%, rgba(251,183,144,0.604079131652661) 52%);
+                height: 100%;
+                width: 100%;
+                transform: translate(0%, -100%);
+                height: 300px;
+                position: absolute;
+            }
+        }
+
+        .header::after {
+            content: "";
+            width: 100%;
+            height: 115px;
+            background-image: url(/images/decoraciones/ondas-slider.svg);
+            background-size: cover;
+            background-position: bottom;
+            background-repeat: no-repeat;
+            position: absolute;
+            bottom: -1px;
+            left: 0px;
+            z-index: 1;
+        }
+    }
+
+    .contenedor{
+        padding: 0px;
+        position: relative;
+        width: 100%;
+        @media screen and (max-width: 992px) {
+            margin: 0;
+        }
+    }
+    .cards-categorias{
+        width: 100%;
+        .row{
+            padding: 0;
+            @media screen and (max-width: 992px) {
+                width: 100%;
+            }
+        }
+        .categorias{
+            padding: 0px;
+          ul{
+              padding: 0;
+              list-style: none;
+              display: inline-flex;
+              flex-wrap: wrap;
+              
+              li{
+                padding: 5px 40px 5px 0px;
+                color:$color-text1;
+                font-size: 16px;
+                @media screen and (max-width: 768px) {
+                    font-size: 12px;
+                    padding: 5px 20px 5px 0px;
+                }
+                a{
+                    @media screen and (max-width: 768px) {
+                        font-size: 14px;
+                        
+                    }
+                }
+              }
+          }
+          
+        }
+
+        .buscador {
+            width: 100%;
+            display: inline-block;
+            position: relative;
+
+            input {
+               width: 300px;
+                height: 38px;
+                padding: 0px 15px;
+                color: $color-text1;
+                font-size: 14px;
+                font-weight: 600;
+                letter-spacing: 0.6px;
+                border-radius: 18.5px;
+                box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.29);
+                background-color: #ffffff;
+                border: none;
+                padding-right: 15px;
+                @media screen and (max-width: 992px) {
+                    width: auto;
+                }
+
+                &::placeholder {
+                
+                    color:colorgrey
+                }
+
+                & + i {
+                    position: absolute;
+                    top: 11px;
+                    right: 12px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .cards-information{
+        width: 100%;
+        margin: 0px;
+        .card{
+            background: $transp;
+            border: none;
+            .card-body{
+                padding: 9px;
+                h5{
+                    color: $negro;
+                    text-transform: uppercase;
+                    @media screen and (max-width: 992px) {
+                        font-size: 18px;
+                    }
+                }
+                p{
+                    color:$negro;
+                    font-size: 16px;
+                    @media screen and (max-width: 992px) {
+                        font-size: 14px;
+                    }
+                }
+                .button{
+                    border-radius: 50px;
+                    padding: 12px 30px 4px;
+                    background-color: $main;
+                    font-size: 14px;
+                    font-weight: 600;
+                    -webkit-border-radius:30px;
+                    -moz-border-radius:30px;
+                    -ms-border-radius:30px;
+                    -o-border-radius:30px;
+                    
+                    @media screen and (max-width: 768px) {
+                        font-size: 12px;
+                        padding: 10px 17px 4px;
+                    }
+
+                    a{
+                        @media screen and (max-width: 768px) {
+                            font-size: 12px;
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    .navegacion{
+        width: 100%;
+        ul{
+            padding: 0;
+            list-style: none;
+            display: inline-flex;
+            
+            li{
+              padding: 5px 15px 5px 0px;
+              color: $color-text1;
+              font-weight: 600;
+              font-size: 16px;
+            }
+        }
+        .row{
+            width: 100%;
+        }
+    }
+
+    .contenedor::after{
+        content: "";
+        width: 380px;
+        height: 340px;
+        background-image: url(/images/decoraciones/Group14.png);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 280px;
+        left: -34px;
+        z-index: -1;
+        @media screen and (max-width: 320px) {
+            width: 100%;
+            
+        }
+    
+    }
+    // .contenedor::before{
+    //     content: "";
+    //     width: 380px;
+    //     height: 340px;
+    //     background-image: url(/images/decoraciones/Path2.png);
+    //     background-size: contain;
+    //     background-position: center;
+    //     background-repeat: no-repeat;
+    //     position: absolute;
+    //     bottom: 180px;
+    //     right: 0px;
+    //     z-index: -1;
+    //     @media screen and (max-width: 320px) {
+    //         width: 100%;
+            
+    //     }
+    
+    }
+

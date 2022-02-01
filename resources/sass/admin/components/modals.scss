@@ -1,0 +1,84 @@
+$primaryColor: #fbb790;
+.modal{
+  width: 40%;
+  height: auto;
+
+  .modal-header {
+    width: 100%;
+    height: 56px;
+    padding: 15px;
+    text-align: left;
+    border-radius: 0;
+    background-color: $primaryColor;
+    font-size: 20px;
+    h6{
+      color: #fff;
+      margin: 0px;
+    }
+  }
+  &.modal-fixed-footer .modal-header {
+    position: absolute;
+    top: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+  }
+  &.modal-fixed-footer .modal-content{
+    position: absolute;
+    overflow-y: auto;
+    width: 100%;
+    height: -webkit-calc(100% - 112px);
+    height: -moz-calc(100% - 112px);
+    height: calc(100% - 112px);
+    max-height: 100%;
+    margin-top: 56px;
+  }
+
+  .modal-content{
+    h6{font-weight: bold; font-size: 17px;}
+    p{
+      strong, span{
+        font-size: 15px;
+        color: #000000;
+      }
+
+    }
+
+    a.btn-modal-agenda{
+      height: 118px;
+      vertical-align: initial;
+      line-height: initial;
+      padding: 10px 10px;
+      min-width: 135px;
+
+      p{
+        margin: 10px 0 0 0;
+      }
+
+      img{
+        margin: 0 auto;
+      }
+
+      &:first-child{
+        margin-right: 20px;
+        img{
+          margin: 0 0 0 14px;
+        }
+      }
+
+      &:hover{
+        background-color: #1F2632;
+        color:#fff;
+      }
+    }
+  }
+}
+
+#modal_print_schedule.modal{
+  height: auto;
+  .modal-content{
+    background-color: white;
+    height: calc(100% - 56px);
+    .foot-btn{
+      padding-top: 80px;
+    }
+  }
+}

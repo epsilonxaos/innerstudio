@@ -1,0 +1,143 @@
+$width: 100%;
+$elements: 7;
+
+.calendar-week {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
+    &-header {
+        margin-bottom: 20px;
+    }
+
+    &-title{
+        width: ($width/$elements);
+        text-align: center;
+
+        h5{
+            font-size: 10px;
+            font-weight: 400;
+            color: $color3;
+
+            @media screen and (min-width: 768px) {
+                font-size: 15px;
+                letter-spacing: 5.14px;
+            }
+
+            span {
+                font-weight: 600;
+            }
+        }
+    }
+
+    &-pilar {
+        width: ($width/$elements);
+
+        &:empty{
+            min-height: 350px;
+            &::before{
+                content: "Sin actividades";
+                color: $negro;
+                display: block;
+                text-align: center;
+                font-size: calc(.4rem + .5vw);
+            }
+            &::after{
+                content: "";
+                height: 5px;
+                width: 80%;
+                background-color: $color4;
+                max-width: 100px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    }
+
+    &-card {
+        background-color: $blanco;
+        border: 1px solid $color1;
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+        text-align: center;
+        transition: 350ms all;
+
+        a {
+            padding: 15px 0px;
+
+            @media screen and (min-width: 768px) {
+                padding: 25px 0px;
+            }
+            @media screen and (min-width: 992px) {
+                padding: 25px 15px;
+            }
+        }
+
+        h6 {
+            font-size: calc(.4rem + .5vw);
+            font-weight: bold;
+            letter-spacing: 0.69px;
+            color: $negro;
+
+        }
+        .instructor {
+            font-size: calc(.4rem + .5vw);
+            font-weight: 500;
+            letter-spacing: 0.69px;
+            color: $negro;
+            margin-bottom: 5px;
+        }
+
+        .time {
+            font-size: calc(.4rem + .5vw);
+            font-weight: 300;
+            letter-spacing: 0.69px;
+            color: $negro;
+            margin-bottom: 0px;
+        }
+
+        @media screen and (pointer: fine) {
+            &:hover:not(.off-time),
+            &:hover:not(.full) {
+                background-color: $main;
+
+                h6,
+                .instructor,
+                .time {
+                    color: $blanco;
+                }
+            }
+        }
+
+        @media screen and (pointer: coarse) {
+            &:focus:not(.off-time),
+            &:focus:not(.full) {
+                background-color: $main;
+
+                h6,
+                .instructor,
+                .time {
+                    color: $blanco;
+                }
+            }
+        }
+
+        &.off-time{
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        &.full{
+            pointer-events: none;
+
+            h6,
+            .instructor,
+            .time {
+                color: $main;
+            }
+        }
+    }
+}

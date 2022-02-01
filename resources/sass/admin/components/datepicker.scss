@@ -1,0 +1,84 @@
+$primaryColor: #fbb790;
+#datepicker{
+  .ui-widget{
+    font-family: "Roboto", sans-serif;
+  }
+  tr{
+    border-bottom: 0px;
+  }
+  .ui-datepicker{
+    padding: 0px;
+  }
+  .ui-widget.ui-widget-content{
+    border: 0px;
+    margin: 0px;
+  }
+  .ui-datepicker .ui-datepicker-header{
+    background-color: $primaryColor;
+    border-radius: 0;
+    border: 0px;
+    color: #fff;
+  }
+  .ui-datepicker .ui-datepicker-next:after{
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f105";
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    right: 4px;
+    position: absolute;
+  }
+
+  .ui-datepicker .ui-datepicker-prev:after{
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f104";
+    color: #fff;
+    font-size: 20px;
+    position: absolute;
+    left: 4px;
+  }
+
+  .ui-datepicker table{
+    margin: 0px;
+    margin-bottom: 10px;
+  }
+
+  .ui-widget-header .ui-icon{
+      background-image: none;
+  }
+  .ui-icon-circle-triangle-e{
+    background-position: -48px -188px;
+  }
+  .ui-icon-circle-triangle-w{
+    background-position: -80px -188px;
+  }
+  .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{
+    border: 0px;
+    background: #fff;
+    text-align: center;
+  }
+  .ui-datepicker .ui-datepicker-prev-hover{
+    left: 2px;
+    top: 2px;
+  }
+
+  .ui-datepicker .ui-datepicker-next-hover{
+    right: 2px;
+    top: 2px;
+  }
+  .ui-state-hover, .ui-widget-content .ui-state-hover{
+    border: 0px;
+    background: $primaryColor;
+    text-align: center;
+    border: 0px;
+    color: #fff;
+  }
+  .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight{
+    background: $primaryColor;
+    text-align: center;
+    border: 0px;
+    color: #fff;
+  }
+
+  .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover{
+    background: $primaryColor;
+  }
+}

@@ -1,0 +1,19 @@
+#main{
+  .content-area{
+    width: 100% !important;
+  }
+  #content-dynamic{
+    .card-image{
+      button{position: absolute; top: 30px;
+        right: 15px;}
+    }
+  }
+  #view-full-calendar .divisor{
+    background-color: #746a68;
+  }
+}
+
+header{
+  nav ul li.active ul li a{background-color: white;}
+  nav ul li.active ul li.active a{ background-color: #FBB790;color: white;}
+}

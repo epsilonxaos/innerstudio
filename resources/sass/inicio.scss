@@ -1,0 +1,76 @@
+@import 'variables';
+@import './imports/slider-fullscreen';
+@import './imports/cards-clases';
+@import './imports/slider';
+
+.conocenos {
+    padding-top: 30px;
+    position: relative;
+    z-index: 1;
+
+    .container{
+        padding-bottom: 30px;
+        box-shadow: $sombra3;
+    }
+
+    h2{
+        color: $main;
+        // line-height: 0.74;
+        letter-spacing: 2px;
+        font-size: 20px;
+    }
+
+    p{
+        font-size: 14px;
+        line-height: 1.63;
+        letter-spacing: normal;
+        color: $color-text1;
+    }
+
+    h3{
+        font-size: 18px;
+        letter-spacing: 3.43px;
+        color: $color-text1;
+    }
+
+    .deco {
+        width: 100%;
+        max-width: 498px;
+        margin-top: 30px;
+    }
+
+    @media screen and (min-width: 992px) {
+        padding-top: 50px;
+
+        .container {
+            padding-bottom: 50px;
+        }
+
+        h2{
+            font-size: 30px;
+        }
+
+        p{
+            font-size: 16px;
+        }
+
+        h3{
+            font-size: 24px;
+        }
+
+        .deco{
+            margin-top: 0px;
+        }
+    }
+}
+
+.instagram {
+    padding: 30px 0px;
+    background-color: $color2;
+    text-align: center;
+
+    h4{
+        color: $main;
+        margin-bottom: 40px;
+    }
+}

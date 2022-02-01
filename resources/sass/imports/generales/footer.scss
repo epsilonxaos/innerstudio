@@ -1,0 +1,41 @@
+footer {
+    background-color: $color3;
+    padding: 40px 0px;
+
+    a{
+        display: inline-block;
+
+        img {
+            width: 100%;
+            max-width: 124px;
+        }
+
+        &:hover {
+            color: $color1;
+        }
+    }
+    a,
+    p {
+        color: $color1;
+        font-weight: 300;
+        font-size: 14px;
+        letter-spacing: 0.8px;
+    }
+
+    a.redes {
+        color: $main;
+
+        & + a.redes {
+            margin-left: 20px;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        padding-bottom: 25px;
+        position: absolute;
+        width: 100%;
+        z-index: 10;
+        bottom: 0px;
+        left: 0px;
+    }
+}

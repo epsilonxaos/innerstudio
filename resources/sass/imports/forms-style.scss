@@ -1,0 +1,69 @@
+form {
+    input {
+        width: 100%;
+        max-width: 340px;
+        height: 38px;
+        border-radius: 18px;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.29);
+        background-color: $blanco;
+        border: none;
+        padding: 0px 20px;
+        margin-bottom: 25px;
+        color: $negro;
+
+        &.w-100 {
+            width: 100%;
+            max-width: none;
+        }
+
+        &::placeholder {
+            color: $gris
+        }
+    }
+
+    textarea {
+        width: 100%;
+        max-width: 340px;
+        height: 120px;
+        resize: none;
+        border-radius: 18px;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.29);
+        background-color: $blanco;
+        border: none;
+        padding: 10px 20px;
+        margin-bottom: 25px;
+        color: $negro;
+
+        &.w-100 {
+            width: 100%;
+            max-width: none;
+        }
+
+        &::placeholder {
+            color: $gris
+        }
+    }
+
+    select {
+        width: 100%;
+        max-width: 340px;
+        height: 38px;
+        border-radius: 18px;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.29);
+        background-color: $blanco;
+          background-image: url('/images/icons/icon-caret.png');
+        background-position: 95%;
+        background-repeat: no-repeat;
+        border: none;
+        padding: 0px 20px;
+        padding-right: 40px;
+        margin-bottom: 25px;
+        appearance: none;
+        color: $negro;
+
+        &.w-100 {
+            width: 100%;
+            max-width: none;
+        }
+    }
+}

@@ -1,0 +1,250 @@
+@import 'variables';
+@import 'imports/tablas';
+@import 'imports/custom-toggle';
+
+body {
+    background-color: $color2;
+}
+
+.perfil {
+    overflow: hidden;
+
+    .bg-white {
+        padding: 30px 15px;
+        background-color: $blanco;
+    }
+
+    h3 {
+        font-size: 25px;
+        letter-spacing: 1.43px;
+        color: $color4;
+        margin-bottom: 30px;
+        font-weight: 600;
+    }
+
+    p {
+        font-size: 14px;
+        letter-spacing: 0.8px;
+        color: $color-text1;
+
+        &:not(.m15) {
+            margin-bottom: 0px;
+        }
+
+        &+p {
+            margin-top: 5px;
+        }
+
+        &.upper {
+            text-transform: uppercase;
+        }
+
+        span {
+            font-size: 36px;
+            font-weight: 500;
+            letter-spacing: 2.06px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    }
+
+    .m80 {
+        margin-bottom: 60px;
+    }
+
+    h5 {
+        font-size: 17px;
+        letter-spacing: 0.97px;
+        color: $color4;
+        font-weight: 600;
+    }
+
+    .bg-main {
+        padding: 30px 15px;
+    }
+
+    .nav-tabs {
+        border: none;
+
+        .nav-item {
+            background-color: $transp;
+            color: $negro;
+            border: none;
+            border-radius: 0px;
+            font-size: 18px;
+            letter-spacing: .56px;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+
+            &::before {
+                content: '';
+                width: 0%;
+                height: 14px;
+                background-color: rgba(251, 183, 144, 0.91);
+                position: absolute;
+                bottom: 5px;
+                left: 0px;
+                z-index: -1;
+                transition: width 350ms ease-out;
+            }
+
+            &.active,
+            &.show {
+                &::before {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .tab-content {
+        .tab-pane {
+            min-height: 400px;
+        }
+    }
+
+    .dropdown-menu {
+        transform: none !important;
+        width: 100%;
+        max-width: 250px;
+        background-color: $blanco;
+        border-radius: 15px;
+        overflow: hidden;
+        top: 40px !important;
+        right: 0px;
+        margin: auto;
+        padding: 0px;
+
+        .dropdown-item.active,
+        .dropdown-item:active {
+            background-color: $main;
+            color: $blanco;
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        .bg-main {
+            position: relative;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0px;
+                left: -340px;
+                width: 450px;
+                height: 200px;
+                background-image: url(/images/decoraciones/trazo.svg);
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -3px;
+                right: -350px;
+                width: 450px;
+                height: 170px;
+                background-image: url(/images/decoraciones/trazo.svg);
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+        }
+    }
+
+    @media screen and (min-width: 992px) {
+        .row.deco {
+            position: relative;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0px;
+                left: 0;
+                width: 450px;
+                height: 200px;
+                background-image: url(/images/decoraciones/trazo.svg);
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -3px;
+                right: -350px;
+                width: 450px;
+                height: 170px;
+                background-image: url(/images/decoraciones/trazo.svg);
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+        }
+
+        .bg-white {
+            padding-top: 40px;
+            padding-bottom: 60px;
+            min-height: calc(100vh - 202px);
+        }
+
+        .btn.mw {
+            min-width: 227px;
+            display: block;
+        }
+
+        .m80 {
+            margin-bottom: 80px;
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        .row.deco {
+            position: relative;
+
+            &::before {
+                width: 650px;
+                height: 260px;
+            }
+
+            &::after {
+                right: -450px;
+                width: 650px;
+                height: 250px;
+            }
+        }
+
+        .bg-white,
+        .bg-main {
+            padding: 40px 60px;
+        }
+    }
+}
+
+.cancelacion {
+    background-color: #ed143d1f;
+    border-bottom: 1px solid $blanco !important;
+}
+
+.leyenda {
+    small {
+        &::before {
+            content: "";
+            width: 15px;
+            height: 15px;
+            background-color: #ed143d1f;
+            border-radius: 50%;
+            border: 1px solid #dc143c88;
+            display: inline-block;
+            position: relative;
+            top: 2px;
+            margin-right: 5px;
+        }
+    }
+}
+
+.datepickers-container {
+    z-index: 1050;
+}

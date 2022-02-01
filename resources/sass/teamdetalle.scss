@@ -1,0 +1,104 @@
+@import 'variables';
+
+body {
+    background-color: $color2;
+}
+
+.teamdetalle {
+
+    .bg-white,
+    .bg-body {
+        padding: 30px 15px;
+        min-height: 250px;
+
+        @media screen and (min-width: 768px) {
+            min-height: 600px
+        }
+
+        @media screen and (min-width: 992px) {
+            padding: 60px 15px;
+        }
+    }
+
+    .descripcioninstructor {
+        background-color: $blanco;
+        padding-top: 50px;
+
+        h3 {
+            padding-left: 5px;
+            background: linear-gradient(0deg, rgba(251, 183, 144, 1) 0%, rgba(251, 183, 144, 1) 52%, rgb(255, 255, 255) 52%);
+            width: 100px;
+            color: $negro;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 16px;
+            color: $color-text1;
+
+            @media screen and (min-width: 992px) {
+                max-width: 470px
+            }
+        }
+    }
+
+    .instructorimg {
+        background-color: $color2;
+        text-align: center;
+        width: 100%;
+
+        img {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        @media screen and (min-width: 768px) {
+            background-image: url(/images/backgrounds/bg-mancha.png);
+            background-position: center;
+            background-size: 100%;
+            background-repeat: no-repeat;
+
+        }
+
+        @media screen and (min-width: 1200px) {
+            background-size: 100%;
+
+            img {
+                width: auto;
+                max-height: 615px;
+            }
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        position: relative;
+        z-index: 1;
+
+        &::before {
+            content: "";
+            width: 40%;
+            height: 100%;
+            z-index: -1;
+            background-color: $blanco;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 991px) {
+        .bg-body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    @media screen and (min-height: 800px) {
+
+        .bg-white,
+        .bg-body {
+            min-height: calc(100vh - 190px);
+        }
+    }
+}

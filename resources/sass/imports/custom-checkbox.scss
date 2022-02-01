@@ -1,0 +1,49 @@
+.custom-checkbox {
+    display: none;
+  }
+  .custom-checkbox + label {
+    font-weight: normal;
+    cursor: pointer;
+  }
+  .custom-checkbox + label span {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid #009688;
+  }
+  .custom-checkbox + label span::before {
+    content: "";
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+    width: 9px;
+    height: 9px;
+    background-color: #009688;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    bottom: auto;
+    right: auto;
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -moz-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
+    -webkit-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+  }
+  .custom-checkbox:checked + label span::before {
+    filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+    opacity: 1;
+  }
+  .custom-checkbox:disabled + label {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+    opacity: 0.5;
+  }
+  .custom-checkbox:disabled + label, .custom-checkbox:disabled + label span {
+    cursor: default;
+  }

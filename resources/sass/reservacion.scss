@@ -1,0 +1,300 @@
+@import 'variables';
+@import 'imports/calendar';
+@import 'imports/cards-clases';
+
+.reservacion {
+    
+    .bg-blanco {
+        background-color: $blanco;
+        padding-top: 60px;
+        padding-bottom: 10px;
+
+        h2 {
+            font-size: 45px;
+            line-height: 0.47;
+            letter-spacing: 3.14px;
+            color: $color3;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        h4 {
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.04;
+            letter-spacing: 1.43px;
+            color: $color3;
+            padding-top: 4px;
+        }
+
+        .btn.circle {
+            position: relative;
+            top: -2px;
+            min-width: 28px;
+            width: 28px;
+            height: 28px;
+            padding: 2px 0px;
+        }
+
+        @media screen and (min-width: 768px) {
+            h2 {
+                margin-bottom: 0px;
+            }
+        }
+
+        @media screen and (min-width: 992px) {
+            h4 {
+                font-size: 20px;
+            }
+
+            .btn.circle {
+                top: -4px;
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            h2 {
+                font-size: 55px;
+            }
+
+            h4 {
+                font-size: 25px;
+            }
+
+            .btn.circle {
+                top: -5px;
+            }
+        }
+    }
+
+    .bg-main {
+        background-color: $color2;
+        padding: 50px 0px;
+        overflow: hidden;
+
+        .calendar-week.deco {
+            position: relative;
+            z-index: 1;
+
+            &::before,
+            &::after {
+                content: '';
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                position: absolute;
+                z-index: -1;
+            }
+
+            &::before {
+                background-image: url(/images/decoraciones/silueta-mujer.svg);
+                top: -100px;
+                left: -20px;
+                width: 222px;
+                height: 248px;
+            }
+
+            &::after {
+                background-image: url(/images/decoraciones/silueta-mujer2.svg);
+                bottom: -70px;
+                right: -0px;
+                width: 161px;
+                height: 275px;
+            }
+
+            @media screen and (min-width: 1200px) {
+                &::before {
+                    top: -100px;
+                    left: -160px;
+                }
+
+                &::after {
+                    bottom: -70px;
+                    right: -130px;
+                }
+            }
+        }
+    }
+}
+
+.reservacion-detalle {
+    .bg-blanco {
+        background-color: $blanco;
+        padding: 30px 0px;
+
+        img+p {
+            margin-top: 15px;
+            font-size: 15px;
+            font-weight: 300;
+            letter-spacing: 4.64px;
+            color: $color-text1;
+
+            strong {
+                font-weight: bold;
+            }
+
+            span {
+                font-size: 17px;
+                letter-spacing: 4.37px;
+                font-weight: 500;
+                color: $main;
+            }
+        }
+
+        ul {
+            padding: 0px;
+            margin: 0px;
+            display: flex;
+            list-style: none;
+            justify-content: center;
+
+            li {
+                position: relative;
+                font-size: 12px;
+                font-weight: 500;
+                letter-spacing: 0.69px;
+                color: $color-text1;
+
+                span {
+                    padding-left: 10px;
+                }
+
+                &.disponible {
+                    margin-right: 10px;
+                }
+
+                &.ocupado {
+                    margin-left: 10px;
+                }
+
+                &.disponible::before,
+                &.ocupado::before {
+                    content: '';
+                    width: 52px;
+                    height: 32px;
+                    border: 2px solid $color-text1;
+                    display: inline-block;
+                }
+
+                &.disponible::before {
+                    background-color: $main;
+                }
+
+                &.ocupado::before {
+                    background-color: $color3;
+                }
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            @media screen and (min-width: 768px) {
+                &::before {
+                    content: '';
+                    width: 440px;
+                    height: 250px;
+                    background-image: url(/images/decoraciones/barre-trazo.png);
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    position: absolute;
+                    bottom: -180px;
+                    left: -200px;
+                    z-index: -1;
+                }
+            }
+
+            @media screen and (min-width: 1200px) {
+                &::before {
+                    width: 650px;
+                    height: 370px;
+                    bottom: -260px;
+                    left: -200px;
+                }
+            }
+        }
+    }
+
+    .bg-main {
+        background-color: $color2;
+        padding: 40px 0px;
+        overflow: hidden;
+
+        &.deco {
+            .container {
+                position: relative;
+                z-index: 1;
+
+                // &::before {
+                //     content: '';
+                //     width: 650px;
+                //     height: 370px;
+                //     background-image: url(/images/decoraciones/barre-trazo.png);
+                //     background-repeat: no-repeat;
+                //     background-size: contain;
+                //     position: absolute;
+                //     top: -150px;
+                //     left: -200px;
+                //     z-index: -1;
+                // }
+
+                &::after {
+                    content: '';
+                    width: 440px;
+                    height: 250px;
+                    background-image: url(/images/decoraciones/trazo.svg);
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    position: absolute;
+                    bottom: -70px;
+                    right: -200px;
+                    z-index: -1;
+                }
+
+                @media screen and (min-width: 768px) {
+                    &::after {
+                        bottom: 50%;
+                        transform: translate(0%, 50%);
+                    }
+                }
+
+                @media screen and (min-width: 1200px) {
+                    &::after {
+                        width: 650px;
+                        height: 370px;
+                    }
+                }
+            }
+        }
+
+        svg{
+            width: 100%;
+            max-width: 382px;
+        }
+
+        h5 {
+            font-size: 17px;
+            font-weight: 500;
+            letter-spacing: 0.97px;
+            color: $color-text1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-bottom: 0px;
+        }
+    }
+
+    svg {
+        @media screen and (pointer: fine) {
+            .disp:hover {
+                fill: $color3;
+                
+            }
+        }
+    }
+}
+
+.planes-clases {
+    background-color: $color1;
+}
