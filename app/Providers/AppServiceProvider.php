@@ -25,11 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //URL::forceScheme('https');
+        URL::forceScheme('https');
 
-        // $this->app->bind('path.public', function() {
-        //     return base_path('../public_html/');
-        // });
+        $this->app->bind('path.public', function() {
+            return base_path('../public_html/');
+        });
         Schema::defaultStringLength(191);
     }
 }
