@@ -38,36 +38,37 @@ class FrontController extends Controller
 
         $curl = curl_init();
 
-curl_setopt_array($curl, [
-  CURLOPT_URL => "https://api.conekta.io/tokens",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 30,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
-  CURLOPT_HTTPHEADER => [
-    "Accept: application/vnd.conekta-v2.0.0+json",
-    "Authorization: Basic ".base64_encode(config('services.pagos.pkey')),
-    "Content-Type: application/json"
-  ],
-]);
+        curl_setopt_array($curl, [
+        CURLOPT_URL => "https://api.conekta.io/tokens",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
+        CURLOPT_HTTPHEADER => [
+            "Accept: application/vnd.conekta-v2.0.0+json",
+            "Authorization: Basic ".base64_encode(config('services.pagos.pkey')),
+            "Content-Type: application/json"
+        ],
+        ]);
 
-$response = curl_exec($curl);
-$err = curl_error($curl);
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
 
-curl_close($curl);
+        curl_close($curl);
 
-if ($err) {
-  echo "cURL Error #:" . $err;
-} else {
-  dd($response);
-}
-        
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        return view('pages.compra', ["status"=>400,"paquete" => $paquete, "customer" => $customer]);
+        } else {
+            $data = json_decode($response);
+            return view('pages.compra', ["status"=>200,"paquete" => $paquete, "customer" => $customer,"token"=>$data->checkout->id,"pkey"=>$data->checkout->name]);
+        }
+                
 
        
-        return view('pages.compra', ["paquete" => $paquete, "customer" => $customer]);
     }
     public function compra_view_test(){
         return view('pages.testpagofacil');

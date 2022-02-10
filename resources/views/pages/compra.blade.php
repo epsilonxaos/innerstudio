@@ -163,12 +163,12 @@
     <script>
 
 
-const freind = (x)=>{
+const showForm = (x,y)=>{
     window.ConektaCheckoutComponents.Card({
       targetIFrame: "#conektaIframeContainer",
       allowTokenization: true, 
       checkoutRequestId: x, // Checkout request ID, es el mismo ID generado en el paso 1
-      publicKey: '{{base64_encode(config('services.pagos.pkey')) }}', // Llaves: https://developers.conekta.com/docs/como-obtener-tus-api-keys
+      publicKey: y, // Llaves: https://developers.conekta.com/docs/como-obtener-tus-api-keys
       options: {
         styles: {
           inputType: 'rounded',
@@ -205,6 +205,10 @@ const freind = (x)=>{
       }
     })
 }
+
+    @if($status == 200)
+        showForm('{{$token}}','{{$pkey}}')
+    @endif
 
     </script>
 
