@@ -163,11 +163,7 @@
     <script>
 
 
-<<<<<<< HEAD
 const showForm = (x,y)=>{
-=======
-const freind = (x,y)=>{
->>>>>>> 792c200ac16bc5a5e8ed1912f45b9d1fc071b9f6
     window.ConektaCheckoutComponents.Card({
       targetIFrame: "#conektaIframeContainer",
       allowTokenization: true, 
