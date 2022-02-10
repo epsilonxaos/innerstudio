@@ -294,6 +294,13 @@ class FrontController extends Controller
 
     }
 
+    public static function redirectLogin(){
+
+        return redirect()->route('login.admin');
+
+
+    }
+
 
     public function blog_view(){
         return view('pages.blog');

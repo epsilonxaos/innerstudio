@@ -75,9 +75,7 @@ Route::post('/password/reset', 'Auth\PasswordController@reset');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('admin/logout', 'Auth\LoginController@logout')->name('admin.logout');
 Route::get('admin/login', 'Auth\LoginController@login_panel') -> name('login.admin');
-Route::get('panel', function(){
-    return redirect()->route('login.admin');
-});
+Route::get('panel','FrontController@redirectLogin')->name('login.panel');
 
 
 // ------------------------------------------------------
