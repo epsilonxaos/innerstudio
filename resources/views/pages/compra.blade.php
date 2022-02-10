@@ -75,7 +75,7 @@
                             </div>
                             <div class="col-12 col-md-6">
                             @if (env('APP_PAGOS') == 'CONEKTA')
-                            <div id="conektaIframeContainer"  class="row">
+                            <div id="conektaIframeContainer" style="height: 568px;" class="row">
                     
                             </div>
                             @else
@@ -207,7 +207,7 @@ const showForm = (x,y)=>{
 }
 
     @if($status == 200)
-        showForm('{{$token}}','{{$pkey}}')
+        showForm('{{$token}}','{{config("services.pagos.pkey")}}')
     @endif
 
     </script>
