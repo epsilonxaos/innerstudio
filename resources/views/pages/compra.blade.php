@@ -165,6 +165,7 @@ const token = '{{base64_encode(config('services.pagos.pkey')) }}'
 fetch("https://api.conekta.io/tokens", {
   "method": "POST",
   "headers": {
+      "Access-Control-Allow-Origin":'{{config('app.url') }}',
     "Content-Type": "application/json",
     "Accept": "application/vnd.conekta-v2.0.0+json",
     "Authorization": "Basic "+token
