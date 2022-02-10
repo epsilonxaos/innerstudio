@@ -30,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'pagos'=>[
+        'skey'=> env('APP_PAGOS_KEY_S',"key"),
+        'pkey'=> env('APP_PAGOS_KEY_P',"key")
+    ]
+
 ];

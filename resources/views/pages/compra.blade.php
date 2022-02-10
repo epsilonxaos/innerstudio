@@ -74,6 +74,11 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
+                            @if (env('APP_PAGOS') == 'CONEKTA')
+                            <div  class="row">
+                                <div id="conektaIframeContainer"></div>
+                            </div>
+                            @else
                                 <div class="row">
                                     <div class="col-12"><input type="text" name="numeroTarjeta" id="numeroTarjeta" placeholder="Número de tarjeta" value="" required mask-tarjeta></div>
                                     <div class="col-12 col-md-6">
@@ -115,6 +120,7 @@
                                     </div>
                                     <div class="col-12"><input type="password" name="cvt" id="cvt" placeholder="CVC" value="" required mask-cvv></div>
                                 </div>
+                            @endif
                             </div>
                             <div class="col-12 text-center">
                                 <small class="mr-1">Aceptamos</small>
@@ -154,5 +160,72 @@
         });
     </script>
     <script type="text/javascript" src="{{asset('js/compra.js?v=1.0.4')}}"></script>
+    <script>
+const token = '{{base64_encode(config('services.pagos.pkey')) }}'
+fetch("https://api.conekta.io/tokens", {
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/vnd.conekta-v2.0.0+json",
+    "Authorization": "Basic "+token
+  },
+  "body": "{\"checkout\":{\"returns_control_on\":\"Token\"}}"
+})
+.then(response => {
+    JSON.parse(response).then(x=>{
+        if(x.id != null){
+            freind(x.checkout.id,x.id)
+        }
+
+    })
+})
+.catch(err => {
+  console.error(err);
+});
+
+const freind = (x)=>{
+    window.ConektaCheckoutComponents.Card({
+      targetIFrame: "#conektaIframeContainer",
+      allowTokenization: true, 
+      checkoutRequestId: x, // Checkout request ID, es el mismo ID generado en el paso 1
+      publicKey: '{{base64_encode(config('services.pagos.pkey')) }}', // Llaves: https://developers.conekta.com/docs/como-obtener-tus-api-keys
+      options: {
+        styles: {
+          inputType: 'rounded',
+          buttonType: 'rounded',          
+          states: {
+            empty: {
+              borderColor: '#FFAA00' // Código de color hexadecimal para campos vacíos
+            },
+            invalid: {
+              borderColor: '#FF00E0' // Código de color hexadecimal para campos inválidos
+            },
+            valid: {
+              borderColor: '#0079c1' // Código de color hexadecimal para campos llenos y válidos
+            }
+          }
+        },
+        languaje: 'es', 
+        button: {
+          colorText: '#ffffff', // Código de color hexadecimal para el color de las palabrás en el botón de: Alta de Tarjeta | Add Card
+          //text: 'Agregar Tarjeta***', //Nombre de la acción en el botón ***Se puede personalizar
+          backgroundColor: '#301007' // Código de color hexadecimal para el color del botón de: Alta de Tarjeta | Add Card
+        },
+    
+        iframe: {
+          colorText: '#65A39B',  // Código de color hexadecimal para el color de la letra de todos los campos a llenar
+          backgroundColor: '#FFFFFF' // Código de color hexadecimal para el fondo del iframe, generalmente es blanco.
+        }
+      },
+      onCreateTokenSucceeded: function(token) {
+        console.log(token)
+      },
+      onCreateTokenError: function(error) {
+        console.log(error)
+      }
+    })
+}
+
+    </script>
 
 @endpush

@@ -36,6 +36,9 @@ class FrontController extends Controller
             -> first();
         $customer = self::getDataCustomer(Auth() -> User() -> id_customer);
 
+
+
+       
         return view('pages.compra', ["paquete" => $paquete, "customer" => $customer]);
     }
     public function compra_view_test(){

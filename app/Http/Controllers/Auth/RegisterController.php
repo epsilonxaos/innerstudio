@@ -64,15 +64,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
         // dd(str_replace(url('/'), '', url()->previous()));
         $cs = Customer::create([
             'email' => $data['email'],
             'status' => 1
         ]);
-
-        SendMailJob::dispatch("bienvenida", $data['email'], 0) ->delay(now()->addMinutes(1));
-
+        #SendMailJob::dispatch("bienvenida", $data['email'], 0) ->delay(now()->addMinutes(1));
+  
         return User::create([
             'id_customer' => $cs -> id_customer,
             'email' => $data['email'],
