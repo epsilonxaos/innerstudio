@@ -397,6 +397,7 @@ class PurchaseController extends Controller
         if(self::validatePackage($request -> id_package, $request -> id_customer)){
             $package = Package::where('id_package', $request -> id_package) -> first();
             $duration = $package -> duration;
+            //modificar para añadir metodo de pago conekta
             $purchase = Purchase::create([
                 'id_customer' => $request -> id_customer,
                 'id_package' => $request -> id_package,
@@ -409,6 +410,7 @@ class PurchaseController extends Controller
                 'discount' => $request -> discount
             ]);
 
+            //si la compra se crea el purchase data
             if($purchase -> id_purchase){
                 $customer = Customer::where('id_customer', $request -> id_customer) -> first();
                 $purchase_data = PurchaseData::create([
