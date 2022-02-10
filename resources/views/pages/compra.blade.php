@@ -75,8 +75,8 @@
                             </div>
                             <div class="col-12 col-md-6">
                             @if (env('APP_PAGOS') == 'CONEKTA')
-                            <div  class="row">
-                                <div id="conektaIframeContainer"></div>
+                            <div id="conektaIframeContainer"  class="row">
+                    
                             </div>
                             @else
                                 <div class="row">
