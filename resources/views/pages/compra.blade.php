@@ -34,7 +34,12 @@
                     <input type="hidden" getform name="subtotal" value="{{$paquete -> price}}">
                     <input type="hidden" getform name="discount" value="0">
                     <input type="hidden" getform name="total" value="{{$paquete -> price}}">
+                    @if (env('APP_PAGOS') == 'CONEKTA')
+                    <form id="pago" action="{{url('comprar.conecta')}}">
+                        @csrf
+                    @else
                     <form id="3ds-form" method="post">
+                    @endif
                         <input type="hidden" getform name="id_package" value="{{$paquete -> id_package}}">
                         <input type="hidden" getform name="id_customer" value="{{$customer -> id_customer}}">
                         <input type="hidden" name="monto" id="monto" value="{{$paquete -> price}}">
@@ -199,6 +204,12 @@ const showForm = (x,y)=>{
       },
       onCreateTokenSucceeded: function(token) {
         console.log(token)
+        var input = document.createElement("input");
+                input.type = "text";
+                input.name = "token";
+                input.value = token.id;
+
+        document.getElementById("container").appendChild()
       },
       onCreateTokenError: function(error) {
         console.log(error)

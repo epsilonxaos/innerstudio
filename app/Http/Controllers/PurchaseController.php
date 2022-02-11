@@ -378,6 +378,9 @@ class PurchaseController extends Controller
         }
     }
 
+    public function compra_update_data_conekta(Request $request){
+        dd($request);
+    }
 
     public function compra_update_data(Request $request){
         $today = date('Y-m-d H:i:s');
