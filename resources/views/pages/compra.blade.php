@@ -138,7 +138,8 @@
                                     <input type="checkbox" id="terminos" name="terminos" value="1" required>
                                     <label for="terminos"><span></span> Acepto <a href="" target="_blank">Términos y Condiciones</a></label>
                                 </div>
-                                <button class="btn btn-main do-pay" type="button" id="do-pay">Comprar</button>
+                                <button class="btn btn-main do-pay" type="submit" >Comprar</button>
+                                <!--<button class="btn btn-main do-pay" type="submit" id="do-pay">Comprar</button>-->
                             </div>
                         </div>
                     </form>
@@ -170,7 +171,7 @@
         <script>
             const addtoform = (info)=>{
                 let input = document.createElement("input");
-                input.type = "text";
+                input.type = "hidden";
                 input.name = "token";
                 input.value = info.id;
                 document.getElementById("pago").appendChild(input)
