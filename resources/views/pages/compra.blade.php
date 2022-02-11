@@ -168,15 +168,14 @@
     <script>
 
 const addtoform = (info)=>{
-    console.log(info.id)
-        JSON.parse(token).then((x)=>{
+        
 
             let input = document.createElement("input");
             input.type = "text";
             input.name = "token";
-            input.value = token.id;
+            input.value = info.id;
             document.getElementById("pago").appendChild(input)
-        })
+
 }
 
 
