@@ -35,7 +35,7 @@
                     <input type="hidden" getform name="discount" value="0">
                     <input type="hidden" getform name="total" value="{{$paquete -> price}}">
                     @if (env('APP_PAGOS') == 'CONEKTA')
-                    <form id="pago" action="{{url('comprar.conecta')}}">
+                    <form id="pago" method="POST" action="{{ route('comprar.conecta')}}">
                         @csrf
                     @else
                     <form id="3ds-form" method="post">
