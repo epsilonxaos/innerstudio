@@ -167,6 +167,17 @@
     <script type="text/javascript" src="{{asset('js/compra.js?v=1.0.4')}}"></script>
     <script>
 
+const addtoform = (info)=>{
+    console.log(info.id)
+        JSON.parse(token).then((x)=>{
+
+            let input = document.createElement("input");
+            input.type = "text";
+            input.name = "token";
+            input.value = token.id;
+            document.getElementById("pago").appendChild(input)
+}
+
 
 const showForm = (x,y)=>{
     window.ConektaCheckoutComponents.Card({
@@ -203,15 +214,7 @@ const showForm = (x,y)=>{
         }
       },
       onCreateTokenSucceeded: function(token) {
-        console.log(token)
-        JSON.parse(token).then((x)=>{
-
-            var input = document.createElement("input");
-                    input.type = "text";
-                    input.name = "token";
-                    input.value = token.id;
-    
-            document.getElementById("container").appendChild(input)
+      
         })
       },
       onCreateTokenError: function(error) {
