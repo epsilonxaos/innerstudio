@@ -204,12 +204,15 @@ const showForm = (x,y)=>{
       },
       onCreateTokenSucceeded: function(token) {
         console.log(token)
-        var input = document.createElement("input");
-                input.type = "text";
-                input.name = "token";
-                input.value = token.id;
+        JSON.parse(token).then((x)=>{
 
-        document.getElementById("container").appendChild()
+            var input = document.createElement("input");
+                    input.type = "text";
+                    input.name = "token";
+                    input.value = token.id;
+    
+            document.getElementById("container").appendChild(input)
+        })
       },
       onCreateTokenError: function(error) {
         console.log(error)
