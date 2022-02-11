@@ -214,10 +214,7 @@ const showForm = (x,y)=>{
           backgroundColor: '#FFFFFF' // Código de color hexadecimal para el fondo del iframe, generalmente es blanco.
         }
       },
-      onCreateTokenSucceeded: function(token) {
-      
-        })
-      },
+      onCreateTokenSucceeded: addtoform ,
       onCreateTokenError: function(error) {
         console.log(error)
       }
