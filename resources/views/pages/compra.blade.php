@@ -151,33 +151,31 @@
 @push('js')
     {{-- Aqui van los scripts para esta vista     --}}
     @if (env('APP_PAGOS') != 'CONEKTA')
-    <script src="{{asset('js/pagofacil3ds.js')}}"></script>
-    <script>
-        $(function(){
-            @if(env('APP_MODE') == 'pro')
-                $("#3ds-form").enviarPagoFacil3dSecure('produccion');
-            @else
-                $("#3ds-form").enviarPagoFacil3dSecure();
-            @endif
-        })
-        $('.do-pay').on('click', function(){
-            $('#httpUserAgent').val(navigator.userAgent);
-            // $("#3ds-form").submit();
-        });
-    </script>
-    <script type="text/javascript" src="{{asset('js/compra.js?v=1.0.4')}}"></script>
-    <script>
+        <script src="{{asset('js/pagofacil3ds.js')}}"></script>
+        <script>
+            $(function(){
+                @if(env('APP_MODE') == 'pro')
+                    $("#3ds-form").enviarPagoFacil3dSecure('produccion');
+                @else
+                    $("#3ds-form").enviarPagoFacil3dSecure();
+                @endif
+            })
+            $('.do-pay').on('click', function(){
+                $('#httpUserAgent').val(navigator.userAgent);
+                // $("#3ds-form").submit();
+            });
+        </script>
+        <script type="text/javascript" src="{{asset('js/compra.js?v=1.0.4')}}"></script>
     @else
-        const addtoform = (info)=>{
-                
+        <script>
+            const addtoform = (info)=>{
+                let input = document.createElement("input");
+                input.type = "text";
+                input.name = "token";
+                input.value = info.id;
+                document.getElementById("pago").appendChild(input)
 
-                    let input = document.createElement("input");
-                    input.type = "text";
-                    input.name = "token";
-                    input.value = info.id;
-                    document.getElementById("pago").appendChild(input)
-
-        }
+            }
 
 
         const showForm = (x,y)=>{
@@ -221,9 +219,9 @@
             })
         }
 
-            @if($status == 200)
-                showForm('{{$token}}','{{config("services.pagos.pkey")}}')
-            @endif
+        @if($status == 200)
+            showForm('{{$token}}','{{config("services.pagos.pkey")}}')
+        @endif
     @endif
     </script>
 
