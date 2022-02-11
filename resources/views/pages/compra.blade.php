@@ -177,6 +177,7 @@ const addtoform = (info)=>{
             input.value = token.id;
             document.getElementById("pago").appendChild(input)
 }
+}
 
 
 const showForm = (x,y)=>{
