@@ -404,7 +404,6 @@ class PurchaseController extends Controller
             'email'=>$client -> email,
             'phone'=>$request -> celular,
         ]);
-        dd($customer);
         $c->newOrder([
             'currency' => 'mxn',
             'line_items'=> [
