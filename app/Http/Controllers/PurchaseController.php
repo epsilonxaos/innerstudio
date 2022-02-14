@@ -404,36 +404,13 @@ class PurchaseController extends Controller
             'email'=>$client -> email,
             'phone'=>$request -> celular,
         ]);
-        dd([
-            'currency' => 'mxn',
-            'line_items'=> [
-                [
-                    'id'=> $request ->id_package,
-                    'name'        => 'pack of class',
-                    'unit_price'  => $request ->id_package*100,
-                    'quantity'    => 1,
-                ]
-            ],
-            'charges'  => [
-                [
-                    'payment_method' => [
-                        'type'       => 'card',
-                        'token_id'=>  $request ->id_package
-                    ],
-                    'amount' => $request ->id_package*100,
-                ]
-            ],
-            'customer_info' => [
-                'customer_id' => $customer->id,
-            ]
-            ]);
         $order = $c->newOrder([
             'currency' => 'mxn',
             'line_items'=> [
                 [
                     'id'=> $request ->id_package,
                     'name'        => 'pack of class',
-                    'unit_price'  => $request ->id_package*100,
+                    'unit_price'  => $request ->monto*100,
                     'quantity'    => 1,
                 ]
             ],
@@ -443,7 +420,7 @@ class PurchaseController extends Controller
                         'type'       => 'card',
                         'token_id'=>  $request ->id_package
                     ],
-                    'amount' => $request ->id_package*100,
+                    'amount' => $request ->monto*100,
                 ]
             ],
             'customer_info' => [
