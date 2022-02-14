@@ -398,6 +398,7 @@ class PurchaseController extends Controller
         */
 
         $client = Customer::where('id_customer', $request -> id_customer)->first();
+        dd($client);
         $c = new Conekta_client();
         $customer = $c->newClient([
             'name'=>$request -> nombre.' '.$request -> apellidos,
