@@ -413,7 +413,7 @@ class PurchaseController extends Controller
                 [
                     'payment_method' => [
                         'type'       => 'card',
-                        'token_id'=>  $request ->id_package
+                        'token_id'=>  $request ->token
                     ],
                     'amount' => $request ->monto*100,
                 ]
