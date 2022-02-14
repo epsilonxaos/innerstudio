@@ -404,7 +404,7 @@ class PurchaseController extends Controller
             'email'=>$client -> email,
             'phone'=>$request -> celular,
         ]);
-        $c->newOrder([
+        $order = $c->newOrder([
             'currency' => 'mxn',
             'line_items'=> [
                 [
@@ -427,7 +427,7 @@ class PurchaseController extends Controller
                 'customer_id' => $customer->id,
             ]
         ]);
-
+        dd($order);
         return redirect()->route('profile');
       
     }
