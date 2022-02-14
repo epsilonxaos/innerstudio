@@ -15,6 +15,9 @@ use App\PurchaseData;
 use App\Jobs\SendMailJob;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use App\Conekta_client;
+
+
 
 class PurchaseController extends Controller
 {
@@ -380,33 +383,36 @@ class PurchaseController extends Controller
 
     public function compra_update_data_conekta(Request $request){
         dd($request);
-        \Conekta\Order::create([
-  'currency' => 'MXN',
-  'customer_info' => [
-    'customer_id' => 'cus_zzmjKsnM9oacyCwV3',
-    ],
-  'line_items' => [
-    [
-      'name' => 'Box of Cohiba S1s',
-      'unit_price' => 35000,
-      'quantity' => 1,
-      'antifraud_info' => [
-          'trip_id'        => '12345',
-          'driver_id'      => 'driv_1231',
-          'ticket_class'   => 'economic',
-          'pickup_latlon'  => '23.4323456,-123.1234567',
-          'dropoff_latlon' => '23.4323456,-123.1234567'
-      ]
-    ]
-  ],
-  'charges' => [
-    [
-      'payment_method' => [
-        'type' => 'default'
-      ]
-    ]
-  ]
-]);
+        $c = new Conekta_client();
+        $orden = \Conekta\Order::create([
+            'currency' => 'MXN',
+            'customer_info' => [
+              'customer_id' => 'cus_zzmjKsnM9oacyCwV3',
+              ],
+            'line_items' => [
+              [
+                'name' => 'Box of Cohiba S1s',
+                'unit_price' => 35000,
+                'quantity' => 1,
+                'antifraud_info' => [
+                    'trip_id'        => '12345',
+                    'driver_id'      => 'driv_1231',
+                    'ticket_class'   => 'economic',
+                    'pickup_latlon'  => '23.4323456,-123.1234567',
+                    'dropoff_latlon' => '23.4323456,-123.1234567'
+                ]
+              ]
+            ],
+            'charges' => [
+              [
+                'payment_method' => [
+                  'type' => 'default'
+                ]
+              ]
+            ]
+          ]);
+
+      
     }
 
     public function compra_update_data(Request $request){

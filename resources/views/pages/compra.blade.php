@@ -151,16 +151,18 @@
 
 @push('js')
     {{-- Aqui van los scripts para esta vista     --}}
-    @if (env('APP_PAGOS') != 'CONEKTA')
+    @if(env('APP_PAGOS') != 'CONEKTA')
         <script src="{{asset('js/pagofacil3ds.js')}}"></script>
         <script>
-            $(function(){
-                @if(env('APP_MODE') == 'pro')
+            @if(env('APP_MODE') == 'pro')
+                $(function(){
                     $("#3ds-form").enviarPagoFacil3dSecure('produccion');
-                @else
+                })
+            @else
+                $(function(){
                     $("#3ds-form").enviarPagoFacil3dSecure();
-                @endif
-            })
+                })
+            @endif
             $('.do-pay').on('click', function(){
                 $('#httpUserAgent').val(navigator.userAgent);
                 // $("#3ds-form").submit();
