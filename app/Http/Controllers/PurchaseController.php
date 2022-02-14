@@ -382,9 +382,34 @@ class PurchaseController extends Controller
     }
 
     public function compra_update_data_conekta(Request $request){
-        dd($request);
+        /*
+        $updateCustomer = Customer::where('id_customer', $request -> id_customer) -> update([
+            'name' => $request -> nombre,
+            'lastname' => $request -> apellidos,
+            'phone' => $request -> celular,
+            'address' => $request -> calleyNumero,
+            'colony' => $request -> colonia,
+            'city' => $request -> municipio,
+            'state' => $request -> estado,
+            'country' => $request -> pais,
+            'zip' => $request -> cp,
+            'status' => 1,
+        ]);
+        */
+
         $c = new Conekta_client();
-        $orden = \Conekta\Order::create([
+        $customer = $c->newClient([
+            'name'=>'El Fulanito - The guy',
+            'email'=>'correo@dominio.com',
+            'phone'=>'55-5555-5555',
+            'default_shipping_contact_id'=>'ship_cont_1a2b3c4d5e6f7g8h (Conekta_ID)',
+            'id'=>'cus_1a2b3c4d5e6f7g8h',
+            'object'=>'customer',
+            'created_at'=>'1628019992',
+            'corporate'=>false,
+            'default_payment_source_id'=>'src_1a2b3c4d5e6f7g8h'
+        ]);
+        $c->newOrder([
             'currency' => 'MXN',
             'customer_info' => [
               'customer_id' => 'cus_zzmjKsnM9oacyCwV3',
@@ -410,7 +435,7 @@ class PurchaseController extends Controller
                 ]
               ]
             ]
-          ]);
+                ]);
 
       
     }

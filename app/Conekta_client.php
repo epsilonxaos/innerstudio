@@ -12,11 +12,11 @@ class Conekta_client
 
     public function newOrder($data)
     {
-        $info = \Conekta\Order::create($data);
+        return \Conekta\Order::create($data);
     }
 
     public function newClient($data)
     {
-        $info = \Conekta\Customer::create($data);
+        return \Conekta\Customer::create($data);
     }
 }
