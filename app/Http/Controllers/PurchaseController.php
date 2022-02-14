@@ -425,10 +425,11 @@ class PurchaseController extends Controller
                 ]
             ],
             'customer_info' => [
-                'customer_id' => 'cus_zzmjKsnM9oacyCwV3',
+                'customer_id' => $customer->id,
             ]
         ]);
 
+        return redirect()->route('profile');
       
     }
 
