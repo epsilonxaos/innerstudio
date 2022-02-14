@@ -398,13 +398,35 @@ class PurchaseController extends Controller
         */
 
         $client = Customer::where('id_customer', $request -> id_customer)->first();
-        dd($client);
         $c = new Conekta_client();
         $customer = $c->newClient([
             'name'=>$request -> nombre.' '.$request -> apellidos,
             'email'=>$client -> email,
             'phone'=>$request -> celular,
         ]);
+        dd([
+            'currency' => 'mxn',
+            'line_items'=> [
+                [
+                    'id'=> $request ->id_package,
+                    'name'        => 'pack of class',
+                    'unit_price'  => $request ->id_package*100,
+                    'quantity'    => 1,
+                ]
+            ],
+            'charges'  => [
+                [
+                    'payment_method' => [
+                        'type'       => 'card',
+                        'token_id'=>  $request ->id_package
+                    ],
+                    'amount' => $request ->id_package*100,
+                ]
+            ],
+            'customer_info' => [
+                'customer_id' => $customer->id,
+            ]
+            ]);
         $order = $c->newOrder([
             'currency' => 'mxn',
             'line_items'=> [
