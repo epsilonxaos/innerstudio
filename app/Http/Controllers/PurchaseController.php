@@ -397,45 +397,37 @@ class PurchaseController extends Controller
         ]);
         */
 
+        $client = Customer::where('id_customer', $request -> id_customer)->first();
         $c = new Conekta_client();
         $customer = $c->newClient([
-            'name'=>'El Fulanito - The guy',
-            'email'=>'correo@dominio.com',
-            'phone'=>'55-5555-5555',
-            'default_shipping_contact_id'=>'ship_cont_1a2b3c4d5e6f7g8h (Conekta_ID)',
-            'id'=>'cus_1a2b3c4d5e6f7g8h',
-            'object'=>'customer',
-            'created_at'=>'1628019992',
-            'corporate'=>false,
-            'default_payment_source_id'=>'src_1a2b3c4d5e6f7g8h'
+            'name'=>$request -> nombre.' '.$request -> apellidos,
+            'email'=>$client -> email,
+            'phone'=>$request -> celular,
         ]);
+        dd($customer);
         $c->newOrder([
-            'currency' => 'MXN',
-            'customer_info' => [
-              'customer_id' => 'cus_zzmjKsnM9oacyCwV3',
-              ],
-            'line_items' => [
-              [
-                'name' => 'Box of Cohiba S1s',
-                'unit_price' => 35000,
-                'quantity' => 1,
-                'antifraud_info' => [
-                    'trip_id'        => '12345',
-                    'driver_id'      => 'driv_1231',
-                    'ticket_class'   => 'economic',
-                    'pickup_latlon'  => '23.4323456,-123.1234567',
-                    'dropoff_latlon' => '23.4323456,-123.1234567'
+            'currency' => 'mxn',
+            'line_items'=> [
+                [
+                    'id'=> $request ->id_package,
+                    'name'        => 'pack of class',
+                    'unit_price'  => $request ->id_package*100,
+                    'quantity'    => 1,
                 ]
-              ]
             ],
-            'charges' => [
-              [
-                'payment_method' => [
-                  'type' => 'default'
+            'charges'  => [
+                [
+                    'payment_method' => [
+                        'type'       => 'card',
+                        'token_id'=>  $request ->id_package
+                    ],
+                    'amount' => $request ->id_package*100,
                 ]
-              ]
+            ],
+            'customer_info' => [
+                'customer_id' => 'cus_zzmjKsnM9oacyCwV3',
             ]
-                ]);
+        ]);
 
       
     }
