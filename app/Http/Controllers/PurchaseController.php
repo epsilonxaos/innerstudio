@@ -15,6 +15,9 @@ use App\PurchaseData;
 use App\Jobs\SendMailJob;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use App\Conekta_client;
+
+
 
 class PurchaseController extends Controller
 {
@@ -378,6 +381,53 @@ class PurchaseController extends Controller
         }
     }
 
+    public function compra_update_data_conekta(Request $request){
+        /*
+        $updateCustomer = Customer::where('id_customer', $request -> id_customer) -> update([
+            'name' => $request -> nombre,
+            'lastname' => $request -> apellidos,
+            'phone' => $request -> celular,
+            'address' => $request -> calleyNumero,
+            'colony' => $request -> colonia,
+            'city' => $request -> municipio,
+            'state' => $request -> estado,
+            'country' => $request -> pais,
+            'zip' => $request -> cp,
+            'status' => 1,
+        ]);
+        */
+
+        $client = Customer::where('id_customer', $request -> id_customer)->first();
+        $c = new Conekta_client();
+        $order = $c->newOrder([
+            'currency' => 'mxn',
+            'line_items'=> [
+                [
+                    'id'=> $request ->id_package,
+                    'name'        => 'pack of class',
+                    'unit_price'  => $request ->monto*100,
+                    'quantity'    => 1,
+                ]
+            ],
+            'charges'  => [
+                [
+                    'payment_method' => [
+                        'type'       => 'card',
+                        'token_id'=>  $request ->token
+                    ],
+                    'amount' => $request ->monto*100,
+                ]
+            ],
+            'customer_info' => [
+                'name'=>$request -> nombre.' '.$request -> apellidos,
+                'email'=>$client -> email,
+                'phone'=>$request -> celular,
+            ]
+        ]);
+        dd($order);
+        return redirect()->route('profile');
+      
+    }
 
     public function compra_update_data(Request $request){
         $today = date('Y-m-d H:i:s');
@@ -397,6 +447,7 @@ class PurchaseController extends Controller
         if(self::validatePackage($request -> id_package, $request -> id_customer)){
             $package = Package::where('id_package', $request -> id_package) -> first();
             $duration = $package -> duration;
+            //modificar para añadir metodo de pago conekta
             $purchase = Purchase::create([
                 'id_customer' => $request -> id_customer,
                 'id_package' => $request -> id_package,
@@ -409,6 +460,7 @@ class PurchaseController extends Controller
                 'discount' => $request -> discount
             ]);
 
+            //si la compra se crea el purchase data
             if($purchase -> id_purchase){
                 $customer = Customer::where('id_customer', $request -> id_customer) -> first();
                 $purchase_data = PurchaseData::create([

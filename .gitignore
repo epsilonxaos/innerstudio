@@ -11,7 +11,7 @@ resources/js/api-instagram.json
 /storage/*.key
 /vendor
 /.idea
-.zip
+
 .env
 .env.backup
 .phpunit.result.cache
@@ -26,5 +26,4 @@ __MACOSX/
 .user.ini
 php.ini
 
-*.zip
 *.sql

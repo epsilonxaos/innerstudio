@@ -22,6 +22,7 @@ Route::get('/', 'FrontController@index_view') -> name('index');
 Route::get('/home', 'FrontController@index_view') -> name('index');
 Route::get('/compra/paquete/{id}', 'FrontController@compra_view') -> name('comprar') -> middleware('auth');
 Route::post('/compra/save', 'PurchaseController@compra_update_data') -> middleware('auth')->middleware('auth_front');
+Route::post('/compra/save/conekta', 'PurchaseController@compra_update_data_conekta') -> name('comprarConecta') -> middleware('auth')->middleware('auth_front');
 Route::get('/complete/{free?}', 'FrontController@complete_view') -> name('completado') -> middleware('auth');
 Route::get('/paquetes', 'FrontController@paquetes_view');
 Route::get('/perfil', 'FrontController@perfil_view') -> name('profile') -> middleware('auth')->middleware('auth_front');
@@ -75,9 +76,7 @@ Route::post('/password/reset', 'Auth\PasswordController@reset');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('admin/logout', 'Auth\LoginController@logout')->name('admin.logout');
 Route::get('admin/login', 'Auth\LoginController@login_panel') -> name('login.admin');
-Route::get('panel', function(){
-    return redirect()->route('login.admin');
-});
+Route::get('panel','FrontController@redirectLogin')->name('login.panel');
 
 
 // ------------------------------------------------------

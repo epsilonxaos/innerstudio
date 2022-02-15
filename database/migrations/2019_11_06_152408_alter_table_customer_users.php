@@ -35,7 +35,7 @@ class AlterTableCustomerUsers extends Migration
             $table->dropColumn('id_customer');
         });
 
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('customer', function (Blueprint $table) {
             $table -> string('password');
         });
     }
