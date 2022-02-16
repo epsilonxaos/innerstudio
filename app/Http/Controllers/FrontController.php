@@ -21,6 +21,7 @@ use App\PagoFacil_Descifrado_Descifrar;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\SendMailJob;
 use App\Http\Controllers\MessageController;
+use Illuminate\Support\Facades\Session;
 
 class FrontController extends Controller
 {
@@ -38,35 +39,19 @@ class FrontController extends Controller
 
         $curl = curl_init();
         curl_setopt_array($curl, [
-        CURLOPT_URL => "https://api.conekta.io/tokens",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
-        CURLOPT_HTTPHEADER => [
-            "Accept: application/vnd.conekta-v2.0.0+json",
-            "Authorization: Basic ".base64_encode(config('services.pagos.pkey')),
-            "Content-Type: application/json"
-        ],
-        ]);
-
-        curl_setopt_array($curl, [
-        CURLOPT_URL => "https://api.conekta.io/tokens",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
-        CURLOPT_HTTPHEADER => [
-            "Accept: application/vnd.conekta-v2.0.0+json",
-            "Authorization: Basic ".base64_encode(config('services.pagos.pkey')),
-            "Content-Type: application/json"
-        ],
+            CURLOPT_URL => "https://api.conekta.io/tokens",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
+            CURLOPT_HTTPHEADER => [
+                "Accept: application/vnd.conekta-v2.0.0+json",
+                "Authorization: Basic ".base64_encode(env('key_N7zhCySArzNxRPNMqsQVJxQ')),
+                "Content-Type: application/json"
+            ],
         ]);
 
         $response = curl_exec($curl);
@@ -78,8 +63,8 @@ class FrontController extends Controller
         echo "cURL Error #:" . $err;
         return view('pages.compra', ["status"=>400,"paquete" => $paquete, "customer" => $customer]);
         } else {
-            $data = json_decode($response);
-            return view('pages.compra', ["status"=>200,"paquete" => $paquete, "customer" => $customer,"token"=>$data->checkout->id,"pkey"=>$data->checkout->name]);
+            $resp = json_decode($response);
+            return view('pages.compra', ["status"=>200,"paquete" => $paquete, "customer" => $customer,"token"=>$resp->checkout->id,"pkey"=>$resp->checkout->name]);
         }
                 
 
@@ -238,11 +223,14 @@ class FrontController extends Controller
         return $team;
     }
 
-    public function complete_view($free = null){
-        if(isset($free)){
+    public function complete_view($free = null, $success = ''){
+        if(isset($free) && $free === 1){
             return view('pages.complete', ['free' => 1]);
         }else{
-            return view('pages.complete');
+            return view('pages.complete', [
+                'success' => $success,
+                'error' => (Session::has('error')) ? Session::get('error') : ''
+            ]);
         }
     }
 

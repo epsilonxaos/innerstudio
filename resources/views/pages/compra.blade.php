@@ -69,7 +69,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12"><h5 class="m20">Método de Pago</h5></div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-12">
                                 <div class="card text-center">
                                     <div class="card-body">
                                         <h6 class="m15">Cupón de descuento</h6>
@@ -78,7 +78,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-12">
                             @if (env('APP_PAGOS') == 'CONEKTA')
                             <div id="conektaIframeContainer" style="height: 568px;" class="row">
                     
@@ -150,82 +150,67 @@
 @endsection
 
 @push('js')
-    {{-- Aqui van los scripts para esta vista     --}}
-    @if(env('APP_PAGOS') != 'CONEKTA')
-        <script src="{{asset('js/pagofacil3ds.js')}}"></script>
-        <script>
-            @if(env('APP_MODE') == 'pro')
-                $(function(){
-                    $("#3ds-form").enviarPagoFacil3dSecure('produccion');
-                })
-            @else
-                $(function(){
-                    $("#3ds-form").enviarPagoFacil3dSecure();
-                })
-            @endif
-            $('.do-pay').on('click', function(){
-                $('#httpUserAgent').val(navigator.userAgent);
-                // $("#3ds-form").submit();
-            });
-        </script>
-        <script type="text/javascript" src="{{asset('js/compra.js?v=1.0.4')}}"></script>
-    @else
-        <script>
-            const addtoform = (info)=>{
-                let input = document.createElement("input");
-                input.type = "hidden";
-                input.name = "token";
-                input.value = info.id;
-                document.getElementById("pago").appendChild(input)
-
-            }
-
-
-        const showForm = (x,y)=>{
-            window.ConektaCheckoutComponents.Card({
-            targetIFrame: "#conektaIframeContainer",
-            allowTokenization: true, 
-            checkoutRequestId: x, // Checkout request ID, es el mismo ID generado en el paso 1
-            publicKey: y, // Llaves: https://developers.conekta.com/docs/como-obtener-tus-api-keys
-            options: {
-                styles: {
-                inputType: 'rounded',
-                buttonType: 'rounded',          
-                states: {
-                    empty: {
-                    borderColor: '#FFAA00' // Código de color hexadecimal para campos vacíos
-                    },
-                    invalid: {
-                    borderColor: '#FF00E0' // Código de color hexadecimal para campos inválidos
-                    },
-                    valid: {
-                    borderColor: '#0079c1' // Código de color hexadecimal para campos llenos y válidos
-                    }
-                }
-                },
-                languaje: 'es', 
-                button: {
-                colorText: '#ffffff', // Código de color hexadecimal para el color de las palabrás en el botón de: Alta de Tarjeta | Add Card
-                //text: 'Agregar Tarjeta***', //Nombre de la acción en el botón ***Se puede personalizar
-                backgroundColor: '#301007' // Código de color hexadecimal para el color del botón de: Alta de Tarjeta | Add Card
-                },
-            
-                iframe: {
-                colorText: '#65A39B',  // Código de color hexadecimal para el color de la letra de todos los campos a llenar
-                backgroundColor: '#FFFFFF' // Código de color hexadecimal para el fondo del iframe, generalmente es blanco.
-                }
-            },
-            onCreateTokenSucceeded: addtoform ,
-            onCreateTokenError: function(error) {
-                console.log(error)
-            }
-            })
+    <script type="text/javascript" src="{{asset('js/compra.js?v=1.0.4')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.12.0/alertify.min.js" integrity="sha512-Gnn8QFymbPDnz7C6NMHEKh2MosYchPK+vikiwNQiyEYA6CSqNfvNMCNoCXuS/q3R00DuaWktPimB5E9DQpDEQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.12.0/css/alertify.min.css" integrity="sha512-XZbnmcIg60BDZy/AWhTVqZRe/JoFy+EXdi7EozU73a3AxhPOxLzA1/nguU50EzCS9PlMZ/GiANuIeTO8YBlvyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        const addtoform = (info)=>{
+            let input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "token";
+            input.value = info.id;
+            document.getElementById("pago").appendChild(input);
+            alertify.success("Tarjeta añadida!").dismissOthers();
         }
 
-        @if($status == 200)
-            showForm('{{$token}}','{{config("services.pagos.pkey")}}')
-        @endif
+
+    const showForm = (x,y)=>{
+        window.ConektaCheckoutComponents.Card({
+        targetIFrame: "#conektaIframeContainer",
+        allowTokenization: true, 
+        checkoutRequestId: x, // Checkout request ID, es el mismo ID generado en el paso 1
+        publicKey: y, // Llaves: https://developers.conekta.com/docs/como-obtener-tus-api-keys
+        options: {
+            styles: {
+            inputType: 'rounded',
+            buttonType: 'rounded',          
+            states: {
+                empty: {
+                borderColor: '#FFAA00' // Código de color hexadecimal para campos vacíos
+                },
+                invalid: {
+                borderColor: '#FF00E0' // Código de color hexadecimal para campos inválidos
+                },
+                valid: {
+                borderColor: '#0079c1' // Código de color hexadecimal para campos llenos y válidos
+                }
+            }
+            },
+            languaje: 'es', 
+            button: {
+            colorText: '#ffffff', // Código de color hexadecimal para el color de las palabrás en el botón de: Alta de Tarjeta | Add Card
+            text: 'Agregar Tarjeta', //Nombre de la acción en el botón ***Se puede personalizar
+            backgroundColor: '#301007' // Código de color hexadecimal para el color del botón de: Alta de Tarjeta | Add Card
+            },
+        
+            iframe: {
+            colorText: '#65A39B',  // Código de color hexadecimal para el color de la letra de todos los campos a llenar
+            backgroundColor: '#FFFFFF' // Código de color hexadecimal para el fondo del iframe, generalmente es blanco.
+            }
+        },
+        onCreateTokenSucceeded: addtoform ,
+        onCreateTokenError: function(error) {
+            console.log(error)
+        }
+        })
+    }
+
+    showForm('{{$token}}','{{env("APP_PAGOS_KEY_P")}}')
+</script>
+    {{-- Aqui van los scripts para esta vista     --}}
+    @if(env('APP_PAGOS') != 'CONEKTA')
+        
+    @else
     @endif
-    </script>
 
 @endpush
