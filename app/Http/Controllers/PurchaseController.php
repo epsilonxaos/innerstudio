@@ -424,7 +424,6 @@ class PurchaseController extends Controller
                 'phone'=>$request -> celular,
             ]
         ]);
-        dd($order);
         return redirect()->route('profile');
       
     }
