@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 
-class WeebhookController extends Controller
+class WebhookController extends Controller
 {
     function eventhandler(Request $request)
     {
@@ -29,7 +29,7 @@ class WeebhookController extends Controller
                 # code...
                 break;
         }
-        return response(null,202);
+        return 204;
     }
 
     public function rol_data(DataTables $dataTables)
