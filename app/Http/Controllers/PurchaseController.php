@@ -17,6 +17,14 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Conekta_client;
 
+use Conekta\Charge;
+use Conekta\Conekta;
+use Conekta\Customer as ConektaCustomer;
+use Conekta\Handler;
+use Conekta\Order;
+use Conekta\ParameterValidationError;
+use Conekta\ProcessingError;
+
 
 
 class PurchaseController extends Controller
