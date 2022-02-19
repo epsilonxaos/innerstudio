@@ -1,6 +1,5 @@
 <?php
 namespace App;
-require_once("../lib/Conekta.php");
 use Conekta\Charge;
 use Conekta\Conekta;
 use Conekta\Customer as ConektaCustomer;
