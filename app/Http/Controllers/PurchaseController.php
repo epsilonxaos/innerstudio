@@ -381,7 +381,7 @@ class PurchaseController extends Controller
         }
     }
 
-    public function compra_update_data_conekta(Request $request){
+    public function compra_data_conekta(Request $request){
         /*
         $updateCustomer = Customer::where('id_customer', $request -> id_customer) -> update([
             'name' => $request -> nombre,
