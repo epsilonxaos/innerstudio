@@ -10,7 +10,7 @@ class WebhookController extends Controller
 {
     function eventhandler(Request $request)
     {
-
+        file_put_contents('request.txt', print_r($_REQUEST, true));
         dd($request);
         switch ($request->payment_status) {
             case 'paid':
