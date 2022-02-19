@@ -432,7 +432,7 @@ class PurchaseController extends Controller
                 'phone'=>$request -> celular,
             ]
         ]);
-        return redirect()->route('profile');
+        return redirect() -> route('completado', ['free' => false, 'data' => ['success' => false, 'error' => $error]]);
       
     }
 
