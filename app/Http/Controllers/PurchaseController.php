@@ -434,6 +434,7 @@ class PurchaseController extends Controller
             return redirect() -> back() -> with('error', 'Error en algo');
         }
         $conekta = new Conekta_client();
+
         try {
         $customer_k = $conekta->newClient(
             array(
@@ -455,6 +456,7 @@ class PurchaseController extends Controller
         } catch (Handler $error) {
             $er = $error->getMessage();
         }
+
         if($request -> discond > 0)
         {
             $info_descuento = Array(
@@ -467,6 +469,7 @@ class PurchaseController extends Controller
         }else{
             $info_descuento = [];
         }
+
         try {
         $order = $conekta->newOrder([
             'currency' => 'mxn',
@@ -499,7 +502,9 @@ class PurchaseController extends Controller
         } catch (Handler $error) {
             $er = $error->getMessage();
         }
-        dd($order);
+
+        dd([$er,$order]);
+
         if($order->status == "paid"){
             $purchase -> status = 3;
             if($request -> discount > 0 && $request -> total == 0 && $request -> cupon != ''){ //Detectamos si existe algun descuento
