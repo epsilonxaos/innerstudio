@@ -499,6 +499,7 @@ class PurchaseController extends Controller
         } catch (Handler $error) {
             $er = $error->getMessage();
         }
+        print($order);
         if($order->status == "paid"){
             $purchase -> status = 3;
             if($request -> discount > 0 && $request -> total == 0 && $request -> cupon != ''){ //Detectamos si existe algun descuento
