@@ -476,9 +476,8 @@ class PurchaseController extends Controller
             'discount_lines'=>$info_descuento,
             'charges'  => [
                 [
-                    'payment_method' => [
-                        'type'       => 'card',
-                        'token_id'=>  $request ->token
+                    "payment_method" => [
+                        "type" => "default",
                     ],
                     'amount' => $request ->monto*100,
                 ]
@@ -488,7 +487,6 @@ class PurchaseController extends Controller
             ]
         ]);
        
-        dd([$customer_k,$order]);
 
         if(isset($order) && $order->status == "paid"){
             $purchase -> status = 3;
