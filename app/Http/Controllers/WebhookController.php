@@ -4,30 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Purchase;
 use Auth;
 
 class WebhookController extends Controller
 {
     function eventhandler(Request $request)
     {
-        file_put_contents('request.txt', print_r($_REQUEST, true));
-        dd($request);
-        switch ($request->payment_status) {
-            case 'paid':
-                # code...
+        switch ($request->data['object']['status']) {
+            case 'charge.paid':
+                    Purchase::where("reference_code",$request->data['object']['order_id'])->update(array('status' => 3));
+                break;
+                case 'charge.declined':
+                    Purchase::where("reference_code",$request->data['object']['order_id'])->update(array('status' => 4));
+                break;
+                case 'charge.canceled':
+                    Purchase::where("reference_code",$request->data['object']['order_id'])->update(array('status' => 5));
+                    break;                    
+                case 'charge.fraudulent':
+                    Purchase::where("reference_code",$request->data['object']['order_id'])->update(array('status' => 4));
                 break;
             
-            case 'expired':
-                # code...
-                break;
-            
-            case 'paid':
-                # code...
-                break;
-            
-            default:
-                # code...
-                break;
         }
         return 204;
     }

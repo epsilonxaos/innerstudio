@@ -100,6 +100,24 @@
 
                                                 </select>
                                             </div>
+                                            <div class="col s12 m6">
+                                                <label>Elije un color</label>
+                                                <datalist  name="color" id="color" class="browser-default ">
+                                                    <option value="#ECD5DB">
+                                                    <option value="#fed9d8">
+                                                    <option value="#F6CBCC">
+                                                    <option value="#CFE3CA">
+                                                    <option value="#E1DBE6">
+                                                    <option value="#E3EAF2">
+                                                    <option value="#F3F9FE">
+                                                  
+                                                  </datalist>
+            
+                                            </div>
+                                            <div class="col s12 m6">
+                                                <label>descripcion</label>
+                                                <textarea name="descripcion"></textarea>
+                                            </div>
                                             <div class="input-field col s12 m4">
                                                 <input type="hidden" name="start" id="start" value="{{old('start')}}">
                                                 <input name="fecha" id="fecha" type="text"  value="{{ old('fecha') != '' ? old('fecha') : $p_fecha }}" class="@error('fecha') invalid @enderror">
