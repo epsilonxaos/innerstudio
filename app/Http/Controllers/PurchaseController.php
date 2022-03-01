@@ -470,7 +470,6 @@ class PurchaseController extends Controller
             $info_descuento = [];
         }
 
-        try {
         $order = $conekta->newOrder([
             'currency' => 'mxn',
             'line_items'=> [
@@ -495,16 +494,10 @@ class PurchaseController extends Controller
                 "customer_id" => $customer_k -> id
             ]
         ]);
-        } catch (ProcessingError $error) {
-            $er = $error->getMesage();
-        } catch (ParameterValidationError $error) {
-            $er = $error->getMessage();
-        } catch (Handler $error) {
-            $er = $error->getMessage();
-        }
+       
 
 
-        if($order->status == "paid"){
+        if(isset($order) && $order->status == "paid"){
             $purchase -> status = 3;
             if($request -> discount > 0 && $request -> total == 0 && $request -> cupon != ''){ //Detectamos si existe algun descuento
                     $free = false;

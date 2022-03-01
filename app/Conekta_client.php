@@ -2,23 +2,39 @@
 namespace App;
 use Conekta\Conekta;
 use Conekta\Order;
+use Conekta\Handler;
+use Conekta\ParameterValidationError;
+use Conekta\ProcessingError;
+
 
 
 class Conekta_client
 {
-    function __construct() {
-        Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
-        Conekta::setApiVersion("2.0.0");
-    }
+
+
+ 
 
     public function newOrder($data)
     {
+        Conekta::setApiVersion("2.0.0");
+        Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
+        try {
         $info = Order::create($data);
-        return $info;
+        } catch (ProcessingError $error) {
+            $er = 'Error: ' . $error->getMessage();
+        } catch (ParameterValidationError $error) {
+            $er ='Error: ' . $error->getMessage();
+        } catch (Handler $error) {
+            $er ='Error: ' . $error->getMessage();
+        }
+
+        return isset($info)? $info : $er;
     }
 
     public function newClient($data)
     {
+        Conekta::setApiVersion("2.0.0");
+        Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
         return Customer::create($data);
     }
 }
