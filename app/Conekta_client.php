@@ -17,7 +17,8 @@ class Conekta_client
 
     public function newOrder($data)
     {
-        return Order::create($data);
+        $info = Order::create($data);
+        return $info;
     }
 
     public function newClient($data)

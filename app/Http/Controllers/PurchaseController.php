@@ -503,7 +503,6 @@ class PurchaseController extends Controller
             $er = $error->getMessage();
         }
 
-        dd([$er,$order]);
 
         if($order->status == "paid"){
             $purchase -> status = 3;
