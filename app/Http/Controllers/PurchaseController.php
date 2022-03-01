@@ -496,7 +496,7 @@ class PurchaseController extends Controller
         ]);
        
 
-
+        dd($order);
         if(isset($order) && $order->status == "paid"){
             $purchase -> status = 3;
             if($request -> discount > 0 && $request -> total == 0 && $request -> cupon != ''){ //Detectamos si existe algun descuento
