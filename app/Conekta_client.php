@@ -35,6 +35,16 @@ class Conekta_client
     {
         Conekta::setApiVersion("2.0.0");
         Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
-        return Customer::create($data);
+        try {
+
+            $info = Customer::create($data);
+    } catch (ProcessingError $error) {
+        $er ='Error: ' . $error->getMessage();
+    } catch (ParameterValidationError $error) {
+        $er = 'Error: ' . $error->getMessage();
+    } catch (Handler $error) {
+        $er = 'Error: ' . $error->getMessage();
+    }
+    return isset($info)? $info : $er;
     }
 }

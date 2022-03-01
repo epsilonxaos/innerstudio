@@ -435,7 +435,6 @@ class PurchaseController extends Controller
         }
         $conekta = new Conekta_client();
 
-        try {
         $customer_k = $conekta->newClient(
             array(
                 "name" => $request -> nombre.' '.$request -> apellidos,
@@ -449,13 +448,8 @@ class PurchaseController extends Controller
                 ]
             )
         );
-        } catch (ProcessingError $error) {
-            $er = $error->getMesage();
-        } catch (ParameterValidationError $error) {
-            $er = $error->getMessage();
-        } catch (Handler $error) {
-            $er = $error->getMessage();
-        }
+       
+        dd($customer_k);
 
         if($request -> discond > 0)
         {
@@ -496,7 +490,6 @@ class PurchaseController extends Controller
         ]);
        
 
-        dd($order);
         if(isset($order) && $order->status == "paid"){
             $purchase -> status = 3;
             if($request -> discount > 0 && $request -> total == 0 && $request -> cupon != ''){ //Detectamos si existe algun descuento
