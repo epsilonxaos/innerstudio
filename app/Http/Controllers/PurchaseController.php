@@ -449,7 +449,6 @@ class PurchaseController extends Controller
             )
         );
        
-        dd($customer_k);
 
         if($request -> discond > 0)
         {
@@ -489,6 +488,7 @@ class PurchaseController extends Controller
             ]
         ]);
        
+        dd([$customer_k,$order]);
 
         if(isset($order) && $order->status == "paid"){
             $purchase -> status = 3;

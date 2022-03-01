@@ -2,6 +2,7 @@
 namespace App;
 use Conekta\Conekta;
 use Conekta\Order;
+use Conekta\Customer;
 use Conekta\Handler;
 use Conekta\ParameterValidationError;
 use Conekta\ProcessingError;
