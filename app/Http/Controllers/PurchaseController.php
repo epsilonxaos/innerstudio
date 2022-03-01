@@ -415,7 +415,7 @@ class PurchaseController extends Controller
                 'status' => 1,
                 'discount' => $request -> discount,
                 'date_expirate' => date('Y-m-d H:i:s', strtotime($today.' +'.$duration.' days')),
-                'method_pay' => "conekta",
+                'method_pay' => "tarjeta",
                 'discount' => $request -> discount
             ]);
             PurchaseData::create([
