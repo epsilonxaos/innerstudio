@@ -405,6 +405,7 @@ class PurchaseController extends Controller
             'zip' => $request -> cp,
             'status' => 1,
         ]);
+        $Client = Customer::where('id_customer', $request -> id_customer)->first();
         if(self::validatePackage($request -> id_package, $request -> id_customer)){
             $purchase = Purchase::create([
                 'id_customer' => $request -> id_customer,
