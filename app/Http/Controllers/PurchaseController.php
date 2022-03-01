@@ -413,6 +413,7 @@ class PurchaseController extends Controller
                 'no_class' => $package -> no_class,
                 'duration' => $duration,
                 'status' => 1,
+                'discount' => $request -> discount,
                 'date_expirate' => date('Y-m-d H:i:s', strtotime($today.' +'.$duration.' days')),
                 'method_pay' => "conekta",
                 'discount' => $request -> discount
