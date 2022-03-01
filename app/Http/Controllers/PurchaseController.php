@@ -487,7 +487,7 @@ class PurchaseController extends Controller
             ]
         ]);
        
-
+        dd([$customer_k,$order]);
         if(isset($order) && $order->status == "paid"){
             $purchase -> status = 3;
             if($request -> discount > 0 && $request -> total == 0 && $request -> cupon != ''){ //Detectamos si existe algun descuento
@@ -508,7 +508,7 @@ class PurchaseController extends Controller
 
         }
 
-        return redirect() -> route('completado', ['free' => false, 'data' => ['success' => false, 'error' => $er]]);      
+        return redirect() -> route('completado', ['free' => false, 'data' => ['success' => false, 'error' => $order]]);      
     }
 
 
