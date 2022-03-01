@@ -486,11 +486,10 @@ class PurchaseController extends Controller
                 "customer_id" => $customer_k -> id
             ]
         ]);
-dd($order->payment_status);
         if(isset($order) && $order->payment_status == "paid"){
             $purchase -> status = 3;
+            $free = false;
             if($request -> discount > 0 && $request -> total == 0 && $request -> cupon != ''){ //Detectamos si existe algun descuento
-                    $free = false;
                     if(Cupon::where('title',$request -> cupon) -> exists() ){ //Verificamos que exista ese cupon
                             $purchase -> method_pay = 'gratis';
                             $cupon = Cupon::where('title', $request -> cupon)->first(); //Obtenemos el registro del cupon con el titulo
