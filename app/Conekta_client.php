@@ -1,17 +1,13 @@
 <?php
 namespace App;
-use Conekta\Charge;
 use Conekta\Conekta;
-use Conekta\Customer as ConektaCustomer;
-use Conekta\Handler;
 use Conekta\Order;
-use Conekta\ParameterValidationError;
-use Conekta\ProcessingError;
+
 
 class Conekta_client
 {
     function __construct() {
-        Conekta::setApiKey(config('services.pagos.skey'));
+        Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
         Conekta::setApiVersion("2.0.0");
     }
 
