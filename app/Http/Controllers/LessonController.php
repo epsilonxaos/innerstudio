@@ -301,11 +301,7 @@ class LessonController extends Controller
 
     public function validateRangeDate($start, $end, $idCita = null,$id_instructor){
         $upd_cita = isset($idCita) ? " AND id_lesson != {$idCita} " : "";
-        $sql = "SELECT id_lesson FROM lesson WHERE 1 = 1 
-        AND status = 1 {$upd_cita} 
-        AND id_instructor != {$id_instructor}
-        AND ((('{$start}' <= start) AND ('{$end}' > start)) 
-        OR (('{$start}' >= start)AND('{$start}' < end)))";
+        $sql = "SELECT id_lesson FROM lesson WHERE 1 = 1 AND status = 1 {$upd_cita} AND id_instructor != {$id_instructor} AND ((('{$start}' <= start) AND ('{$end}' > start)) OR (('{$start}' >= start)AND('{$start}' < end)))";
         $cita = DB::select($sql);
         return count($cita) ? false : true;
     }
