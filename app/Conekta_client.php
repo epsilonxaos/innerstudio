@@ -11,10 +11,6 @@ use Conekta\ProcessingError;
 
 class Conekta_client
 {
-
-
- 
-
     public function newOrder($data)
     {
         Conekta::setApiVersion("2.0.0");
@@ -47,5 +43,12 @@ class Conekta_client
         $er = 'Error: ' . $error->getMessage();
     }
     return isset($info)? $info : $er;
+    }
+    public function capturaOrden(String $id)
+    {
+        $order = \Conekta\Order::find($id);
+        $order -> capture();
+
+        return $order;
     }
 }
