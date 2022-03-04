@@ -45,9 +45,9 @@
                         <ul>
                             <li class="disponible d-flex align-items-center"><span>Disponible</span></li>
                             <li class="ocupado d-flex align-items-center"><span>Ocupado</span></li>
-                            {{ (App\Lesson::isfull($id) >= 20)? 
+                            {{--{{ (App\Lesson::isfull($id) >= 20)? 
                             <li><button>Lista de espera</button></li>
-                            : '')}}
+                            : '')}}--}}
                         </ul>
                     </div>
                 </div>
