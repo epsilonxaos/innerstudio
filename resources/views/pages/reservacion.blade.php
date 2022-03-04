@@ -52,7 +52,7 @@
                             <div style="background-color:{{$lesson->color}};"class="calendar-week-card {{ (App\Lesson::inTime($lesson->id_lesson)? '' : 'off-time')}}  {{ (App\Lesson::isfull($lesson->id_lesson) >= 20 ? 'full' : '')}}">
                                 <a href="{{route('front.reservar.detalle',['id'=>$lesson->id_lesson])}}" class="d-block">
                                         <h6 class="text-capitalize">{{$lesson->tipo}}</h6>
-                                        <p class="time">{{$lesson->descripcion}}</p>
+                                        <p style="background-color:{{$lesson->color}}; color:#fff">{{$lesson->descripcion}}</p>
                                         <p class="instructor">{{$lesson->name}}</p>
                                         <p class="time">{{date('g:i A',strtotime( $lesson->start))}}</p>
                                     </a>
