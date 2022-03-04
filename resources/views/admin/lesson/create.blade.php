@@ -81,7 +81,7 @@
                                                 <select name="id_instructor" id="id_instructor" class="browser-default @error('id_instructor') invalid @enderror">
                                                     <option value="" selected>Instructores</option>
                                                     @foreach($instructores as $in)
-                                                        <option {{ session('id_instructor') ? session('id_instructor') == $in['id_instructor'] ? 'selected' : '' : old('id_instructor') == $in['id_instructor'] ? 'selected' : '' }} value="{{ $in['id_instructor'] }}">{{$in['name']}}</option>
+                                                        <option   value="{{ $in['id_instructor'] }}">{{$in['name']}}</option>
                                                     @endforeach
 
                                                 </select>
@@ -103,16 +103,8 @@
                                             </div>
                                             <div class="col s12 m6">
                                                 <label>Elije un color</label>
-                                                <datalist  name="color" id="color" class="browser-default ">
-                                                    <option value="#ECD5DB">
-                                                    <option value="#fed9d8">
-                                                    <option value="#F6CBCC">
-                                                    <option value="#CFE3CA">
-                                                    <option value="#E1DBE6">
-                                                    <option value="#E3EAF2">
-                                                    <option value="#F3F9FE">
-                                                  
-                                                  </datalist>
+                                                <input  name="color" id="color" type="color" class="browser-default ">
+                                               
             
                                             </div>
                                             <div class="col s12 m6">
@@ -121,12 +113,12 @@
                                             </div>
                                             <div class="input-field col s12 m4">
                                                 <input type="hidden" name="start" id="start" value="{{old('start')}}">
-                                                <input name="fecha" id="fecha" type="text"  value="{{ old('fecha') != '' ? old('fecha') : $p_fecha }}" class="@error('fecha') invalid @enderror">
+                                                <input name="fecha" id="fecha" type="text"  value="{{ (old('fecha') != '' )? old('fecha') : $p_fecha }}" class="@error('fecha') invalid @enderror">
                                                 <label for="fecha">Fecha</label>
                                             </div>
                                             <div class="input-field col s12 m4">
                                                 <input type="hidden" name="start_hour" id="start_hour" value="{{old('start_hour')}}">
-                                                <input name="start_hour_select" id="start_hour_select" type="text"  value="{{ old('start_hour_select') != '' ? old('start_hour_select') : $p_hora }}" class="@error('start_hour_select') invalid @enderror">
+                                                <input name="start_hour_select" id="start_hour_select" type="text"  value="{{ (old('start_hour_select') != '' )? old('start_hour_select') : $p_hora }}" class="@error('start_hour_select') invalid @enderror">
                                                 <label for="start_hour_select">Hora Inicio</label>
                                             </div>
                                             <div class="input-field col s12 m4">
