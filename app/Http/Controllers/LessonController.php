@@ -134,7 +134,7 @@ class LessonController extends Controller
         if ($this->validateRangeDate($start, $end,null, $request -> id_instructor)) {
             $lesson = Lesson::create([
                 'id_instructor'      => $request -> id_instructor,
-                'tipo'       => $request -> tipo,
+                'tipo'       => strval($request -> tipo),
                 'descripcion'       => $request -> descripcion,
                 'color'       => $request -> color,
                 'start'      => $start,
