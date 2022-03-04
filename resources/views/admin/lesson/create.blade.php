@@ -89,13 +89,14 @@
                                             <div class="col s12 m6">
                                                 <label>Elije un tipo</label>
                                                 <select name="tipo" id="tipo" class="browser-default @error('tipo') invalid @enderror">
+                                                    <!-- añadir old-->
                                                     <option value="" selected>Tipo</option>
-                                                    <option {{ ( old('tipo') && (old('tipo') == 'classic'       ) )? 'selected' : '' }} value="classic">Classic</option>
-                                                    <option {{ ( old('tipo') && (old('tipo') == 'interval'      ) )? 'selected' : '' }} value="interval">Interval</option>
-                                                    <option {{ ( old('tipo') && (old('tipo') == 'power'         ) )? 'selected' : '' }} value="power">Power</option>
-                                                    <option {{ ( old('tipo') && (old('tipo') == 'sculpt'        ) )? 'selected' : '' }} value="sculpt">Sculpt</option>
-                                                    <option {{ ( old('tipo') && (old('tipo') == 'full body flow') )? 'selected' : '' }} value="full body flow">Full Body Flow</option>
-                                                    <option {{ ( old('tipo') && (old('tipo') == 'yoga'          ) )? 'selected' : '' }} value="yoga">Yoga</option>
+                                                    <option  value="classic">Classic</option>
+                                                    <option  value="interval">Interval</option>
+                                                    <option  value="power">Power</option>
+                                                    <option  value="sculpt">Sculpt</option>
+                                                    <option  value="full body flow">Full Body Flow</option>
+                                                    <option  value="yoga">Yoga</option>
 
 
                                                 </select>
