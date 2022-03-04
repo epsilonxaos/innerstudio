@@ -90,12 +90,12 @@
                                                 <label>Elije un tipo</label>
                                                 <select name="tipo" id="tipo" class="browser-default @error('tipo') invalid @enderror">
                                                     <option value="" selected>Tipo</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'classic' ? 'selected' : '' : old('tipo') == 'classic' ? 'selected' : '' }} value="classic">Classic</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'power' ? 'selected' : '' : old('tipo') == 'power' ? 'selected' : '' }} value="power">Power</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'interval' ? 'selected' : '' : old('tipo') == 'interval' ? 'selected' : '' }} value="interval">Interval</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'sculpt' ? 'selected' : '' : old('tipo') == 'sculpt' ? 'selected' : '' }} value="sculpt">Sculpt</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'full body flow' ? 'selected' : '' : old('tipo') == 'full body flow' ? 'selected' : '' }} value="full body flow">Full Body Flow</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'yoga' ? 'selected' : '' : old('tipo') == 'yoga' ? 'selected' : '' }} value="yoga">Yoga</option>
+                                                    <option {{ ( old('tipo') && old('tipo') == 'classic'        )? 'selected' : '' }} value="classic">Classic</option>
+                                                    <option {{ ( old('tipo') && old('tipo') == 'interval'       )? 'selected' : '' }} value="interval">Interval</option>
+                                                    <option {{ ( old('tipo') && old('tipo') == 'power'          )? 'selected' : '' }} value="power">Power</option>
+                                                    <option {{ ( old('tipo') && old('tipo') == 'sculpt'         )? 'selected' : '' }} value="sculpt">Sculpt</option>
+                                                    <option {{ ( old('tipo') && old('tipo') == 'full body flow' )? 'selected' : '' }} value="full body flow">Full Body Flow</option>
+                                                    <option {{ ( old('tipo') && old('tipo') == 'yoga'           )? 'selected' : '' }} value="yoga">Yoga</option>
 
 
                                                 </select>

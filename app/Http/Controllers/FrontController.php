@@ -12,6 +12,7 @@ use App\PurchaseData;
 use App\Cupon;
 use App\Reservation;
 use App\Instructor;
+use App\Mailq;
 use App\User;
 use Auth;
 use Jenssegers\Date\Date;
@@ -387,6 +388,7 @@ class FrontController extends Controller
 
             // $correo = new MessageController;
             // $resp = $correo -> mail_cancelacion_usuario();
+            // enviar correos a lista en cola
             SendMailJob::dispatch("cancelacion_usuario", Auth::user() -> id_customer, $id) ->delay(now()->addMinutes(1));
             return back();
         }
@@ -516,6 +518,19 @@ class FrontController extends Controller
         }
 
         return $api_cache;
+    }
+
+    static public function joinq(Request $request,$id){
+        if(Lesson::isfull($id) >= 20){
+            $inline = Mailq::create([
+                'id_class'      => $id,
+                'id_user'       =>  Auth::user() -> id_customer,
+                'status'     => 1,
+            ]);
+
+            return redirect()->back()-> with('message_sucess', 'en la lista');
+        }
+        return redirect()->back()-> with('message_error', 'la clase no esta llena');
     }
 
     public function testCorreo (){

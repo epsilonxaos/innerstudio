@@ -502,11 +502,11 @@ class PurchaseController extends Controller
                     // SendMailJob::dispatch("compra", $purchase -> id_customer, $purchase -> id_purchase) ->delay(now()->addMinutes(1));
                     // SendMailJob::dispatch("compra_staff", "", "") ->delay(now()->addMinutes(1));
             $purchase -> save();
-            return redirect() -> route('completado', ['free' => $free, 'data' => ['success' => true, 'error' => '']]);
+            return redirect() -> route('completado', ['free' => $free, 'success' => true, 'error' => '']);
 
         }
 
-        return redirect() -> route('completado', ['free' => false, 'data' => ['success' => false, 'error' => $order]]);      
+        return redirect() -> route('completado', ['free' => false, 'success' => false, 'error' => $order]);      
     }
 
 
