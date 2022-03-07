@@ -18,5 +18,6 @@ use Illuminate\Http\Request;
 });
 */
 
+Route::post('/conekta/webhook', 'ConektaController@webhook');
 Route::post('/compra/verification', 'FrontController@pagoVerification') -> name('compra.verification');
 Route::get('/user/{id}', 'FrontController@checkUser');
