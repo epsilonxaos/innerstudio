@@ -8,7 +8,7 @@ class Lesson extends Model
 {
     public $primaryKey = 'id_lesson';
     public $table = 'lesson';
-    public $fillable = ['id_instructor', 'tipo', 'start', 'end', 'limit_people', 'status'];
+    public $fillable = ['id_instructor', 'tipo', 'descripcion', 'color', 'start', 'end', 'limit_people', 'status'];
 
     public static function isfull($id){
         return self::join('_mat_per_class','lesson.id_lesson','=','_mat_per_class.id_class')
