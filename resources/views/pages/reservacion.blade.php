@@ -52,6 +52,7 @@
                             <div class="calendar-week-card {{ (App\Lesson::inTime($lesson->id_lesson)? '' : 'off-time')}}  {{ (App\Lesson::isfull($lesson->id_lesson) >= 20 ? 'full' : '')}}">
                                 <a href="{{route('front.reservar.detalle',['id'=>$lesson->id_lesson])}}" class="d-block">
                                         <h6 class="text-capitalize">{{$lesson->tipo}}</h6>
+                                        <p style="width: fit-content;margin: 0 auto;padding: calc(0.1rem + 0.5vw);border-radius: 25px;font-size: calc(.4rem + .5vw);background-color:{{$lesson->color}}; color:#fff">{{$lesson->descripcion}}</p>
                                         <p class="instructor">{{$lesson->name}}</p>
                                         <p class="time">{{date('g:i A',strtotime( $lesson->start))}}</p>
                                     </a>
@@ -94,6 +95,7 @@
                             <div class="calendar-week-card  {{ (App\Lesson::inTime($lesson->id_lesson)? '' : 'off-time')}}  {{ (App\Lesson::isfull($lesson->id_lesson) >= 20 ? 'full' : '')}}">
                             <a href="{{route('front.reservar.detalle',['id'=>$lesson->id_lesson])}}" class="d-block">
                                     <h6 class="text-capitalize">{{$lesson->tipo}}</h6>
+                                    <p style="width: fit-content;margin: 0 auto;padding: calc(0.1rem + 0.5vw);border-radius: 25px;font-size: calc(.4rem + .5vw);background-color:{{$lesson->color}}; color:#fff">{{$lesson->descripcion}}</p>
                                     <p class="instructor">{{$lesson->name}}</p>
                                     <p class="time">{{date('g:i A',strtotime( $lesson->start))}}</p>
                                 </a>
@@ -123,6 +125,15 @@
                             <div class="calendar-week-card  {{ (App\Lesson::inTime($lesson->id_lesson)? '' : 'off-time')}}  {{ (App\Lesson::isfull($lesson->id_lesson) >= 20 ? 'full' : '')}}">
                                 <a href="{{route('front.reservar.detalle',['id'=>$lesson->id_lesson])}}" class="d-block">
                                     <h6 class="text-capitalize">{{$lesson->tipo}}</h6>
+                                    @if ($lesson->descripcion)
+                                        <p style="width: 100%;
+                                            margin: 0 auto;
+                                            padding: 3px;
+                                            border-radius: 25px;
+                                            font-size: calc(0.3rem + .5vw);
+                                            background-color:{{$lesson->color}};
+                                            color:#fff">{{$lesson->descripcion}}</p>
+                                    @endif
                                     <p class="instructor">{{$lesson->name}}</p>
                                     <p class="time">{{date('g:i A', strtotime($lesson->start))}}</p>
                                 </a>
@@ -159,6 +170,7 @@
                             <div class="calendar-week-card  {{ (App\Lesson::inTime($lesson->id_lesson)? '' : 'off-time')}}  {{ (App\Lesson::isfull($lesson->id_lesson) >= 20 ? 'full' : '')}}">
                             <a href="{{route('front.reservar.detalle',['id'=>$lesson->id_lesson])}}" class="d-block">
                                     <h6 class="text-capitalize">{{$lesson->tipo}}</h6>
+                                    <p style="width: fit-content;margin: 0 auto;padding: calc(0.1rem + 0.5vw);border-radius: 25px;font-size: calc(.4rem + .5vw);background-color:{{$lesson->color}}; color:#fff">{{$lesson->descripcion}}</p>
                                     <p class="instructor">{{$lesson->name}}</p>
                                     <p class="time">{{date('g:i A', strtotime($lesson->start))}}</p>
                                 </a>
@@ -188,6 +200,7 @@
                             <div class="calendar-week-card  {{ (App\Lesson::inTime($lesson->id_lesson)? '' : 'off-time')}}  {{ (App\Lesson::isfull($lesson->id_lesson) >= 20 ? 'full' : '')}}">
                             <a href="{{route('front.reservar.detalle',['id'=>$lesson->id_lesson])}}" class="d-block">
                                     <h6 class="text-capitalize">{{$lesson->tipo}}</h6>
+                                    <p style="width: fit-content;margin: 0 auto;padding: calc(0.1rem + 0.5vw);border-radius: 25px;font-size: calc(.4rem + .5vw);background-color:{{$lesson->color}}; color:#fff">{{$lesson->descripcion}}</p>
                                     <p class="instructor">{{$lesson->name}}</p>
                                     <p class="time">{{date('g:i A', strtotime($lesson->start))}}</p>
                                 </a>
@@ -203,6 +216,7 @@
                             <div class="calendar-week-card  {{ (App\Lesson::inTime($lesson->id_lesson)? '' : 'off-time')}}  {{ (App\Lesson::isfull($lesson->id_lesson) >= 20 ? 'full' : '')}}">
                             <a href="{{route('front.reservar.detalle',['id'=>$lesson->id_lesson])}}" class="d-block">
                                     <h6 class="text-capitalize">{{$lesson->tipo}}</h6>
+                                    <p style="width: fit-content;margin: 0 auto;padding: calc(0.1rem + 0.5vw);border-radius: 25px;font-size: calc(.4rem + .5vw);background-color:{{$lesson->color}}; color:#fff">{{$lesson->descripcion}}</p>
                                     <p class="instructor">{{$lesson->name}}</p>
                                     <p class="time">{{date('g:i A', strtotime($lesson->start))}}</p>
                                 </a>
@@ -218,6 +232,7 @@
                             <div class="calendar-week-card  {{ (App\Lesson::inTime($lesson->id_lesson)? '' : 'off-time')}}  {{ (App\Lesson::isfull($lesson->id_lesson) >= 20 ? 'full' : '')}}">
                             <a href="{{route('front.reservar.detalle',['id'=>$lesson->id_lesson])}}" class="d-block">
                                     <h6 class="text-capitalize">{{$lesson->tipo}}</h6>
+                                    <p style="width: fit-content;margin: 0 auto;padding: calc(0.1rem + 0.5vw);border-radius: 25px;font-size: calc(.4rem + .5vw);background-color:{{$lesson->color}}; color:#fff">{{$lesson->descripcion}}</p>
                                     <p class="instructor">{{$lesson->name}}</p>
                                     <p class="time">{{date('g:i A',strtotime( $lesson->start))}}</p>
                                 </a>

@@ -12,6 +12,7 @@ use App\PurchaseData;
 use App\Cupon;
 use App\Reservation;
 use App\Instructor;
+use App\Mailq;
 use App\User;
 use Auth;
 use Jenssegers\Date\Date;
@@ -135,7 +136,8 @@ class FrontController extends Controller
             DB::enableQueryLog();
             $now = Date::parse('today')->format('Y-m-d');
             $future =  Date::parse("+7 days")->format('Y-m-d');
-            $params = Lesson::leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
+            $params = Lesson::select('lesson.*', 'instructor.name')
+            ->leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
                 ->whereRaw("lesson.start >= CAST('".$now."' AS DATE) AND lesson.start <= CAST('".$future."' AS DATE) ")
                 ->where('lesson.status',1)
                 -> orderBy('lesson.start', 'Asc')
@@ -158,7 +160,8 @@ class FrontController extends Controller
         }else{
             $now = Date::parse('+'.(7*$page).' days');
             $future = Date::parse('+'.(7*($page+1)).' days');
-            $params = Lesson::leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
+            $params = Lesson::select('lesson.*', 'instructor.name')
+                -> leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
                 ->where('lesson.status',1)
                 ->whereRaw("lesson.start >= CAST('".$now->format('Y-m-d')."' AS DATE) AND lesson.start <= CAST('".$future->format('Y-m-d ')."' AS DATE) ")
                 -> orderBy('lesson.start', 'Asc')
@@ -172,7 +175,7 @@ class FrontController extends Controller
             }
         }
 
-        $paquetes = self::getClases();
+        $paquetes = self::getClases();   
 
         return view('pages.reservacion', ['params' => $params,'next'=>$next,'prev'=>$prev,'cal'=> $dates,'page'=>$page,'mes'=>Date::now()->format('F'),"paquetes"=>$paquetes, 'days'=>$fechas,'mes'=>$mes]);
     }
@@ -381,6 +384,7 @@ class FrontController extends Controller
 
             // $correo = new MessageController;
             // $resp = $correo -> mail_cancelacion_usuario();
+            // enviar correos a lista en cola
             SendMailJob::dispatch("cancelacion_usuario", Auth::user() -> id_customer, $id) ->delay(now()->addMinutes(1));
             return back();
         }
@@ -510,6 +514,19 @@ class FrontController extends Controller
         }
 
         return $api_cache;
+    }
+
+    static public function joinq(Request $request,$id){
+        if(Lesson::isfull($id) >= 20){
+            $inline = Mailq::create([
+                'id_class'      => $id,
+                'id_user'       =>  Auth::user() -> id_customer,
+                'status'     => 1,
+            ]);
+
+            return redirect()->back()-> with('message_sucess', 'en la lista');
+        }
+        return redirect()->back()-> with('message_error', 'la clase no esta llena');
     }
 
     public function testCorreo (){
