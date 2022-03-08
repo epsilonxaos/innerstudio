@@ -93,6 +93,7 @@
                                             <div class="col s12 m6">
                                                 <label>Elije un tipo</label>
                                                 <select name="tipo" id="tipo" class="browser-default @error('tipo') invalid @enderror">
+                                                    <!-- añadir old-->
                                                     <option value="" selected>Tipo</option>
                                                     <option {{(old('tipo') == 'classic') ? 'selected' : '' }}  value="classic">Classic</option>
                                                     <option {{(old('tipo') == 'power') ? 'selected' : '' }}  value="power">Power</option>
@@ -102,14 +103,24 @@
                                                     <option {{(old('tipo') == 'yoga') ? 'selected' : '' }}  value="yoga">Yoga</option>
                                                 </select>
                                             </div>
+                                            <div class="col s12 m6">
+                                                <label>Elije un color</label>
+                                                <input  name="color" id="color" type="color" class="browser-default ">
+                                               
+            
+                                            </div>
+                                            <div class="col s12 m6">
+                                                <label>descripcion</label>
+                                                <textarea name="descripcion"></textarea>
+                                            </div>
                                             <div class="input-field col s12 m4">
                                                 <input type="hidden" name="start" id="start" value="{{old('start')}}">
-                                                <input name="fecha" id="fecha" type="text"  value="{{ old('fecha') != '' ? old('fecha') : $p_fecha }}" class="@error('fecha') invalid @enderror">
+                                                <input name="fecha" id="fecha" type="text"  value="{{ (old('fecha') != '' )? old('fecha') : $p_fecha }}" class="@error('fecha') invalid @enderror">
                                                 <label for="fecha">Fecha</label>
                                             </div>
                                             <div class="input-field col s12 m4">
                                                 <input type="hidden" name="start_hour" id="start_hour" value="{{old('start_hour')}}">
-                                                <input name="start_hour_select" id="start_hour_select" type="text"  value="{{ old('start_hour_select') != '' ? old('start_hour_select') : $p_hora }}" class="@error('start_hour_select') invalid @enderror">
+                                                <input name="start_hour_select" id="start_hour_select" type="text"  value="{{ (old('start_hour_select') != '' )? old('start_hour_select') : $p_hora }}" class="@error('start_hour_select') invalid @enderror">
                                                 <label for="start_hour_select">Hora Inicio</label>
                                             </div>
                                             <div class="input-field col s12 m4">

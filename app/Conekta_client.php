@@ -1,31 +1,48 @@
 <?php
 namespace App;
-require_once("../lib/Conekta.php");
+use Conekta\Conekta;
+use Conekta\Order;
+use Conekta\Customer;
+use Conekta\Handler;
+use Conekta\ParameterValidationError;
+use Conekta\ProcessingError;
+
 
 
 class Conekta_client
 {
-    function __construct() {
-        \Conekta\Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
-        \Conekta\Conekta::setApiVersion("2.0.0");
-    }
-
     public function newOrder($data)
     {
+        Conekta::setApiVersion("2.0.0");
+        Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
         try {
-            return $order = \Conekta\Order::create($data);
-          } catch (\Conekta\ProcessingError $e){
-            return $e->getMessage();
-          } catch (\Conekta\ParameterValidationError $e){
-            return $e->getMessage();
-          } catch(\Conekta\Handler $e){
-            return $e->getMessage();
-          }
+        $info = Order::create($data);
+        } catch (ProcessingError $error) {
+            $er = 'Error: ' . $error->getMessage();
+        } catch (ParameterValidationError $error) {
+            $er ='Error: ' . $error->getMessage();
+        } catch (Handler $error) {
+            $er ='Error: ' . $error->getMessage();
+        }
+
+        return isset($info)? $info : $er;
     }
 
     public function newClient($data)
     {
-        return \Conekta\Customer::create($data);
+        Conekta::setApiVersion("2.0.0");
+        Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
+        try {
+
+            $info = Customer::create($data);
+    } catch (ProcessingError $error) {
+        $er ='Error: ' . $error->getMessage();
+    } catch (ParameterValidationError $error) {
+        $er = 'Error: ' . $error->getMessage();
+    } catch (Handler $error) {
+        $er = 'Error: ' . $error->getMessage();
+    }
+    return isset($info)? $info : $er;
     }
     public function capturaOrden(String $id)
     {
