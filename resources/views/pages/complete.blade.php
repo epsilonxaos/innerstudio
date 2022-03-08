@@ -18,18 +18,14 @@
 @section('contenido')
     <section class="paquetes text-center align-items-center justify-content-center">
         @if(isset($success))
-            @if($success === 'complete')
-                <h3 class="d-inline-block">¡MUCHAS GRACIAS POR <br> SU COMPRA! <br> <a href="{{route('front.reservar')}}" class="btn btn-main d-inline-block pt-2">Aceptar</a></h3>
-            @else
-                <h3 class="d-inline-block">:( <br> ¡HA OCURRIDO UN ERROR <br> INTENTELO MÁS TARDE!</h3>
-                <div class="row"></div>
-                <p> ERROR: {{$error }} <br> </p>
-                <a href="{{route('index')}}" class="btn btn-main d-inline-block pt-2">Regresar</a>
-            @endif
+            <h3 class="d-inline-block">¡MUCHAS GRACIAS POR <br> SU COMPRA! <br> <a href="{{route('front.reservar')}}" class="btn btn-main d-inline-block pt-2">Aceptar</a></h3>
         @elseif(isset($free))
             <h3 class="d-inline-block">¡MUCHAS GRACIAS POR <br> SU COMPRA! <br> <a href="{{route('front.reservar')}}" class="btn btn-main d-inline-block pt-2">Aceptar</a></h3>
         @else
             <h3 class="d-inline-block">:( <br> ¡HA OCURRIDO UN ERROR <br> INTENTELO MÁS TARDE!</h3>
+            <div class="row"></div>
+            <p> {{$error }} <br> </p>
+            <a href="{{route('index')}}" class="btn btn-main d-inline-block pt-2">Regresar</a>
         @endif
     </section>
 @endsection

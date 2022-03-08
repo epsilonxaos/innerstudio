@@ -559,6 +559,7 @@ class PurchaseController extends Controller
                 
                 Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
                 Conekta::setApiVersion('2.0.0');
+                Conekta::setLocale('es');
                 
                 $success_customer = false;
 
@@ -602,6 +603,9 @@ class PurchaseController extends Controller
                                 )
                             ),
                             "currency" => 'MXN',
+                            "metadata" => array(
+                                "pago_id" => $purchase -> id_purchase
+                            ),
                             "customer_info" => array(
                                 "customer_id" => $customerConekta -> id
                             ),
@@ -614,37 +618,37 @@ class PurchaseController extends Controller
                             )
                         );
 
-                        if($request -> discond > 0)
-                        {
-                            $preOrder['discount_lines'] = Array(
-                                array(
-                                    "code" => $request -> cupon,
-                                    "type" => "coupon",
-                                    "amount" => $request -> cupon_discount
-                                )
-                            );
-                        }
+                        // if($request -> discond > 0)
+                        // {
+                        //     $preOrder['discount_lines'] = Array(
+                        //         array(
+                        //             "code" => $request -> cupon,
+                        //             "type" => "coupon",
+                        //             "amount" => $request -> cupon_discount
+                        //         )
+                        //     );
+                        // }
 
                         $order = Order::create( $preOrder );
 
                         $success = true;
                     } catch (\Conekta\ProcessingError $error) {
-                        $error = 'Error: ' . $error->getMessage();
+                        $error = 'Error 1: ' . $error->getMessage();
                     } catch (\Conekta\ParameterValidationError $error) {
-                        $error = 'Error: ' . $error->getMessage();
+                        $error = 'Error 2: ' . $error->getMessage();
                     } catch (\Conekta\Handler $error) {
-                        $error = 'Error: ' . $error->getMessage();
+                        $error = 'Error 3: ' . $error->getMessage();
                     } catch (\Conekta\ResourceNotFoundError $error) {
-                        $error = 'Error: ' . $error->getMessage();
+                        $error = 'Error 4: ' . $error->getMessage();
                     }
 
                     if($success)
                     {
                         $status = $order -> charges[0] -> status;
-                        $free = 0;
+                        $free = 2;
                         switch ($status) {
                             case 'paid':
-                                $purchase -> status = 3;
+                                $purchase -> status = 2;
                                 if($request -> discount > 0){ //Detectamos si existe algun descuento
                                     $total = $request -> total; //Calculamos el total a pagar aplicando el cupon
                                     if($total == 0){ //Verificamos si el total es igual a 0
@@ -656,6 +660,7 @@ class PurchaseController extends Controller
                                                 $cupon -> save(); //Guardamos ese aumento
 
                                                 $free = 1;
+                                                $purchase -> status = 3;
                                             }
                                         }
                                         // SendMailJob::dispatch("compra", $purchase -> id_customer, $purchase -> id_purchase) ->delay(now()->addMinutes(1));
@@ -673,17 +678,19 @@ class PurchaseController extends Controller
                     }
                     else
                     {
-                        return redirect() -> route('completado', ['free' => false, 'success' => 'fail']) -> with('error', $error);
+                        $purchase -> status = 4;
+                        $purchase -> save();
+                        return redirect() -> route('completado') -> with('error', $error);
                     }
                 }
                 else 
                 {
-                    return redirect() -> route('completado', ['free' => false, 'success' => 'fail']) -> with('error', $error);
+                    return redirect() -> route('completado') -> with('error', $er);
                 }
             }
         }
 
-        return redirect() -> route('completado', ['free' => false, 'success' => 'fail']) -> with('error', 'Desconocido');
+        return redirect() -> route('completado') -> with('error', 'Desconocido');
     }
 
         
