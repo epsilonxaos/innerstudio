@@ -170,8 +170,8 @@ class PurchaseController extends Controller
                         }
                     }
                 }
-                SendMailJob::dispatch("compra", $purchase -> id_customer, $purchase -> id_purchase) ->delay(now()->addMinutes(1));
-                SendMailJob::dispatch("compra_staff", "", "") ->delay(now()->addMinutes(1));
+                #SendMailJob::dispatch("compra", $purchase -> id_customer, $purchase -> id_purchase) ->delay(now()->addMinutes(1));
+                #SendMailJob::dispatch("compra_staff", "", "") ->delay(now()->addMinutes(1));
                 return redirect()
                     -> back()
                     -> with('message', 'Se ha creado la venta correctamente');

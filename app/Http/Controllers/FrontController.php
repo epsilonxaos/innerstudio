@@ -432,6 +432,7 @@ class FrontController extends Controller
         foreach($mats as $mat=>$data){ $mats_temp[$mat] = $data->no_mat;}
 
         $class = Lesson::where('lesson.id_lesson',$request->class)->get();
+        #dd([$request->place,array_values($mats_temp)]);
         if( ($class[0]->limit_people >= $mat_used ) && ($purchase > $class_used) && ($saltedeaqui <= 3) && (in_array($request->place, array_values($mats_temp))) ){
             $i = 0;
             while ($i <= $purchase_id->count()) {
@@ -462,7 +463,7 @@ class FrontController extends Controller
                     'status'=>1
                 ]);
                 //app('App\Http\Controllers\MessageController')->mail_reservacion($request -> id, $reser -> id_reservation);
-                SendMailJob::dispatch("reservacion", $request -> id, $reser -> id_reservation) -> delay(now() -> addMinutes(1));
+                //SendMailJob::dispatch("reservacion", $request -> id, $reser -> id_reservation) -> delay(now() -> addMinutes(1));
                 return json_encode(['res'=>1,'fecha'=>Date::parse($class[0]-> start)->format('h:i A'),'tapete'=> $request->place]);
             }else{
                 return json_encode(['res'=>3]);
@@ -509,7 +510,7 @@ class FrontController extends Controller
     }
 
     static public function joinq(Request $request,$id){
-        if(Lesson::isfull($id) >= 20){
+        if((Lesson::isfull($id) >= 20) && (App\Mailq::isfull($class)) ){
             $inline = Mailq::create([
                 'id_class'      => $id,
                 'id_user'       =>  Auth::user() -> id_customer,
