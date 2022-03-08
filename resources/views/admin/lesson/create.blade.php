@@ -103,15 +103,13 @@
                                                     <option {{(old('tipo') == 'yoga') ? 'selected' : '' }}  value="yoga">Yoga</option>
                                                 </select>
                                             </div>
-                                            <div class="col s12 m6">
-                                                <label>Elije un color</label>
+                                            <div class="col s12" style="padding-top: 10px; padding-bottom: 10px">
+                                                <label>Elije un color</label> <br>
                                                 <input  name="color" id="color" type="color" class="browser-default ">
-                                               
-            
-                                            </div>
-                                            <div class="col s12 m6">
-                                                <label>descripcion</label>
-                                                <textarea name="descripcion"></textarea>
+                                            </div> 
+                                            <div class="col s12 input-field">
+                                                <label for="descripcion">Subtitulo</label>
+                                                <input type="text" id="descripcion" name="descripcion"></input>
                                             </div>
                                             <div class="input-field col s12 m4">
                                                 <input type="hidden" name="start" id="start" value="{{old('start')}}">
