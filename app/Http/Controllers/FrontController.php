@@ -50,7 +50,7 @@ class FrontController extends Controller
             CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
             CURLOPT_HTTPHEADER => [
                 "Accept: application/vnd.conekta-v2.0.0+json",
-                "Authorization: Basic ".base64_encode(env('key_N7zhCySArzNxRPNMqsQVJxQ')),
+                "Authorization: Basic ".base64_encode(env('APP_PAGOS_KEY_S')),
                 "Content-Type: application/json"
             ],
         ]);
