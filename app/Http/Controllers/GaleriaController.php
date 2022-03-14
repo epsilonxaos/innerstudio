@@ -10,12 +10,12 @@ use Auth;
 
 class GaleriaController extends Controller
 {
-    function rol_index()
+    function galeria_index()
     {
-        return view('admin.rol.list');
+        return view('admin.galeria.list');
     }
 
-    public function rol_data(DataTables $dataTables)
+    public function galeria_data(DataTables $dataTables)
     {
         $builder = Galeria::query()->select('id_galeria','name');
 
@@ -25,7 +25,7 @@ class GaleriaController extends Controller
                 return $row -> gal;
             })
             ->addColumn('actions', function($row){
-                $btn = '<a class="btn white-text btn-cafe" href="'.route('admin.rol.edit',['galeria'=>$row -> id_galeria]).'"><i class="far fa-edit"></i></a>';
+                $btn = '<a class="btn white-text btn-cafe" href="'.route('admin.galeria.edit',['galeria'=>$row -> id_galeria]).'"><i class="far fa-edit"></i></a>';
                 if(Auth::user()->checkPermiso("acc_galeria")){
                 $btn .= ' <a class="btn red do-cancel" data-id="'.$row -> id_galeria.'" href="javascript:;"> <i class="fas fa-trash"></i></a>';
                 }
@@ -43,9 +43,9 @@ class GaleriaController extends Controller
     public function gal_update(Request $request)
     {
         if($request -> name != null && $request -> name != ''){
-            Galeria::where('id_rol',$request -> id)->update(['name'=>$request -> titulo]);
+            Galeria::where('id_galeria',$request -> id_galeria)->update(['name'=>$request -> titulo]);
         }
-        return redirect()->back()->  with('message', 'Galeria Modificado');
+        return redirect()->back()->  with('message', 'Galeria Modificada');
     }
 
     public function rol_store(Request $request)

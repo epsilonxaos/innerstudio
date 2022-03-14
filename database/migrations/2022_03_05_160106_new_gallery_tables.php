@@ -23,6 +23,7 @@ class NewGalleryTables extends Migration
         Schema::create('slide', function (Blueprint $table) {
             $table->bigIncrements('id_slide');
             $table->integer('id_gal');
+            $table->string('slide', '200');
             $table->string('alt', '45')->nullable();
             $table->integer('order');
             $table->integer('status');
