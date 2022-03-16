@@ -27,4 +27,8 @@ __MACOSX/
 php.ini
 
 *.sql
+<<<<<<< HEAD
 *.zip
+=======
+*.zip
+>>>>>>> dev
