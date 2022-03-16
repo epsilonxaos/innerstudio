@@ -11,8 +11,8 @@ class Mailq extends Model
     public $fillable = ['id_class', 'id_user', 'status'];
 
     public static function isfull($id){
-        $onQ =  self::where('id_lesson',$id)->count();
-        return $onQ == 5 ? true : false;
+        $onQ =  self::where('id_class',$id)->count();
+        return $onQ < 5 ? true : false;
         
     }
     

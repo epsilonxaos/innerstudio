@@ -11,7 +11,7 @@ $(function () {
         buttons: [
             {
                 extend: 'print',
-                text: 'Imprimir',
+                text: 'Imprimir PDF',
                 customize: function ( win ) {
                     console.log( $(win.document.body));
                     var now = moment();
@@ -29,6 +29,9 @@ $(function () {
                 exportOptions: {
                     columns: [ 0, 1, 2, 3, 4 ]
                 }
+            },
+            {
+                text:'Imprimir Excel'
             }
         ],
         ajax: {
