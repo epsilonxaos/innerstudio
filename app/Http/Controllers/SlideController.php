@@ -10,78 +10,92 @@ use Auth;
 
 class SlideController extends Controller
 {
-    function Slide_index()
+    function Slide_index($id)
     {
-        return view('admin.Slide.list');
+        return view('admin.slide.list',['id'=>$id]);
     }
 
-    public function rol_data(DataTables $dataTables)
+    public function Slide_data(DataTables $dataTables)
     {
-        $builder = Slide::query()->select('id_galeria','name');
+        $builder = Slide::query()->select('id_slide','slide','id_slide');
 
 
         return $dataTables->eloquent($builder)
-            ->editColumn('gal', function ($row) {
+            ->editColumn('slide', function ($row) {
                 return $row -> gal;
             })
             ->addColumn('actions', function($row){
-                $btn = '<a class="btn white-text btn-cafe" href="'.route('admin.rol.edit',['galeria'=>$row -> id_galeria]).'"><i class="far fa-edit"></i></a>';
-                if(Auth::user()->checkPermiso("acc_galeria")){
-                $btn .= ' <a class="btn red do-cancel" data-id="'.$row -> id_galeria.'" href="javascript:;"> <i class="fas fa-trash"></i></a>';
+                $btn = '<a class="btn white-text btn-cafe" href="'.route('admin.slide.edit',['slide'=>$row -> id_slide]).'"><i class="far fa-edit"></i></a>';
+                if(Auth::user()->checkPermiso("acc_Slide")){
+                $btn .= ' <a class="btn red do-cancel" data-id="'.$row -> id_slide.'" href="javascript:;"> <i class="fas fa-trash"></i></a>';
                 }
                 return $btn;
             })
-            ->rawColumns(['gal','actions'])
+            ->rawColumns(['slide','actions'])
             ->make();
     }
 
-    public function gal_create()
+    public function Slide_create($id)
     {
-        return view('admin.galeria.create');
+        return view('admin.slide.create',['id'=>$id]);
     }
 
-    public function gal_update(Request $request)
+    public function Slide_update(Request $request)
     {
         if($request -> name != null && $request -> name != ''){
-            Galeria::where('id_rol',$request -> id)->update(['name'=>$request -> titulo]);
+            Slide::where('id_slide',$request -> id)->update(['name'=>$request -> titulo]);
         }
-        return redirect()->back()->  with('message', 'Galeria Modificado');
+        return redirect()->back()->  with('message', 'Slide Modificado');
     }
 
-    public function rol_store(Request $request)
+    public function Slide_store(Request $request)
     {
-        $gal = Galeria::create(['name'=>$request->titulo]);
+        if($request->hasFile('slide')){
+            $path_cover = $request->slide->store('public/images/slides');
+            $_exploded = explode('/', $path_cover);
+            $_exploded[0] = 'storage';
+            $path_cover = implode('/', $_exploded);
+        }
+        $count =  Slide::where('id_gal',$request -> id_galeria)->count();
+        $gal = Slide::create(
+            [
+                'name'=>$request->titulo,
+                'slide'=>$path_cover,
+                'id_gal'=>$request->id_galeria,
+                'alt'=>$request->id_galeria || null,
+                'order'=>$count,
+                'status'=>1
+            ]);
         return redirect()
         -> back()
-        -> with('message', 'Se ha creado la galeria correctamente');
+        -> with('message', 'Se ha creado el slide correctamente');
         
     }
 
-    public function rol_edit($gal)
+    public function Slide_edit($gal)
     {
 
-        $y = Galeria::where('id_galeria',$gal)->first();
-        return view('admin.rol.edit',['name'=> $y->name,'id'=>$gal]);
+        $y = Galeria::where('id_slide',$gal)->first();
+        return view('admin.slide.edit',[ 'name'=>$request->titulo,
+            'slide'=>path_cover,
+            'id_gal'=>$request->id_galeria,
+            'alt'=>$request->id_galeria || null,
+            'order'=>$count,
+            'status'=>1
+            ]);
 
     }
 
   
 
-    public function gal_destroy($id){
+    public function Slide_destroy($id){
         
-        if(Slide::where('id_gal',$id)->exists())
-        {
-            return redirect()
-            -> back() -> with('message', 'Existen Slides en esta galeria, elimanlas antes de eliminar esta galeria');
-        }
-        else
-        {
-            $rol = Galeria::find($id);
-            $rol -> delete();
+       
+            $slide = Slide::find($id);
+            $slide -> delete();
 
-            return redirect()
-            -> back()-> with('message', 'Se ha eliminado la galeria correctamente');;
-        }
+            return redirect()-> back()-> with('message', 'Se ha eliminado el slide correctamente');
+        
     }
     
 

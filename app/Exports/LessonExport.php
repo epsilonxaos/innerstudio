@@ -4,8 +4,10 @@ namespace App\Exports;
 
 use App\Reservation;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class LessonExport implements FromCollection
+
+class LessonExport implements FromCollection,WithHeadings
 {
     public function collection()
     {
@@ -26,5 +28,18 @@ class LessonExport implements FromCollection
         -> whereIn('reservation.status', [1,2])
         -> orderBy('customer.name', 'ASC')
         ->get();
+    }
+
+    public function headings(): array
+    {
+        return [
+            '#',
+            'Clase',
+            'Nombre',
+            'Apellido',
+            'Email',
+            'Telefono',
+            'Lugar',
+        ];
     }
 }
