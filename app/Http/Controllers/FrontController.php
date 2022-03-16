@@ -141,7 +141,8 @@ class FrontController extends Controller
             DB::enableQueryLog();
             $now = Date::parse('today')->format('Y-m-d');
             $future =  Date::parse("+7 days")->format('Y-m-d');
-            $params = Lesson::leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
+            $params = Lesson::select('lesson.*', 'instructor.name')
+            ->leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
                 ->whereRaw("lesson.start >= CAST('".$now."' AS DATE) AND lesson.start <= CAST('".$future."' AS DATE) ")
                 ->where('lesson.status',1)
                 -> orderBy('lesson.start', 'Asc')
@@ -164,7 +165,8 @@ class FrontController extends Controller
         }else{
             $now = Date::parse('+'.(7*$page).' days');
             $future = Date::parse('+'.(7*($page+1)).' days');
-            $params = Lesson::leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
+            $params = Lesson::select('lesson.*', 'instructor.name')
+                -> leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
                 ->where('lesson.status',1)
                 ->whereRaw("lesson.start >= CAST('".$now->format('Y-m-d')."' AS DATE) AND lesson.start <= CAST('".$future->format('Y-m-d ')."' AS DATE) ")
                 -> orderBy('lesson.start', 'Asc')
@@ -178,7 +180,7 @@ class FrontController extends Controller
             }
         }
 
-        $paquetes = self::getClases();
+        $paquetes = self::getClases();   
 
         return view('pages.reservacion', ['params' => $params,'next'=>$next,'prev'=>$prev,'cal'=> $dates,'page'=>$page,'mes'=>Date::now()->format('F'),"paquetes"=>$paquetes, 'days'=>$fechas,'mes'=>$mes]);
     }
