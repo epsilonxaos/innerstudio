@@ -27,14 +27,14 @@
         <div class="row">
             <div class="col s12">
                 <div class="container">
-                    @if(Auth::user()->checkPermiso("cre_galeria"))
+                    {{--@if(Auth::user()->checkPermiso("cre_galeria"))--}}
                     <!-- Add new contact popup -->
                     <div style="bottom: 54px; right: 19px;" class="fixed-action-btn direction-top">
-                        <a class="btn-floating btn-large primary-text gradient-shadow modal-trigger" href="{{route('admin.instructor.create')}}">
+                        <a class="btn-floating btn-large primary-text gradient-shadow modal-trigger" href="{{route('admin.gallery.slide.create',['id'=>$id])}}">
                             <i class="material-icons">person_add</i>
                         </a>
                     </div>
-                     @endif
+                   {{--  @endif--}}
                     
                     <!-- Content Area Starts -->
                     <div class="content-area content-right">

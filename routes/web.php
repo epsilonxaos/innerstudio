@@ -142,6 +142,18 @@ Route::name('admin.')->group(function () {
 
         });
 
+        Route::name('gallery.')->group(function () {
+            Route::get('admin/galeria', 'GaleriaController@galeria_index')->name('list');
+            Route::get('admin/galeria/array-data', 'GaleriaController@galeria_data') -> name('array.data');
+            Route::get('admin/galeria/{id}/slide', 'SlideController@Slide_index') -> name('slide.list');
+            Route::get('admin/galeria/slide/editar/{id}', 'SlideController@Slide_data') -> name('slide.array.data');
+            Route::get('admin/galeria/slide/update/{id}', 'SlideController@edit') -> name('slide.update');
+            Route::get('admin/galeria/slide/insert/{id}', 'SlideController@Slide_create') -> name('slide.create');
+            Route::post('admin/galeria/slide/insert/', 'SlideController@Slide_store') -> name('slide.store');
+            Route::delete('admin/galeria/slide/delete/{id}', 'SlideController@destroy') -> name('slide.update');
+
+        });
+
         Route::name('purchase.')->group(function () {
             Route::get('admin/ventas', 'PurchaseController@index')->name('list');
             Route::get('admin/ventas/array-data', 'PurchaseController@data') -> name('array.data');

@@ -13,6 +13,7 @@ use App\Cupon;
 use App\Reservation;
 use App\Instructor;
 use App\Mailq;
+use Illuminate\Support\Facades\Mail;
 use App\User;
 use Auth;
 use Jenssegers\Date\Date;
@@ -22,6 +23,7 @@ use App\PagoFacil_Descifrado_Descifrar;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\SendMailJob;
 use App\Http\Controllers\MessageController;
+use App\Mail\MessageMailq;
 use Illuminate\Support\Facades\Session;
 
 class FrontController extends Controller
@@ -377,6 +379,17 @@ class FrontController extends Controller
             // $correo = new MessageController;
             // $resp = $correo -> mail_cancelacion_usuario();
             // enviar correos a lista en cola
+            $data = Reservation::where('id_reservation', $id)
+            ->join('_mat_per_class','_mat_per_class.id_mat_per_class','=','reservation.id_mat_per_class')
+            ->join("lesson", "lesson.id_lesson", "=", "_mat_per_class.id_class")
+            -> get();
+            $clientes = Mailq::getClientOnq($data[0]->id_lesson);
+            dd($data[0]->id_lesson);
+            try {
+                Mail::bcc($clientes)->send( new MessageMailq(env('APP_URL')."/reservar/clase/detalle/".$data[0]->id_lesson));
+            } catch (\Throwable $th) {
+    
+            }
             SendMailJob::dispatch("cancelacion_usuario", Auth::user() -> id_customer, $id) ->delay(now()->addMinutes(1));
             return back();
         }
@@ -530,5 +543,18 @@ class FrontController extends Controller
         $correo = new MessageController;
         $resp = $correo -> mail_cancelacion_usuario2();
         return $resp.' -- Correo enviado';
+    }
+
+    public function testtest(){
+        $data = Reservation::where('id_reservation', 1)
+        ->join('_mat_per_class','_mat_per_class.id_mat_per_class','=','reservation.id_mat_per_class')
+        ->join("lesson", "lesson.id_lesson", "=", "_mat_per_class.id_class")
+        -> get();
+        $clientes = Mailq::getClientOnq($data[0]->id_lesson);
+        dd(env('APP_URL')."/reservar/clase/detalle/".$data[0]->id_lesson);
+        try {
+            Mail::bcc($clientes)->send( new MessageMailq(env('APP_URL')."/reservar/clase/detalle/".$data[0]->id_lesson));
+        } catch (\Throwable $th) {
+        }
     }
 }

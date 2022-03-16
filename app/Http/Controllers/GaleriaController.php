@@ -21,17 +21,11 @@ class GaleriaController extends Controller
 
 
         return $dataTables->eloquent($builder)
-            ->editColumn('gal', function ($row) {
-                return $row -> gal;
-            })
             ->addColumn('actions', function($row){
-                $btn = '<a class="btn white-text btn-cafe" href="'.route('admin.galeria.edit',['galeria'=>$row -> id_galeria]).'"><i class="far fa-edit"></i></a>';
-                if(Auth::user()->checkPermiso("acc_galeria")){
-                $btn .= ' <a class="btn red do-cancel" data-id="'.$row -> id_galeria.'" href="javascript:;"> <i class="fas fa-trash"></i></a>';
-                }
+                $btn = '<a class="btn white-text btn-cafe" href="'.route('admin.gallery.slide.list',['id'=>$row -> id_galeria]).'"><i class="far fa-edit"></i></a>';
                 return $btn;
             })
-            ->rawColumns(['gal','actions'])
+            ->rawColumns(['id_galeria','actions'])
             ->make();
     }
 

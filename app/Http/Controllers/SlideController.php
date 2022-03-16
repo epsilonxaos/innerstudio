@@ -10,14 +10,14 @@ use Auth;
 
 class SlideController extends Controller
 {
-    function Slide_index()
+    function Slide_index($id)
     {
-        return view('admin.Slide.list');
+        return view('admin.slide.list',['id'=>$id]);
     }
 
     public function Slide_data(DataTables $dataTables)
     {
-        $builder = Slide::query()->select('id_slide','name');
+        $builder = Slide::query()->select('id_slide','slide','id_slide');
 
 
         return $dataTables->eloquent($builder)
@@ -35,9 +35,9 @@ class SlideController extends Controller
             ->make();
     }
 
-    public function Slide_create()
+    public function Slide_create($id)
     {
-        return view('admin.slide.create');
+        return view('admin.slide.create',['id'=>$id]);
     }
 
     public function Slide_update(Request $request)
@@ -51,7 +51,7 @@ class SlideController extends Controller
     public function Slide_store(Request $request)
     {
         if($request->hasFile('slide')){
-            $path_cover = $request->coach->store('public/images/slides');
+            $path_cover = $request->slide->store('public/images/slides');
             $_exploded = explode('/', $path_cover);
             $_exploded[0] = 'storage';
             $path_cover = implode('/', $_exploded);
@@ -60,7 +60,7 @@ class SlideController extends Controller
         $gal = Slide::create(
             [
                 'name'=>$request->titulo,
-                'slide'=>path_cover,
+                'slide'=>$path_cover,
                 'id_gal'=>$request->id_galeria,
                 'alt'=>$request->id_galeria || null,
                 'order'=>$count,
@@ -95,7 +95,7 @@ class SlideController extends Controller
             $slide -> delete();
 
             return redirect()-> back()-> with('message', 'Se ha eliminado el slide correctamente');
-        }
+        
     }
     
 
