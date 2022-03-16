@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Galeria;
+use File;
 use App\Slide;
 use Auth;
 
@@ -15,23 +16,24 @@ class SlideController extends Controller
         return view('admin.slide.list',['id'=>$id]);
     }
 
-    public function Slide_data(DataTables $dataTables)
+    public function Slide_data(DataTables $dataTables,$id)
     {
-        $builder = Slide::query()->select('id_slide','slide','id_slide');
+        $builder = Slide::query()->select('id_slide','slide','id_gal')->where('id_gal',$id);
 
 
         return $dataTables->eloquent($builder)
-            ->editColumn('slide', function ($row) {
-                return $row -> gal;
-            })
+        ->editColumn('slide',function($row){
+            $col = '<img style="width: 80px;margin: 0 auto;display: block;" src="'.asset($row -> slide).'" alt="">';
+            return $col;
+        })
             ->addColumn('actions', function($row){
-                $btn = '<a class="btn white-text btn-cafe" href="'.route('admin.slide.edit',['slide'=>$row -> id_slide]).'"><i class="far fa-edit"></i></a>';
-                if(Auth::user()->checkPermiso("acc_Slide")){
-                $btn .= ' <a class="btn red do-cancel" data-id="'.$row -> id_slide.'" href="javascript:;"> <i class="fas fa-trash"></i></a>';
-                }
+                #$btn = '<a class="btn white-text btn-cafe" href="'.route('admin..slide.edit',['slide'=>$row -> id_slide]).'"><i class="far fa-edit"></i></a>';
+                #if(Auth::user()->checkPermiso("acc_Slide")){
+                $btn = ' <a class="btn red do-cancel" data-id="'.$row -> id_slide.'" href="javascript:;"> <i class="fas fa-trash"></i></a>';
+                #}
                 return $btn;
             })
-            ->rawColumns(['slide','actions'])
+            ->rawColumns(['id_slide','slide','actions'])
             ->make();
     }
 
@@ -88,10 +90,13 @@ class SlideController extends Controller
 
   
 
-    public function Slide_destroy($id){
+    public function Slide_destroy(Request $request){
         
        
-            $slide = Slide::find($id);
+            $slide = Slide::find($request->id);
+            if(file_exists($slide -> slide)){
+                File::delete($slide -> slide);
+            }
             $slide -> delete();
 
             return redirect()-> back()-> with('message', 'Se ha eliminado el slide correctamente');

@@ -16,7 +16,7 @@
                         </div>
                         <div class="col s12 m6 l6 right-align-md">
                             <ol class="breadcrumbs">
-                                <li class="breadcrumb-item active">Galerias</li>
+                                <li class="breadcrumb-item active">Slides</li>
                             </ol>
                         </div>
                     </div>
@@ -59,7 +59,8 @@
                                         <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Galeria</th>
+                                            <th>imagen</th>
+                                            <th>galeria</th>
                                             <th>Acciones</th>
                                             <!-- <th class="background-image-none"><i class="material-icons">star_border</i></th>
                                             <th class="background-image-none"><i class="material-icons">delete_outline</i></th> -->
@@ -93,7 +94,7 @@
             </div>
         </div>
     </div>
-    {{--<div id="modal-delete" class="modal">
+    <div id="modal-delete" class="modal">
         <div class="modal-content">
             <div class="card-alert card brown darken-4">
                 <div class="card-content white-text">
@@ -105,7 +106,7 @@
             <p></p>
         </div>
         <div class="modal-footer">
-            <form method="POST" action="{{route('admin.galeria.delete')}}">
+            <form method="POST" action="{{route('admin.gallery.slide.delete')}}">
                 @method('DELETE')
                 @csrf
                 <input type="hidden" name="id" value="">
@@ -115,7 +116,7 @@
         </div>
     </div>
 
-    <div id="modal-change-status" class="modal">
+   {{-- <div id="modal-change-status" class="modal">
         <div class="modal-content">
             <div class="card-alert card brown darken-4">
                 <div class="card-content white-text">
@@ -140,9 +141,12 @@
 
 @endsection
 @push('js')
+    <script>
+        var gal_id = {{$id}}
+    </script>
     <script src="{{asset('admin/vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('admin/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('admin/js/custom/gallery.js')}}"></script>
+    <script src="{{asset('admin/js/custom/slide.js')}}"></script>
     <script src="{{asset('admin/js/scripts/app-contacts.js')}}"></script>
 @endpush
 
