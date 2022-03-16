@@ -210,8 +210,18 @@ class FrontController extends Controller
 
         $paquetes = self::getClases();
 
+        $matActives = mat::where('status', '=', 1)->count();
 
-        return view('pages.reservacion-detalle',['data'=>$params,'mats'=>$mats, 'mats_disabled' => $mats_disabled, 'class'=>$id,"paquetes"=>$paquetes,"click"=>$saltedeaqui]);
+        $customerInLesson = Reservation::select('reservation.id_mat_per_class')
+            -> join('_mat_per_class', 'reservation.id_mat_per_class', '=', '_mat_per_class.id_mat_per_class')
+            -> where([
+                ['reservation.id_customer', '=', Auth::user() -> id_customer],
+                ['_mat_per_class.id_class', '=', $id]
+            ])
+            -> count();
+
+
+        return view('pages.reservacion-detalle',['data'=>$params,'mats'=>$mats, 'mats_disabled' => $mats_disabled, 'class'=>$id,"paquetes"=>$paquetes,"click"=>$saltedeaqui, "matActives" => $matActives, 'customerInLesson' => $customerInLesson]);
     }
     public function team_view(){
         $paquetes = self::getClases();
@@ -386,10 +396,19 @@ class FrontController extends Controller
             ->join("lesson", "lesson.id_lesson", "=", "_mat_per_class.id_class")
             -> get();
             $clientes = Mailq::getClientOnq($data[0]->id_lesson);
-            dd($data[0]->id_lesson);
-            try {
-                Mail::bcc($clientes)->send( new MessageMailq(env('APP_URL')."/reservar/clase/detalle/".$data[0]->id_lesson));
-            } catch (\Throwable $th) {
+            // dd($clientes -> toArray());
+            if(count($clientes) > 0) {
+                $mails = array();
+
+                foreach ($clientes as $key => $value) {
+                    array_push($mails, $value -> email);
+                }
+
+                try {
+                    Mail::send('emails.message_mailq', ['lessonUrl' => env('APP_URL')."/reservar/clase/detalle/".$data[0]->id_lesson], function ($message) use ($mails) {
+                        $message->to($mails)->subject('InnerStudio - Espacio disponible en clase!'); 
+                    });
+                } catch (\Throwable $th) {}
     
             }
             SendMailJob::dispatch("cancelacion_usuario", Auth::user() -> id_customer, $id) ->delay(now()->addMinutes(1));
@@ -525,16 +544,24 @@ class FrontController extends Controller
     }
 
     static public function joinq(Request $request,$id){
-        if((Lesson::isfull($id) >= 20) && (App\Mailq::isfull($class)) ){
-            $inline = Mailq::create([
-                'id_class'      => $id,
-                'id_user'       =>  Auth::user() -> id_customer,
-                'status'     => 1,
-            ]);
+        $matActives = mat::where('status', '=', 1)->get();
+        $matActives = $matActives->count();
 
-            return redirect()->back()-> with('message_sucess', 'en la lista');
+        if((Lesson::isfull($id) >= $matActives) && (Mailq::isfull($id)) ){
+            if(Mailq::validCustomerList(Auth::user() -> id_customer, $id)) {
+                Mailq::create([
+                    'id_class'      => $id,
+                    'id_user'       =>  Auth::user() -> id_customer,
+                    'status'     => 1,
+                ]);
+
+                return redirect()->back()-> with('success', 'Registro realizado!');
+            }
+
+            return redirect()->back()-> with('success', 'Ya se encuentra en lista de espera!');
+
         }
-        return redirect()->back()-> with('message_error', 'la clase no esta llena');
+        return redirect()->back()-> with('error', 'La clase no esta llena');
     }
 
     public function testCorreo (){

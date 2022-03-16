@@ -17,7 +17,17 @@ class Mailq extends Model
     }
     
     public static function getClientOnq($id){
-        return self::join('customer','mailq.id_user','=','customer.id_customer')->get();
+        return self::select('customer.email') -> join('customer','mailq.id_user','=','customer.id_customer')->get();
+    }
+
+    public static function validCustomerList($customer_id, $lesson_id)
+    {
+        $exist = self::where([
+            ['id_class', '=', $lesson_id],
+            ['id_user', '=', $customer_id]
+        ]) -> count();
+
+        return ($exist > 0) ? false : true;
     }
 
 }

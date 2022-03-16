@@ -213,17 +213,7 @@
                                         <td align="left" style="font-size:0px;padding:10px 25px;padding-bottom:15px;word-break:break-word;">
 
                                             <div style="font-family:Poppins;font-size:20px;font-weight:400;letter-spacing:1.14px;line-height:1.3;text-align:left;color:#FBB790;">
-                                                ¡Bienvenida a INNER!
-                                            </div>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-
-                                            <div style="font-family:Poppins;font-size:17px;font-weight:500;line-height:26px;text-align:left;color:#2b2b2b;">
-                                                Gracias por unirte a INNER. Estamos muy contentos de que estés aquí.
+                                                ¡Espacio disponible!
                                             </div>
 
                                         </td>
@@ -233,7 +223,7 @@
                                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
 
                                             <div style="font-family:Poppins;font-size:15px;font-weight:400;line-height:26px;text-align:left;color:#2b2b2b;">
-                                                En INNER tu eres nuestra prioridad y nuestro objetivo principal es que alcances tus metas.
+                                                Hay un lugar disponible en la clase a la que te registrastes en lista de espera, para ir a reservar tu espacio en la clase ingresa en el siguiente link.
                                             </div>
 
                                         </td>
@@ -242,12 +232,13 @@
                                     <tr>
                                         <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
 
-                                            <div style="font-family:Poppins;font-size:15px;font-weight:400;line-height:26px;text-align:left;color:#2b2b2b;">
-                                                Puedes empezar a reservar tus clases desde nuestro sitio web ¡Visítalo!
+                                            <div style="font-family:Poppins;font-size:15px;font-weight:400;line-height:26px;text-align:left;text-decoration:underline;color:#d0021b !important;">
+                                                {{$lessonUrl}}
                                             </div>
 
                                         </td>
                                     </tr>
+
 
                                     <tr>
                                         <td align="left" style="font-size:0px;padding:10px 25px;padding-bottom:30px;word-break:break-word;">

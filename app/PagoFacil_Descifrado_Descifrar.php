@@ -72,18 +72,18 @@ class PagoFacil_Descifrado_Descifrar
      */
     private static function hexToBin($hex_string)
     {
-        $pos = 0;
-        $result = '';
-        while ($pos < strlen($hex_string)) {
-            if (strpos(" \t\n\r", $hex_string{$pos}) !== FALSE) {
-                $pos++;
-            } else {
-                $code = hexdec(substr($hex_string, $pos, 2));
-                $pos = $pos + 2;
-                $result .= chr($code);
-            }
-        }
-        return $result;
+        // $pos = 0;
+        // $result = '';
+        // while ($pos < strlen($hex_string)) {
+        //     if (strpos(" \t\n\r", $hex_string{$pos}) !== FALSE) {
+        //         $pos++;
+        //     } else {
+        //         $code = hexdec(substr($hex_string, $pos, 2));
+        //         $pos = $pos + 2;
+        //         $result .= chr($code);
+        //     }
+        // }
+        // return $result;
     }
 
     private static function pkcs5_unpad($text)
