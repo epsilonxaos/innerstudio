@@ -26,7 +26,7 @@
                                 <li class="breadcrumb-item"><a href="{{route('admin.calendar.list')}}">Calendario</a>
                                 <li class="breadcrumb-item active">Asistencia</li>
                             </ol>
-                            <a href="{{ route('admin.calendar.asistencia.export',["id_lesson"  => $lesson['id_lesson']]) }}">excel</a>
+                            <a class="btn btn-default buttons-print" style="margin-bottom: 10px" href="{{ route('admin.calendar.asistencia.export',["id_lesson"  => $lesson['id_lesson']]) }}">excel</a>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,15 @@
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{asset('admin/vendors/data-tables/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin/vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
+    <style>
+        .bg {
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 80px;
+            width: 120px;
+        }
+    </style>
 @endpush
     <!-- BEGIN: Page Main-->
     <div id="main">
@@ -30,7 +39,7 @@
                     @if(Auth::user()->checkPermiso("cre_galeria"))
                     <!-- Add new contact popup -->
                     <div style="bottom: 54px; right: 19px;" class="fixed-action-btn direction-top">
-                        <a class="btn-floating btn-large primary-text gradient-shadow modal-trigger" href="{{route('admin.instructor.create')}}">
+                        <a class="btn-floating btn-large primary-text gradient-shadow modal-trigger" href="{{route('admin.gallery.create')}}">
                             <i class="material-icons">person_add</i>
                         </a>
                     </div>
@@ -93,6 +102,30 @@
             </div>
         </div>
     </div>
+
+    <div id="modal-delete" class="modal md-modal">
+        <div class="modal-content">
+            <div class="card-alert card brown darken-4">
+                <div class="card-content white-text">
+                    <p>
+                        <i class="material-icons">warning</i><span id="modalmsg">¿Estás seguro que deseas eliminar este registro?</span>
+                    </p>
+                </div>
+            </div>
+            <p></p>
+        </div>
+        <div class="modal-footer">
+            <form method="POST" action="{{route('admin.gallery.destroy')}}">
+                @method('DELETE')
+                @csrf
+                <input type="hidden" name="id" value="">
+                <a href="#!" class="modal-close waves-effect deep-orange accent-1 btn-flat white-text">Cancelar</a>
+                <button class="modal-close waves-effect brown darken-4 btn-flat white-text" type="submit">Continuar</button>
+            </form>
+        </div>
+    </div>
+
+
     {{--<div id="modal-delete" class="modal">
         <div class="modal-content">
             <div class="card-alert card brown darken-4">

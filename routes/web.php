@@ -18,6 +18,9 @@
 // Rutas de Front
 // ------------------------------------------------------
 // Route::get('/', function () { return view('mantenimiento'); });
+
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', 'FrontController@index_view') -> name('index');
 Route::get('/home', 'FrontController@index_view') -> name('index');
 Route::get('/compra/paquete/{id}', 'FrontController@compra_view') -> name('comprar') -> middleware('auth');
@@ -143,15 +146,20 @@ Route::name('admin.')->group(function () {
         });
 
         Route::name('gallery.')->group(function () {
-            Route::get('admin/galeria', 'GaleriaController@galeria_index')->name('list');
-            Route::get('admin/galeria/array-data', 'GaleriaController@galeria_data') -> name('array.data');
-            Route::get('admin/galeria/{id}/slide', 'SlideController@Slide_index') -> name('slide.list');
-            Route::get('admin/galeria/{id}/slide/array-data', 'SlideController@Slide_data') -> name('slide.array.data');
-            Route::get('admin/galeria/slide/editar/{id}', 'SlideController@Slide_data') -> name('slide.array.data');
-            Route::get('admin/galeria/slide/update/{id}', 'SlideController@edit') -> name('slide.update');
-            Route::get('admin/galeria/slide/insert/{id}', 'SlideController@Slide_create') -> name('slide.create');
-            Route::post('admin/galeria/slide/insert/', 'SlideController@Slide_store') -> name('slide.store');
-            Route::delete('admin/galeria/slide/delete', 'SlideController@Slide_destroy') -> name('slide.delete');
+            Route::get('admin/galeria', 'GaleriasController@index') -> name('list');
+            Route::get('admin/galeria/array-data', 'GaleriasController@galeria_data') -> name('array.data');
+            Route::get('admin/galeria/insert', 'GaleriasController@create') -> name('create');
+            Route::post('admin/galeria/store', 'GaleriasController@store') -> name('store');
+            Route::get('admin/galeria/edit/{id}', 'GaleriasController@edit') -> name('edit');
+            Route::post('admin/galeria/update/{id}', 'GaleriasController@update') -> name('update');
+            Route::delete('admin/galeria/delete', 'GaleriasController@destroy') -> name('destroy');
+
+            // Route::get('admin/galeria/{id}/slide', 'SlideController@Slide_index') -> name('slide.list');
+            // Route::get('admin/galeria/{id}/slide/array-data', 'SlideController@Slide_data') -> name('slide.array.data');
+            // Route::get('admin/galeria/slide/editar/{id}', 'SlideController@Slide_data') -> name('slide.array.data');
+            // Route::get('admin/galeria/slide/update/{id}', 'SlideController@edit') -> name('slide.update');
+            // Route::post('admin/galeria/slide/insert/', 'SlideController@Slide_store') -> name('slide.store');
+            // Route::delete('admin/galeria/slide/delete', 'SlideController@Slide_destroy') -> name('slide.delete');
 
         });
 

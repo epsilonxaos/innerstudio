@@ -29,9 +29,6 @@ $(function () {
                 exportOptions: {
                     columns: [ 0, 1, 2, 3, 4 ]
                 }
-            },
-            {
-                text:'Imprimir Excel'
             }
         ],
         ajax: {

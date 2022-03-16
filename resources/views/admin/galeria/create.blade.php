@@ -7,12 +7,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col s12 m6 l6">
-                        <h5 class="breadcrumbs-title">Crear Instructor</h5>
+                        <h5 class="breadcrumbs-title">Añadir slide</h5>
                     </div>
                     <div class="col s12 m6 l6 right-align-md">
                         <ol class="breadcrumbs">
-                            <li class="breadcrumb-item"><a href="{{route('admin.instructor.list')}}">Instructores</a> </li>
-                            <li class="breadcrumb-item active">Crear Instructor </li>
+                            <li class="breadcrumb-item"><a href="{{route('admin.gallery.list')}}">Galerias</a> </li>
+                            <li class="breadcrumb-item active">Añadir slide</li>
                         </ol>
                     </div>
                 </div>
@@ -50,71 +50,34 @@
                 @endif
                 <div class="card overflow-unset">
                     <div class="card-content">
-                        <form method="post" action="{{route('admin.instructor.insert')}}" enctype="multipart/form-data">
+                        <form method="post" action="{{route('admin.gallery.store')}}" enctype="multipart/form-data">
                             <input type="hidden" name="is_insert" value="1">
                             {{csrf_field()}}
                             <div class="row">
-                                <div class="col s12 m6 l6">
+                                <div class="col s12">
                                     <div class="row">
                                         <div class="input-field col s12">
-                                            <input id="name" name="name" type="text" value="{{ old('name') }}" class="@error('name') invalid @enderror">
-                                            <label for="name">Nombre</label>
-                                        </div>
-                                        <div class="input-field col s12 m6">
-                                            <input id="email" name="email" type="email" value="{{ old('email') }}" class="@error('email') invalid @enderror">
-                                            <label for="email">Correo</label>
-                                        </div>
-                                        <div class="input-field col s12 m6">
-                                            <input id="phone" name="phone" type="text" value="{{ old('phone') }}" class="@error('phone') invalid @enderror">
-                                            <label for="phone">Télefono</label>
+                                            <p for="cover">Cover <span style="color: crimson;">*</span></p>
+                                            <input type="file" name="cover" class="dropify" data-height="300" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png" />
                                         </div>
                                         <div class="input-field col s12">
-
-                                            <div class="file-field input-field">
-                                                <div class="btn btn-main">
-                                                    <span>File</span>
-                                                    <input type="file" name="coach">
-                                                </div>
-                                                <div class="file-path-wrapper">
-                                                    <input class="file-path validate" type="text" placeholder="Upload one or more files">
-                                                </div>
-                                            </div>
-                                            <small class="blue-text text-darken-2">Solo se aceptan imagenes con formato .JPG, .JPEG y .PNG. La imagen debe ser menor a 3 MB y la resolucion optima para esta imagen es de 480 x 615px</small>
+                                            <input id="title" name="title" type="text" value="{{ old('title') }}" class="@error('title') invalid @enderror">
+                                            <label for="email">Titulo</label>
                                         </div>
-                                        <div class="input-field col s12">
-                                            <p>
-                                                <label>
-                                                    <input type="checkbox" name="externo" />
-                                                    <span>Coach Externo</span>
-                                                </label>
-                                            </p>
+                                        <div class="col s12">
+                                            <label>Seccion</label>
+                                            <select name="seccion" id="seccion" class="browser-default @error('seccion') invalid @enderror">
+                                                <option value="principal">Slide Principal</option>
+                                                <option value="indexBottom">Slide Index Bottom</option>
+                                            </select>
                                         </div>
 
                                     </div>
                                 </div>
-                                <div class="col s12 m6 l6">
-                                    <div class="row">
-                                        <div class="input-field col s12">
-                                            <textarea id="description" name="description" class="materialize-textarea">{{ old('description') }}</textarea>
-                                            <label for="description">Descripción</label>
-                                        </div>
-                                        <div class="input-field col s12">
-                                            <textarea id="embed" name="embed" class="materialize-textarea">{{ old('embed') }}</textarea>
-                                            <label for="embed">Embed spotify</label>
-                                        </div>
-                                        <div class="col s12 mb-2">
-                                            <div id="demo-component" class="file-field">
-                                                <div class="btn btn-color-picker"></div>
-                                                <div class="file-path-wrapper">
-                                                    <input type="text" name="color" class="@error('color') invalid @enderror" value="{{ old('color') }}" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                <div class="col s12 ">
                                     {{--@if(Auth::guard('admin')->user()->permisos('add_doctor'))--}}
                                     <div class="input-field col s12">
-                                        <button class="btn waves-effect waves-light right btn-main" type="submit" name="action">Crear Instructor
+                                        <button class="btn waves-effect waves-light right btn-main" type="submit" name="action">Agregar
                                             <i class="material-icons right">send</i>
                                         </button>
                                     </div>
@@ -130,7 +93,9 @@
 </div>
 @endsection
 @push('js')
-<link rel="stylesheet" type="text/css" href="{{asset('admin/js/colorpicker/css/bootstrap-colorpicker.min.css')}}">
-<script src="{{asset('admin/js/colorpicker/js/bootstrap-colorpicker.js')}}"></script>
-<script src="{{asset('admin/js/custom/instructor_create.js') }}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" integrity="sha512-EZSUkJWTjzDlspOoPSpUFR0o0Xy7jdzW//6qhUkoZ9c4StFkVsp9fbbd0O06p9ELS3H486m4wmrCELjza4JEog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $('.dropify').dropify();
+</script>
 @endpush
