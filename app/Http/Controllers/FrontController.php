@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\DB;
 use App\Jobs\SendMailJob;
 use App\Http\Controllers\MessageController;
 use App\Mail\MessageMailq;
+use App\Slide;
 use Illuminate\Support\Facades\Session;
 
 class FrontController extends Controller
@@ -32,8 +33,10 @@ class FrontController extends Controller
        /* $ints = self::instagram();
         $ints = $ints -> data;*/
         $paquetes = self::getClases();
+        $front = Slide::where('name',"hero")->get();
+        $foo = Slide::where('name',"bottom")->get();
 
-        return view('pages.index', ["paquetes" => $paquetes, "instagram" => []]);
+        return view('pages.index', ["front"=>$front,"foo"=>$foo,"paquetes" => $paquetes, "instagram" => []]);
     }
 
     public function compra_view(Request $request, $id ){
@@ -547,16 +550,5 @@ class FrontController extends Controller
         return $resp.' -- Correo enviado';
     }
 
-    public function testtest(){
-        $data = Reservation::where('id_reservation', 1)
-        ->join('_mat_per_class','_mat_per_class.id_mat_per_class','=','reservation.id_mat_per_class')
-        ->join("lesson", "lesson.id_lesson", "=", "_mat_per_class.id_class")
-        -> get();
-        $clientes = Mailq::getClientOnq($data[0]->id_lesson);
-        dd(env('APP_URL')."/reservar/clase/detalle/".$data[0]->id_lesson);
-        try {
-            Mail::bcc($clientes)->send( new MessageMailq(env('APP_URL')."/reservar/clase/detalle/".$data[0]->id_lesson));
-        } catch (\Throwable $th) {
-        }
-    }
+ 
 }

@@ -69,7 +69,7 @@
                                                     <input class="file-path validate" type="text" placeholder="Upload one or more files">
                                                 </div>
                                             </div>
-                                            <small class="blue-text text-darken-2">Solo se aceptan imagenes con formato .JPG, .JPEG y .PNG. La imagen debe ser menor a 3 MB y la resolucion optima para esta imagen es de 480 x 615px</small>
+                                            <!--<small class="blue-text text-darken-2">Solo se aceptan imagenes con formato .JPG, .JPEG y .PNG. La imagen debe ser menor a 3 MB y la resolucion optima para esta imagen es de 480 x 615px</small>-->
                                         </div>
                                         
                                     </div>
