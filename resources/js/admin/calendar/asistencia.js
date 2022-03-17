@@ -11,7 +11,7 @@ $(function () {
         buttons: [
             {
                 extend: 'print',
-                text: 'Imprimir',
+                text: 'Imprimir PDF',
                 customize: function ( win ) {
                     console.log( $(win.document.body));
                     var now = moment();

@@ -131,10 +131,12 @@ class LessonController extends Controller
         $start = $request -> fecha.' '.$request -> start_hour_select;
         //$end = date('Y-m-d H:i:s', strtotime($start.' +'.$request -> duration.' minutes'));
         $end = $request -> fecha.' '.$request -> end_hour_select;
-        if ($this->validateRangeDate($start, $end)) {
+        if ($this->validateRangeDate($start, $end,null, $request -> id_instructor)) {
             $lesson = Lesson::create([
                 'id_instructor'      => $request -> id_instructor,
                 'tipo'       => $request -> tipo,
+                'descripcion'       => $request -> descripcion,
+                'color'       => $request -> color,
                 'start'      => $start,
                 'end'   => $end,
                 'limit_people' => $request -> limit,
@@ -205,10 +207,12 @@ class LessonController extends Controller
         $start = $request -> fecha.' '.$request -> start_hour_select;
         $end = $request -> fecha.' '.$request -> end_hour_select;
         //$end = date('Y-m-d H:i:s', strtotime($start.' +'.$request -> duration.' minutes'));
-        if ($this->validateRangeDate($start, $end, $id)) {
+        if ($this->validateRangeDate($start, $end, $id,$request -> id_instructor)) {
             $lesson = Lesson::where('id_lesson', $id) -> update([
                 'id_instructor' => $request -> id_instructor,
                 'tipo'          => $request -> tipo,
+                'descripcion'   => $request -> descripcion,
+                'color'         => $request -> color,
                 'start'         => $start,
                 'end'           => $end,
                 'limit_people'  => $request -> limit,
@@ -295,9 +299,9 @@ class LessonController extends Controller
         return $minutes;
     }
 
-    public function validateRangeDate($start, $end, $idCita = null){
+    public function validateRangeDate($start, $end, $idCita = null,$id_instructor){
         $upd_cita = isset($idCita) ? " AND id_lesson != {$idCita} " : "";
-        $sql = "SELECT id_lesson FROM lesson WHERE 1 = 1 AND status = 1 {$upd_cita} AND ((('{$start}' <= start) AND ('{$end}' > start)) OR (('{$start}' >= start)AND('{$start}' < end)))";
+        $sql = "SELECT id_lesson FROM lesson l WHERE 1 = 1 AND status = 1 {$upd_cita} AND id_instructor = {$id_instructor} AND (('{$start}' <= l.start AND '{$end}' > l.start) OR  ('{$start}' >= l.start AND '{$end}' <= l.end) OR  ('{$start}' <= l.end   AND '{$end}' >= l.end))";
         $cita = DB::select($sql);
         return count($cita) ? false : true;
     }

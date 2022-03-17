@@ -69,7 +69,7 @@
                                                 <select name="id_instructor" id="id_instructor" class="browser-default @error('id_instructor') invalid @enderror">
                                                     <option value="" selected>Instructores</option>
                                                     @foreach($instructores as $in)
-                                                        <option {{ old('id_instructor') ? old('id_instructor') == $in['id_instructor'] ? 'selected' : '' : $lesson -> id_instructor == $in['id_instructor'] ? 'selected' : '' }} value="{{ $in['id_instructor'] }}">{{$in['name']}}</option>
+                                                        <option {{ $lesson -> id_instructor == $in['id_instructor'] ? 'selected' : '' }} value="{{ $in['id_instructor'] }}">{{$in['name']}}</option>
                                                     @endforeach
 
                                                 </select>
@@ -78,15 +78,23 @@
                                                 <label>Elije un tipo</label>
                                                 <select name="tipo" id="tipo" class="browser-default @error('tipo') invalid @enderror">
                                                     <option value="" selected>Tipo</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'classic' ? 'selected' : '' : $lesson -> tipo == 'classic' ? 'selected' : '' }} value="classic">Classic</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'power' ? 'selected' : '' : $lesson -> tipo == 'power' ? 'selected' : '' }} value="power">Power</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'interval' ? 'selected' : '' : $lesson -> tipo == 'interval' ? 'selected' : '' }} value="interval">Interval</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'sculpt' ? 'selected' : '' : $lesson -> tipo == 'sculpt' ? 'selected' : '' }} value="sculpt">Sculpt</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'full body flow' ? 'selected' : '' : $lesson -> tipo == 'full body flow' ? 'selected' : '' }} value="full body flow">Full body flow</option>
-                                                    <option {{ old('tipo') ? old('tipo') == 'yoga' ? 'selected' : '' : $lesson -> tipo == 'yoga' ? 'selected' : '' }} value="yoga">Yoga</option>
+                                                    <option {{ ($lesson -> tipo == 'classic') ? 'selected' : '' }} value="classic">Classic</option>
+                                                    <option {{ ($lesson -> tipo == 'power') ? 'selected' : '' }} value="power">Power</option>
+                                                    <option {{ ($lesson -> tipo == 'interval') ? 'selected' : '' }} value="interval">Interval</option>
+                                                    <option {{ ($lesson -> tipo == 'sculpt') ? 'selected' : '' }} value="sculpt">Sculpt</option>
+                                                    <option {{ ($lesson -> tipo == 'full body flow') ? 'selected' : '' }} value="full body flow">Full body flow</option>
+                                                    <option {{ ($lesson -> tipo == 'yoga') ? 'selected' : '' }} value="yoga">Yoga</option>
 
 
                                                 </select>
+                                            </div>
+                                            <div class="col s12" style="padding-top: 10px; padding-bottom: 10px">
+                                                <label>Elije un color</label> <br>
+                                                <input  name="color" id="color" type="color" class="browser-default " value="{{$lesson -> color}}">
+                                            </div> 
+                                            <div class="col s12 input-field">
+                                                <label for="descripcion">Subtitulo</label>
+                                                <input type="text" id="descripcion" name="descripcion" value="{{$lesson -> descripcion}}"></input>
                                             </div>
                                             <div class="input-field col s12 m4">
                                                 <input type="hidden" name="start" id="start" value="{{old('start') ? old('start') : $lesson -> start_show}}">

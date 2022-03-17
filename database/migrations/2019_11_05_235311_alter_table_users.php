@@ -14,7 +14,7 @@ class AlterTableUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->tinyInteger('type'); //0: Panel Adm || 1: Panel User
+            $table->tinyInteger('type')->default(1); //0: Panel Adm || 1: Panel User
         });
     }
 

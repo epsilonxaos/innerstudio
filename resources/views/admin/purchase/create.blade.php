@@ -74,7 +74,7 @@
                                                 <select name="id_package" id="id_package" class="browser-default @error('id_package') invalid @enderror">
                                                     <option value="" selected data-precio="0">Paquete</option>
                                                     @foreach($packages as $pk)
-                                                        <option {{ session('id_package') ? session('id_package') == $pk['id_package'] ? 'selected' : '' : old('id_package') == $pk['id_package'] ? 'selected' : '' }} value="{{ $pk['id_package'] }}" data-precio="{{$pk['price']}}">{{$pk['title']}} ${{$pk['price']}}</option>
+                                                        <option {{  session('id_package') == $pk['id_package'] || old('id_package') == $pk['id_package'] ? 'selected' : '' }} value="{{ $pk['id_package'] }}" data-precio="{{$pk['price']}}">{{$pk['title']}} ${{$pk['price']}}</option>
                                                     @endforeach
 
                                                 </select>
@@ -84,7 +84,7 @@
                                                 <select name="id_customer" id="id_customer" class="browser-default @error('id_customer') invalid @enderror">
                                                     <option value="" selected>Cliente</option>
                                                     @foreach($customers as $ct)
-                                                        <option {{ session('id_customer') ? session('id_customer') == $ct['id_customer'] ? 'selected' : '' : old('id_customer') == $ct['id_customer'] ? 'selected' : '' }} value="{{ $ct['id_customer'] }}">{{ $ct['name'] != '' ? $ct['name'].' '.$ct['lastname'] : 'Datos Incompletos' }}</option>
+                                                        <option {{  session('id_customer') == $ct['id_customer'] || old('id_customer') == $ct['id_customer'] ? 'selected' : '' }} value="{{ $ct['id_customer'] }}">{{ $ct['name'] != '' ? $ct['name'].' '.$ct['lastname'] : 'Datos Incompletos' }}</option>
                                                     @endforeach
 
                                                 </select>

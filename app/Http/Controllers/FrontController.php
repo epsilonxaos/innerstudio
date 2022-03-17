@@ -10,8 +10,11 @@ use App\Lesson;
 use App\Purchase;
 use App\PurchaseData;
 use App\Cupon;
+use App\Galerias;
 use App\Reservation;
 use App\Instructor;
+use App\Mailq;
+use Illuminate\Support\Facades\Mail;
 use App\User;
 use Auth;
 use Jenssegers\Date\Date;
@@ -21,6 +24,9 @@ use App\PagoFacil_Descifrado_Descifrar;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\SendMailJob;
 use App\Http\Controllers\MessageController;
+use App\Mail\MessageMailq;
+use App\Slide;
+use Illuminate\Support\Facades\Session;
 
 class FrontController extends Controller
 {
@@ -28,15 +34,48 @@ class FrontController extends Controller
        /* $ints = self::instagram();
         $ints = $ints -> data;*/
         $paquetes = self::getClases();
+        $front = Galerias::where('seccion',"principal")->get();
+        $foo = Galerias::where('seccion',"indexBottom")->get();
 
-        return view('pages.index', ["paquetes" => $paquetes, "instagram" => []]);
+        return view('pages.index', ["front"=>$front,"foo"=>$foo,"paquetes" => $paquetes, "instagram" => []]);
     }
+
     public function compra_view(Request $request, $id ){
-        $paquete = Package::where("id_package", $id)
-            -> first();
+        $paquete = Package::where("id_package", $id)-> first();
         $customer = self::getDataCustomer(Auth() -> User() -> id_customer);
 
-        return view('pages.compra', ["paquete" => $paquete, "customer" => $customer]);
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://api.conekta.io/tokens",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
+            CURLOPT_HTTPHEADER => [
+                "Accept: application/vnd.conekta-v2.0.0+json",
+                "Authorization: Basic ".base64_encode(env('key_N7zhCySArzNxRPNMqsQVJxQ')),
+                "Content-Type: application/json"
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        return view('pages.compra', ["status"=>400,"paquete" => $paquete, "customer" => $customer]);
+        } else {
+            $resp = json_decode($response);
+            return view('pages.compra', ["status"=>200,"paquete" => $paquete, "customer" => $customer,"token"=>$resp->checkout->id,"pkey"=>$resp->checkout->name]);
+        }
+                
+
+       
     }
     public function compra_view_test(){
         return view('pages.testpagofacil');
@@ -103,7 +142,8 @@ class FrontController extends Controller
             DB::enableQueryLog();
             $now = Date::parse('today')->format('Y-m-d');
             $future =  Date::parse("+7 days")->format('Y-m-d');
-            $params = Lesson::leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
+            $params = Lesson::select('lesson.*', 'instructor.name')
+            ->leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
                 ->whereRaw("lesson.start >= CAST('".$now."' AS DATE) AND lesson.start <= CAST('".$future."' AS DATE) ")
                 ->where('lesson.status',1)
                 -> orderBy('lesson.start', 'Asc')
@@ -126,7 +166,8 @@ class FrontController extends Controller
         }else{
             $now = Date::parse('+'.(7*$page).' days');
             $future = Date::parse('+'.(7*($page+1)).' days');
-            $params = Lesson::leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
+            $params = Lesson::select('lesson.*', 'instructor.name')
+                -> leftjoin("instructor","lesson.id_instructor","=","instructor.id_instructor")
                 ->where('lesson.status',1)
                 ->whereRaw("lesson.start >= CAST('".$now->format('Y-m-d')."' AS DATE) AND lesson.start <= CAST('".$future->format('Y-m-d ')."' AS DATE) ")
                 -> orderBy('lesson.start', 'Asc')
@@ -140,7 +181,7 @@ class FrontController extends Controller
             }
         }
 
-        $paquetes = self::getClases();
+        $paquetes = self::getClases();   
 
         return view('pages.reservacion', ['params' => $params,'next'=>$next,'prev'=>$prev,'cal'=> $dates,'page'=>$page,'mes'=>Date::now()->format('F'),"paquetes"=>$paquetes, 'days'=>$fechas,'mes'=>$mes]);
     }
@@ -173,8 +214,18 @@ class FrontController extends Controller
 
         $paquetes = self::getClases();
 
+        $matActives = mat::where('status', '=', 1)->count();
 
-        return view('pages.reservacion-detalle',['data'=>$params,'mats'=>$mats, 'mats_disabled' => $mats_disabled, 'class'=>$id,"paquetes"=>$paquetes,"click"=>$saltedeaqui]);
+        $customerInLesson = Reservation::select('reservation.id_mat_per_class')
+            -> join('_mat_per_class', 'reservation.id_mat_per_class', '=', '_mat_per_class.id_mat_per_class')
+            -> where([
+                ['reservation.id_customer', '=', Auth::user() -> id_customer],
+                ['_mat_per_class.id_class', '=', $id]
+            ])
+            -> count();
+
+
+        return view('pages.reservacion-detalle',['data'=>$params,'mats'=>$mats, 'mats_disabled' => $mats_disabled, 'class'=>$id,"paquetes"=>$paquetes,"click"=>$saltedeaqui, "matActives" => $matActives, 'customerInLesson' => $customerInLesson]);
     }
     public function team_view(){
         $paquetes = self::getClases();
@@ -191,11 +242,14 @@ class FrontController extends Controller
         return $team;
     }
 
-    public function complete_view($free = null){
-        if(isset($free)){
+    public function complete_view($free = null, $success = ''){
+        if(isset($free) && $free === 1){
             return view('pages.complete', ['free' => 1]);
         }else{
-            return view('pages.complete');
+            return view('pages.complete', [
+                'success' => $success,
+                'error' => (Session::has('error')) ? Session::get('error') : ''
+            ]);
         }
     }
 
@@ -291,6 +345,13 @@ class FrontController extends Controller
 
     }
 
+    public static function redirectLogin(){
+
+        return redirect()->route('login.admin');
+
+
+    }
+
 
     public function blog_view(){
         return view('pages.blog');
@@ -333,6 +394,27 @@ class FrontController extends Controller
 
             // $correo = new MessageController;
             // $resp = $correo -> mail_cancelacion_usuario();
+            // enviar correos a lista en cola
+            $data = Reservation::where('id_reservation', $id)
+            ->join('_mat_per_class','_mat_per_class.id_mat_per_class','=','reservation.id_mat_per_class')
+            ->join("lesson", "lesson.id_lesson", "=", "_mat_per_class.id_class")
+            -> get();
+            $clientes = Mailq::getClientOnq($data[0]->id_lesson);
+            // dd($clientes -> toArray());
+            if(count($clientes) > 0) {
+                $mails = array();
+
+                foreach ($clientes as $key => $value) {
+                    array_push($mails, $value -> email);
+                }
+
+                try {
+                    Mail::send('emails.message_mailq', ['lessonUrl' => env('APP_URL')."/reservar/clase/detalle/".$data[0]->id_lesson], function ($message) use ($mails) {
+                        $message->to($mails)->subject('InnerStudio - Espacio disponible en clase!'); 
+                    });
+                } catch (\Throwable $th) {}
+    
+            }
             SendMailJob::dispatch("cancelacion_usuario", Auth::user() -> id_customer, $id) ->delay(now()->addMinutes(1));
             return back();
         }
@@ -388,6 +470,7 @@ class FrontController extends Controller
         foreach($mats as $mat=>$data){ $mats_temp[$mat] = $data->no_mat;}
 
         $class = Lesson::where('lesson.id_lesson',$request->class)->get();
+        #dd([$request->place,array_values($mats_temp)]);
         if( ($class[0]->limit_people >= $mat_used ) && ($purchase > $class_used) && ($saltedeaqui <= 3) && (in_array($request->place, array_values($mats_temp))) ){
             $i = 0;
             while ($i <= $purchase_id->count()) {
@@ -418,7 +501,7 @@ class FrontController extends Controller
                     'status'=>1
                 ]);
                 //app('App\Http\Controllers\MessageController')->mail_reservacion($request -> id, $reser -> id_reservation);
-                SendMailJob::dispatch("reservacion", $request -> id, $reser -> id_reservation) -> delay(now() -> addMinutes(1));
+                //SendMailJob::dispatch("reservacion", $request -> id, $reser -> id_reservation) -> delay(now() -> addMinutes(1));
                 return json_encode(['res'=>1,'fecha'=>Date::parse($class[0]-> start)->format('h:i A'),'tapete'=> $request->place]);
             }else{
                 return json_encode(['res'=>3]);
@@ -464,6 +547,27 @@ class FrontController extends Controller
         return $api_cache;
     }
 
+    static public function joinq(Request $request,$id){
+        $matActives = mat::where('status', '=', 1)->get();
+        $matActives = $matActives->count();
+
+        if((Lesson::isfull($id) >= $matActives) && (Mailq::isfull($id)) ){
+            if(Mailq::validCustomerList(Auth::user() -> id_customer, $id)) {
+                Mailq::create([
+                    'id_class'      => $id,
+                    'id_user'       =>  Auth::user() -> id_customer,
+                    'status'     => 1,
+                ]);
+
+                return redirect()->back()-> with('success', 'Registro realizado!');
+            }
+
+            return redirect()->back()-> with('success', 'Ya se encuentra en lista de espera!');
+
+        }
+        return redirect()->back()-> with('error', 'La clase no esta llena');
+    }
+
     public function testCorreo (){
         SendMailJob::dispatch("compra", 5, 675);
         return 'Correo enviado';
@@ -473,4 +577,6 @@ class FrontController extends Controller
         $resp = $correo -> mail_cancelacion_usuario2();
         return $resp.' -- Correo enviado';
     }
+
+ 
 }

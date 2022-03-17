@@ -18,11 +18,15 @@
 // Rutas de Front
 // ------------------------------------------------------
 // Route::get('/', function () { return view('mantenimiento'); });
+
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', 'FrontController@index_view') -> name('index');
 Route::get('/home', 'FrontController@index_view') -> name('index');
 Route::get('/compra/paquete/{id}', 'FrontController@compra_view') -> name('comprar') -> middleware('auth');
 Route::post('/compra/save', 'PurchaseController@compra_update_data') -> middleware('auth')->middleware('auth_front');
-Route::get('/complete/{free?}', 'FrontController@complete_view') -> name('completado') -> middleware('auth');
+Route::post('/compra/save/conekta', 'PurchaseController@compra_data_conekta') -> name('comprarConecta') -> middleware('auth')->middleware('auth_front');
+Route::get('/complete/{free?}/{success?}', 'FrontController@complete_view') -> name('completado') -> middleware('auth');
 Route::get('/paquetes', 'FrontController@paquetes_view');
 Route::get('/perfil', 'FrontController@perfil_view') -> name('profile') -> middleware('auth')->middleware('auth_front');
 Route::put('/perfil/datos/update/{id}', 'CustomerController@update') -> name('updateDatosCustomer') -> middleware('auth');
@@ -37,6 +41,7 @@ Route::get('/teamdetalle', 'FrontController@teamdetalle_view');
 Route::get('/ubicacion', 'FrontController@ubicacion_view');
 Route::get('/reservar/{page?}', 'FrontController@reservacion_view')->name('front.reservar');
 Route::get('/reservar/clase/detalle/{id}', 'FrontController@reservacion_deta_view')->name('front.reservar.detalle');
+Route::get('/reservar/clase/detalle/onq/{id_lesson}','FrontController@joinq')->name('front.reservar.q');
 Route::post('/reserve', 'FrontController@createReservation')->name('reserve');
 // Route::post('/reserve', 'ReservationController@store')->name('reserve')->middleware('auth_front');
 Route::get('/team', 'FrontController@team_view');
@@ -75,9 +80,7 @@ Route::post('/password/reset', 'Auth\PasswordController@reset');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('admin/logout', 'Auth\LoginController@logout')->name('admin.logout');
 Route::get('admin/login', 'Auth\LoginController@login_panel') -> name('login.admin');
-Route::get('panel', function(){
-    return redirect()->route('login.admin');
-});
+Route::get('panel','FrontController@redirectLogin')->name('login.panel');
 
 
 // ------------------------------------------------------
@@ -142,6 +145,24 @@ Route::name('admin.')->group(function () {
 
         });
 
+        Route::name('gallery.')->group(function () {
+            Route::get('admin/galeria', 'GaleriasController@index') -> name('list');
+            Route::get('admin/galeria/array-data', 'GaleriasController@galeria_data') -> name('array.data');
+            Route::get('admin/galeria/insert', 'GaleriasController@create') -> name('create');
+            Route::post('admin/galeria/store', 'GaleriasController@store') -> name('store');
+            Route::get('admin/galeria/edit/{id}', 'GaleriasController@edit') -> name('edit');
+            Route::post('admin/galeria/update/{id}', 'GaleriasController@update') -> name('update');
+            Route::delete('admin/galeria/delete', 'GaleriasController@destroy') -> name('destroy');
+
+            // Route::get('admin/galeria/{id}/slide', 'SlideController@Slide_index') -> name('slide.list');
+            // Route::get('admin/galeria/{id}/slide/array-data', 'SlideController@Slide_data') -> name('slide.array.data');
+            // Route::get('admin/galeria/slide/editar/{id}', 'SlideController@Slide_data') -> name('slide.array.data');
+            // Route::get('admin/galeria/slide/update/{id}', 'SlideController@edit') -> name('slide.update');
+            // Route::post('admin/galeria/slide/insert/', 'SlideController@Slide_store') -> name('slide.store');
+            // Route::delete('admin/galeria/slide/delete', 'SlideController@Slide_destroy') -> name('slide.delete');
+
+        });
+
         Route::name('purchase.')->group(function () {
             Route::get('admin/ventas', 'PurchaseController@index')->name('list');
             Route::get('admin/ventas/array-data', 'PurchaseController@data') -> name('array.data');
@@ -171,7 +192,6 @@ Route::name('admin.')->group(function () {
         Route::name('mat.')->group(function () {
             Route::get('admin/tapetes', 'MatController@index')->name('list');
             Route::get('admin/tapetes/array-data', 'MatController@data') -> name('array.data');
-
             Route::put('admin/tapete/change-status', 'MatController@changeStatus') -> name('change.status');
         });
 
@@ -206,6 +226,8 @@ Route::name('admin.')->group(function () {
             Route::get('admin/calendario', 'CalendarController@index')->name('list');
             Route::get('admin/calendario/instructor/dia/{fecha}', 'CalendarController@listInstructorPerDayParse');
             Route::get('admin/calendario/asistencia/{id_lesson}', 'CalendarController@asistenciaList')->name('asistencia.list');
+            Route::get('admin/calendario/excel/{id_lesson}','CalendarController@export')->name('asistencia.export');
+
             Route::get('admin/calendario/asistencia/clases/array-data', 'CalendarController@dataAsistencia');
             Route::get('admin/calendario/asistencia/exportar', 'CalendarController@dataAsistencia');
             Route::get('admin/calendario/asistencia/exportar/array-data', 'CalendarController@dataAsistencia');

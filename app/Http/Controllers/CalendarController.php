@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LessonExport;
 use App\Instructor;
 use App\Lesson;
 use App\Reservation;
@@ -9,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CalendarController extends Controller
 {
@@ -159,6 +161,11 @@ class CalendarController extends Controller
             })
             ->rawColumns(['name', 'firma', 'actions'])
             ->make();
+    }
+
+    public function export( Request $request) 
+    {
+        return Excel::download(new LessonExport, 'lista_asistencia.xlsx');
     }
 
 }

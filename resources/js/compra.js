@@ -7,7 +7,59 @@ maskCp();
 maskCvv();
 maskTarjeta();
 
-document.getElementById("do-pay").addEventListener("click", function (ev) {
+// document.getElementById("do-pay").addEventListener("click", function (ev) {
+//     let valid = true;
+//     waitMoment();
+
+//     document.querySelectorAll('#compraForm [required]').forEach(item => {
+//         item.classList.remove('campo-requerido');
+//         if(item.value == ''){
+//             item.classList.add('campo-requerido');
+//             valid = false;
+//         }
+//     });
+
+//     if(valid){
+//         if(document.getElementById("terminos").checked){
+//             let dataAxios = getDataForms("compraForm");
+//             console.log(dataAxios);
+//             axios.post(PATH+"/compra/save", dataAxios)
+//             .then(function (response) {
+//                 if(response.data.response == true){
+//                     if(response.data.redirect){
+//                         alertify.success("Registro hecho!").dismissOthers();
+//                         $('#param1').val(response.data.id_purchase)
+//                         $('#httpUserAgent').val(navigator.userAgent);
+//                         $("#3ds-form").submit();
+//                     }else{
+//                         if(response.data.complete_payment){
+//                             window.location.href = PATH+'/complete/free';
+//                         }else{
+//                             removeAlert();
+//                             alertify.error("La compra minima debe ser mayor a $10.00").dismissOthers();
+//                         }
+//                     }
+//                 }else{
+//                     removeAlert();
+//                     alertify.error("Este paquete ya no aplica para ti!").dismissOthers();
+//                 }
+//             })
+//             .catch(function (error) {
+//                 console.log(error);
+//             });
+//         }
+//         else{
+//             removeAlert();
+//             alertify.error("Acepta términos y condiciones").dismissOthers();
+//         }
+//     }else{
+//         removeAlert();
+//         alertify.error("Faltan campos por llenar").dismissOthers();
+//     }
+// });
+
+document.getElementById('pago').addEventListener('submit', function(e){
+    e.preventDefault();
     let valid = true;
     waitMoment();
 
@@ -21,32 +73,7 @@ document.getElementById("do-pay").addEventListener("click", function (ev) {
 
     if(valid){
         if(document.getElementById("terminos").checked){
-            let dataAxios = getDataForms("compraForm");
-            console.log(dataAxios);
-            axios.post(PATH+"/compra/save", dataAxios)
-            .then(function (response) {
-                if(response.data.response == true){
-                    if(response.data.redirect){
-                        alertify.success("Registro hecho!").dismissOthers();
-                        $('#param1').val(response.data.id_purchase)
-                        $('#httpUserAgent').val(navigator.userAgent);
-                        $("#3ds-form").submit();
-                    }else{
-                        if(response.data.complete_payment){
-                            window.location.href = PATH+'/complete/free';
-                        }else{
-                            removeAlert();
-                            alertify.error("La compra minima debe ser mayor a $10.00").dismissOthers();
-                        }
-                    }
-                }else{
-                    removeAlert();
-                    alertify.error("Este paquete ya no aplica para ti!").dismissOthers();
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+            this.submit();
         }
         else{
             removeAlert();
