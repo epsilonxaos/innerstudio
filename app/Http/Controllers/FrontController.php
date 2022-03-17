@@ -10,6 +10,7 @@ use App\Lesson;
 use App\Purchase;
 use App\PurchaseData;
 use App\Cupon;
+use App\Galerias;
 use App\Reservation;
 use App\Instructor;
 use App\Mailq;
@@ -33,8 +34,8 @@ class FrontController extends Controller
        /* $ints = self::instagram();
         $ints = $ints -> data;*/
         $paquetes = self::getClases();
-        $front = Slide::where('name',"hero")->get();
-        $foo = Slide::where('name',"bottom")->get();
+        $front = Galerias::where('seccion',"principal")->get();
+        $foo = Galerias::where('seccion',"indexBottom")->get();
 
         return view('pages.index', ["front"=>$front,"foo"=>$foo,"paquetes" => $paquetes, "instagram" => []]);
     }
