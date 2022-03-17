@@ -56,7 +56,7 @@ class FrontController extends Controller
             CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
             CURLOPT_HTTPHEADER => [
                 "Accept: application/vnd.conekta-v2.0.0+json",
-                "Authorization: Basic ".base64_encode(env('key_N7zhCySArzNxRPNMqsQVJxQ')),
+                "Authorization: Basic ".base64_encode(env('APP_PAGOS_KEY_S')),
                 "Content-Type: application/json"
             ],
         ]);
@@ -243,11 +243,17 @@ class FrontController extends Controller
     }
 
     public function complete_view($free = null, $success = ''){
-        if(isset($free) && $free === 1){
-            return view('pages.complete', ['free' => 1]);
+        if(isset($free) && isset($success)){
+            if($free === 1) {
+                return view('pages.complete', ['free' => 1]);
+            }else {
+                return view('pages.complete', [
+                    'success' => $success,
+                    'error' => (Session::has('error')) ? Session::get('error') : ''
+                ]);
+            }
         }else{
             return view('pages.complete', [
-                'success' => $success,
                 'error' => (Session::has('error')) ? Session::get('error') : ''
             ]);
         }
