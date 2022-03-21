@@ -52,6 +52,8 @@ mix.js('resources/js/admin/instructor/functions.js', 'public/admin/js/custom/ins
 mix.js('resources/js/admin/instructor/functions_create.js', 'public/admin/js/custom/instructor_create.js');
 mix.js('resources/js/admin/package/functions.js', 'public/admin/js/custom/package.js');
 mix.js('resources/js/admin/lesson/functions.js', 'public/admin/js/custom/lesson.js');
+mix.js('resources/js/admin/Gallery/functions.js', 'public/admin/js/custom/gallery.js');
+mix.js('resources/js/admin/slide/functions.js', 'public/admin/js/custom/slide.js');
 mix.js('resources/js/admin/mat/functions.js', 'public/admin/js/custom/mat.js');
 mix.js('resources/js/admin/purchase/functions.js', 'public/admin/js/custom/purchase.js');
 mix.js('resources/js/admin/cupon/functions.js', 'public/admin/js/custom/cupon.js');

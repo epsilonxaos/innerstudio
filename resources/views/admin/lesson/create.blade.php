@@ -68,6 +68,7 @@
                             </button>
                         </div>
                     @endif
+
                     <div class="card overflow-unset">
                         <div class="card-content">
                             <form method="post" action="{{route('admin.lesson.insert')}}">
@@ -81,7 +82,10 @@
                                                 <select name="id_instructor" id="id_instructor" class="browser-default @error('id_instructor') invalid @enderror">
                                                     <option value="" selected>Instructores</option>
                                                     @foreach($instructores as $in)
-                                                        <option   value="{{ $in['id_instructor'] }}">{{$in['name']}}</option>
+                                                        <option {{ session('id_instructor') ? 
+                                                            (session('id_instructor') == $in['id_instructor'] ? 'selected' : '')
+                                                            :
+                                                            (old('id_instructor') == $in['id_instructor'] ? 'selected' : '') }} value="{{ $in['id_instructor'] }}">{{$in['name']}}</option>
                                                     @endforeach
 
                                                 </select>
@@ -91,25 +95,21 @@
                                                 <select name="tipo" id="tipo" class="browser-default @error('tipo') invalid @enderror">
                                                     <!-- añadir old-->
                                                     <option value="" selected>Tipo</option>
-                                                    <option  value="classic">Classic</option>
-                                                    <option  value="interval">Interval</option>
-                                                    <option  value="power">Power</option>
-                                                    <option  value="sculpt">Sculpt</option>
-                                                    <option  value="full body flow">Full Body Flow</option>
-                                                    <option  value="yoga">Yoga</option>
-
-
+                                                    <option {{(old('tipo') == 'classic') ? 'selected' : '' }}  value="classic">Classic</option>
+                                                    <option {{(old('tipo') == 'power') ? 'selected' : '' }}  value="power">Power</option>
+                                                    <option {{(old('tipo') == 'interval') ? 'selected' : '' }}  value="interval">Interval</option>
+                                                    <option {{(old('tipo') == 'sculpt') ? 'selected' : '' }}  value="sculpt">Sculpt</option>
+                                                    <option {{(old('tipo') == 'full body flow') ? 'selected' : '' }}  value="full body flow">Full Body Flow</option>
+                                                    <option {{(old('tipo') == 'yoga') ? 'selected' : '' }}  value="yoga">Yoga</option>
                                                 </select>
                                             </div>
-                                            <div class="col s12 m6">
-                                                <label>Elije un color</label>
+                                            <div class="col s12" style="padding-top: 10px; padding-bottom: 10px">
+                                                <label>Elije un color</label> <br>
                                                 <input  name="color" id="color" type="color" class="browser-default ">
-                                               
-            
-                                            </div>
-                                            <div class="col s12 m6">
-                                                <label>descripcion</label>
-                                                <textarea name="descripcion"></textarea>
+                                            </div> 
+                                            <div class="col s12 input-field">
+                                                <label for="descripcion">Subtitulo</label>
+                                                <input type="text" id="descripcion" name="descripcion"></input>
                                             </div>
                                             <div class="input-field col s12 m4">
                                                 <input type="hidden" name="start" id="start" value="{{old('start')}}">

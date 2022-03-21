@@ -11,13 +11,23 @@ class Mailq extends Model
     public $fillable = ['id_class', 'id_user', 'status'];
 
     public static function isfull($id){
-        $onQ =  self::where('id_lesson',$id)->count();
-        return $onQ == 5 ? true : false;
+        $onQ =  self::where('id_class',$id)->count();
+        return $onQ < 5 ? true : false;
         
     }
     
     public static function getClientOnq($id){
-        return self::join('customer','mailq.id_user','=','customer.id_customer')->get();
+        return self::select('customer.email') -> join('customer','mailq.id_user','=','customer.id_customer')->get();
+    }
+
+    public static function validCustomerList($customer_id, $lesson_id)
+    {
+        $exist = self::where([
+            ['id_class', '=', $lesson_id],
+            ['id_user', '=', $customer_id]
+        ]) -> count();
+
+        return ($exist > 0) ? false : true;
     }
 
 }
