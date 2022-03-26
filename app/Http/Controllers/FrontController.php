@@ -48,7 +48,7 @@ class FrontController extends Controller
         if($customer->payid){
 
             $res = Conekta_client::getClient($customer->payid);
-            dd($res);
+            dd(["log",$res]);
 
 
         }
