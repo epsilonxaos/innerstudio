@@ -564,29 +564,33 @@ class PurchaseController extends Controller
                 $success_customer = false;
 
                 // Creamos el pago y decimos que esta en proceso
+                if($request -> conekta_customer){
 
-                try {
-                    $customerConekta = ConektaCustomer::create(
-                        array(
-                            "name" => $request -> nombre.' '.$request -> apellidos,
-                            "email" => $client -> email,
-                            "phone" => $request -> celular,
-                            "payment_sources" => [
-                                [
-                                    "type" => "card",
-                                    "token_id" => $request -> token
+                }else{
+
+                    try {
+                        $customerConekta = ConektaCustomer::create(
+                            array(
+                                "name" => $request -> nombre.' '.$request -> apellidos,
+                                "email" => $client -> email,
+                                "phone" => $request -> celular,
+                                "payment_sources" => [
+                                    [
+                                        "type" => "card",
+                                        "token_id" => $request -> token
+                                    ]
                                 ]
-                            ]
-                        )//customer
-                    );
-
-                    $success_customer = true;
-                } catch (ProcessingError $error) {
-                    $er = $error->getMesage();
-                } catch (ParameterValidationError $error) {
-                    $er = $error->getMessage();
-                } catch (Handler $error) {
-                    $er = $error->getMessage();
+                            )//customer
+                        );
+    
+                        $success_customer = true;
+                    } catch (ProcessingError $error) {
+                        $er = $error->getMesage();
+                    } catch (ParameterValidationError $error) {
+                        $er = $error->getMessage();
+                    } catch (Handler $error) {
+                        $er = $error->getMessage();
+                    }
                 }
 
                 if($success_customer)

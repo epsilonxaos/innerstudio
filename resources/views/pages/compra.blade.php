@@ -91,21 +91,22 @@
                             @else
                                 <div class="row">
                                     <div class="col-12"><input type="text" name="numeroTarjeta" id="numeroTarjeta" placeholder="Número de tarjeta" value="" required mask-tarjeta></div>
-                                    <div class="col-12 col-md-6">
-                                        <select name="mesExpiracion" id="mesExpiracion" required>
-                                            <option value="01">01 Ene</option>
-                                            <option value="02">02 Feb</option>
-                                            <option value="03">03 Mar</option>
-                                            <option value="04">04 Abr</option>
-                                            <option value="05">05 May</option>
-                                            <option value="06">06 Jun</option>
-                                            <option value="07">07 Jul</option>
-                                            <option value="08">08 Ago</option>
-                                            <option value="09">09 Sep</option>
-                                            <option value="10">10 Oct</option>
-                                            <option value="11">11 Nov</option>
-                                            <option value="12">12 Dic</option>
-                                        </select>
+                                        <div class="col-12 col-md-6">
+                                            <select name="mesExpiracion" id="mesExpiracion" required>
+                                                <option value="01">01 Ene</option>
+                                                <option value="02">02 Feb</option>
+                                                <option value="03">03 Mar</option>
+                                                <option value="04">04 Abr</option>
+                                                <option value="05">05 May</option>
+                                                <option value="06">06 Jun</option>
+                                                <option value="07">07 Jul</option>
+                                                <option value="08">08 Ago</option>
+                                                <option value="09">09 Sep</option>
+                                                <option value="10">10 Oct</option>
+                                                <option value="11">11 Nov</option>
+                                                <option value="12">12 Dic</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <select name="anyoExpiracion" id="anyoExpiracion" required>
@@ -131,7 +132,6 @@
                                     <div class="col-12"><input type="password" name="cvt" id="cvt" placeholder="CVC" value="" required mask-cvv></div>
                                 </div>
                             @endif
-                            </div>
                             <div class="col-12 text-center">
                                 <small class="mr-1">Aceptamos</small>
                                 <img style="width: 50px; background-color: #fef8f3; border-radius: 4px; margin-right: 5px" src="{{asset('images/icons/icon-american-express-2.svg')}}" alt="">
