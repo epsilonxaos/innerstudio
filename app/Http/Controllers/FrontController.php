@@ -45,9 +45,9 @@ class FrontController extends Controller
         $paquete = Package::where("id_package", $id)-> first();
         $customer = self::getDataCustomer(Auth() -> User() -> id_customer);
 
-        if($customer->payid){
+        if($customer->conekta_id){
 
-            $res4 = Conekta_client::getClient($customer->payid);
+            $res4 = Conekta_client::getClient($customer->conekta_id);
             dd([$res4]);
 
 
