@@ -80,9 +80,14 @@
                             </div>
                             <div class="col-12 col-md-12">
                             @if (env('APP_PAGOS') == 'CONEKTA')
-                            <div id="conektaIframeContainer" style="height: 568px;" class="row">
-                    
-                            </div>
+
+                                
+                                <div>
+                                    <div>**** - **** - **** - 2586<div>
+                                    <div>VISA<div>
+                                </div>
+                            
+                                <div id="conektaIframeContainer" style="height: 568px;" class="row"></div>
                             @else
                                 <div class="row">
                                     <div class="col-12"><input type="text" name="numeroTarjeta" id="numeroTarjeta" placeholder="Número de tarjeta" value="" required mask-tarjeta></div>
