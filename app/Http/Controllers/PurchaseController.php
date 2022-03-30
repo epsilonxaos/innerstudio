@@ -418,7 +418,7 @@ class PurchaseController extends Controller
                 'status' => 1,
                 'discount' => $request -> discount,
                 'date_expirate' => date('Y-m-d H:i:s', strtotime($today.' +'.$duration.' days')),
-                'method_pay' => "tarjeta",
+                'method_pay' => "conekta",
                 'discount' => $request -> discount
             ]);
             PurchaseData::create([
@@ -845,6 +845,9 @@ class PurchaseController extends Controller
             break;
             case 'pagofacil':
                 return '<span class="badge light-blue darken-4"><i class="far fa-gem"></i> Pago Fácil</span>';
+            break;
+            case 'conekta':
+                return '<span class="badge light-blue darken-4"><i class="far fa-gem"></i> Conekta</span>';
             break;
             case 'gratis':
                 return '<span class="badge pink darken-1"><i class="fas fa-gift"></i> Gratis</span>';
