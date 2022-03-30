@@ -100,7 +100,7 @@
                                                 <td data-th="Lugar">{{$temp['no_mat']}}</td>
                                                 <td data-th="Instructor">{{$temp['name']}}</td>
                                                 <td data-th="Cancelar">
-                                                    <img src="{{asset('images/icons/icon-cancel.svg')}}" width="25px" alt="" title="Cancelar" data-toggle="modal" data-target="#mdCancelar" class="pointer btn-cancel-reservacion" data-reservacion="{{$temp['id_reservation']}}">
+                                                    <img src="{{asset('images/icons/icon-cancel.svg')}}" width="25px" alt="" title="Cancelar" data-toggle="modal" data-target="#mdCancelar" class="pointer btn-cancel-reservacion" data-cancelacion="{{ App\Lesson::cancelacionMensaje($temp['id_lesson'])}}" data-reservacion="{{$temp['id_reservation']}}">
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -269,7 +269,7 @@
                 </div>
                 <div class="modal-body text-center">
                     <h5 class="color-orange m20">Cancelar clase</h5>
-                    <p class="m30">Puedes cancelar hasta <strong>8 horas</strong> antes sin que se consuma tu clase. ¿Estás seguro de cancelar?</p>
+                    <p id="MensajeCancelReservacion" class="m30">Puedes cancelar hasta <strong>8 horas</strong> antes sin que se consuma tu clase. ¿Estás seguro de cancelar?</p>
                     <form action="{{route('cancelarReservacion')}}" method="POST" id="formCancelReservacion">
                         @csrf
                         <input type="hidden" name="id_reservacion" value="0">

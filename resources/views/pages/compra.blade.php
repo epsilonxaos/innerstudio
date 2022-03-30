@@ -82,7 +82,19 @@
                             @if (env('APP_PAGOS') == 'CONEKTA')
 
                                 
-                              
+                                @if($id_tarjeta)
+                                    <input type="checkbox" id="new_Card" name="new_Card" >
+                                    <label for="new_Card">Quieres usar una nueva tarjeta?</label>
+                                    <input type="hidden" value="{{$id_tarjeta}}"/>
+                                    @if($marca_tarjeta == "visa")
+                                    <div class="blue">
+                                    @else
+                                    <div class="red">
+                                    @endif
+                                        <p>**** **** **** {{$tarjeta_numeros }}</p>
+                                        
+                                    </div>
+                                @endif
                                 <div id="conektaIframeContainer" style="height: 568px;" class="row"></div>
                             @else
                                 <div class="row">

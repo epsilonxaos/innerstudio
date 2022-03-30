@@ -14,7 +14,7 @@ class AddConektaidToCustomer extends Migration
     public function up()
     {
         Schema::table('customer', function (Blueprint $table) {
-            $table->conekta_id('cover', 250)->nullable();
+            $table->string('conekta_id', 191)->nullable();
             
         });
     }

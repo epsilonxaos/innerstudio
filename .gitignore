@@ -11,6 +11,7 @@ resources/js/api-instagram.json
 /storage/*.key
 /vendor
 /.idea
+*.pem
 
 .env
 .env.backup

@@ -48,7 +48,9 @@ class FrontController extends Controller
         if($customer->conekta_id){
 
             $res4 = Conekta_client::getClient($customer->conekta_id);
-            dd(["log",$res4]);
+            $marca_tarjeta = $res4->payment_sources[0]->brand;
+            $tarjeta_numeros = $res4->payment_sources[0]->last4;
+            $id_tarjeta = $res4->payment_sources[0]->id;
 
 
         }
@@ -81,7 +83,15 @@ class FrontController extends Controller
         return view('pages.compra', ["status"=>400,"paquete" => $paquete, "customer" => $customer]);
         } else {
             $resp = json_decode($response);
-            return view('pages.compra', ["status"=>200,"paquete" => $paquete, "customer" => $customer,"token"=>$resp->checkout->id,"pkey"=>$resp->checkout->name]);
+            return view('pages.compra', [
+                "status"=>200,"paquete" => $paquete,
+                "customer" => $customer,
+                "token"=>$resp->checkout->id,
+                "pkey"=>$resp->checkout->name,
+                "marca_tarjeta"=>$marca_tarjeta,
+                "tarjeta_numeros"=>$tarjeta_numeros,
+                "id_tarjeta"=>$id_tarjeta
+            ]);
         }
                 
 
