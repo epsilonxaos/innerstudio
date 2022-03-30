@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Conekta_client;
 use App\Mat;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -44,34 +45,51 @@ class FrontController extends Controller
         $paquete = Package::where("id_package", $id)-> first();
         $customer = self::getDataCustomer(Auth() -> User() -> id_customer);
 
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_URL => "https://api.conekta.io/tokens",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
-            CURLOPT_HTTPHEADER => [
-                "Accept: application/vnd.conekta-v2.0.0+json",
-                "Authorization: Basic ".base64_encode(env('APP_PAGOS_KEY_S')),
-                "Content-Type: application/json"
-            ],
-        ]);
+        $dataCard = [];
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
+        if($customer->conekta_id){
+            $res4 = Conekta_client::getClient($customer->conekta_id);
+            $dataCard['marca_tarjeta'] = $res4->payment_sources[0]->brand;
+            $dataCard['tarjeta_numeros'] = $res4->payment_sources[0]->last4;
+            $dataCard['id_tarjeta'] = $res4->payment_sources[0]->id;
+        }
+            
+            $curl = curl_init();
+            curl_setopt_array($curl, [
+                CURLOPT_URL => "https://api.conekta.io/tokens",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
+                CURLOPT_HTTPHEADER => [
+                    "Accept: application/vnd.conekta-v2.0.0+json",
+                    "Authorization: Basic ".base64_encode(env('APP_PAGOS_KEY_S')),
+                    "Content-Type: application/json"
+                ],
+            ]);
+    
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+    
+            curl_close($curl);
+        
 
         if ($err) {
         echo "cURL Error #:" . $err;
         return view('pages.compra', ["status"=>400,"paquete" => $paquete, "customer" => $customer]);
         } else {
             $resp = json_decode($response);
-            return view('pages.compra', ["status"=>200,"paquete" => $paquete, "customer" => $customer,"token"=>$resp->checkout->id,"pkey"=>$resp->checkout->name]);
+            return view('pages.compra', [
+                "status"=>200,
+                "paquete" => $paquete,
+                "customer" => $customer,
+                "token"=>$resp->checkout->id,
+                "pkey"=>$resp->checkout->name,
+                "dataCard" => $dataCard
+            ]);
         }
                 
 

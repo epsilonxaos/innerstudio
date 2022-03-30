@@ -512,8 +512,60 @@ class PurchaseController extends Controller
     }
 
     public function compra_update_data_conekta(Request $request){
+        Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
+        Conekta::setApiVersion('2.0.0');
+        Conekta::setLocale('es');
+        
         $today = date('Y-m-d H:i:s');
-        Customer::where('id_customer', $request -> id_customer) -> update([
+        $client = Customer::where('id_customer', Auth() -> User() -> id_customer)->first();
+        $success_customer = false;
+
+        if($client->conekta_id){
+            $customerConekta =  Conektacustomer::find($client->conekta_id); //ubicamos al cliente
+            if($request->new_Card && $request -> token){
+                try {
+                    $antigua_tarjeta = $customerConekta->payment_sources[0]->id; //id de la tarjeta antigua
+                    $source = $customerConekta->createPaymentSource(['token_id' => $request -> token,'type' => 'card']); // creamos la tarjeta nueva
+                    $customerConekta->update(['default_payment_source_id' => $source -> id]);// configuramos la nueva tarjeta default
+                    $customerConekta->deletePaymentSourceById($antigua_tarjeta); // eliminamos la anterior tarjeta
+                } catch (ProcessingError $error) {
+                    $er = $error->getMessage(); 
+                } catch (ParameterValidationError $error) {
+                    $er = $error->getMessage();
+                } catch (Handler $error) {
+                    $er = $error->getMessage();
+                }
+            }
+            $success_customer = true;
+        }else{
+            try {
+                $customerConekta = ConektaCustomer::create(
+                    array(
+                        "name" => $request -> nombre.' '.$request -> apellidos,
+                        "email" => $client -> email,
+                        "phone" => $request -> celular,
+                        "payment_sources" => [
+                            [
+                                "type" => "card",
+                                "token_id" => $request -> token
+                            ]
+                        ]
+                    )//customer
+                );
+
+                $success_customer = true;
+            } catch (ProcessingError $error) {
+                $er = $error->getMessage(); 
+            } catch (ParameterValidationError $error) {
+                $er = $error->getMessage();
+            } catch (Handler $error) {
+                $er = $error->getMessage();
+            }
+
+        }
+        
+
+        $client -> update([
             'name' => $request -> nombre,
             'lastname' => $request -> apellidos,
             'phone' => $request -> celular,
@@ -524,6 +576,7 @@ class PurchaseController extends Controller
             'country' => $request -> pais,
             'zip' => $request -> cp,
             'status' => 1,
+            'conekta_id'=>$customerConekta->id
         ]);
 
         if(self::validatePackage($request -> id_package, $request -> id_customer)){
@@ -543,7 +596,6 @@ class PurchaseController extends Controller
 
             //si la compra se crea el purchase data
             if($purchase -> id_purchase){
-                $client = Customer::where('id_customer', $request -> id_customer)->first();
 
                 PurchaseData::create([
                     'id_purchase' => $purchase -> id_purchase,
@@ -557,40 +609,10 @@ class PurchaseController extends Controller
                     'cupon_value' => $request -> cupon_discount
                 ]);
                 
-                Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
-                Conekta::setApiVersion('2.0.0');
-                Conekta::setLocale('es');
-                
-                $success_customer = false;
+               
+                 
 
-                // Creamos el pago y decimos que esta en proceso
-
-                try {
-                    $customerConekta = ConektaCustomer::create(
-                        array(
-                            "name" => $request -> nombre.' '.$request -> apellidos,
-                            "email" => $client -> email,
-                            "phone" => $request -> celular,
-                            "payment_sources" => [
-                                [
-                                    "type" => "card",
-                                    "token_id" => $request -> token
-                                ]
-                            ]
-                        )//customer
-                    );
-
-                    $success_customer = true;
-                } catch (ProcessingError $error) {
-                    $er = $error->getMesage();
-                } catch (ParameterValidationError $error) {
-                    $er = $error->getMessage();
-                } catch (Handler $error) {
-                    $er = $error->getMessage();
-                }
-
-                if($success_customer)
-                {
+                if($success_customer){
                     $success = false;
 
                     try {
