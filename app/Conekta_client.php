@@ -35,14 +35,14 @@ class Conekta_client
         try {
 
             $info = Customer::create($data);
-    } catch (ProcessingError $error) {
-        $er ='Error: ' . $error->getMessage();
-    } catch (ParameterValidationError $error) {
-        $er = 'Error: ' . $error->getMessage();
-    } catch (Handler $error) {
-        $er = 'Error: ' . $error->getMessage();
-    }
-    return isset($info)? $info : $er;
+        } catch (ProcessingError $error) {
+            $er ='Error: ' . $error->getMessage();
+        } catch (ParameterValidationError $error) {
+            $er = 'Error: ' . $error->getMessage();
+        } catch (Handler $error) {
+            $er = 'Error: ' . $error->getMessage();
+        }
+        return isset($info)? $info : $er;
     }
     public function capturaOrden(String $id)
     {
@@ -51,4 +51,21 @@ class Conekta_client
 
         return $order;
     }
+    public static function getClient($id)
+    {
+        Conekta::setApiVersion("2.0.0");
+        Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
+        try {
+
+            $info = Customer::find($id);
+        } catch (ProcessingError $error) {
+            $er ='Error: ' . $error->getMessage();
+        } catch (ParameterValidationError $error) {
+            $er = 'Error: ' . $error->getMessage();
+        } catch (Handler $error) {
+            $er = 'Error: ' . $error->getMessage();
+        }
+        return isset($info)? $info : $er;
+        }
+   
 }

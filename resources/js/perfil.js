@@ -33,9 +33,15 @@ document.querySelectorAll('.toggle-change').forEach(item=> {
 });
 
 if(document.querySelector('.btn-cancel-reservacion')){
+
+
+
+
     document.querySelectorAll('.btn-cancel-reservacion').forEach(item => {
         item.addEventListener('click', function () {
+            console.log(this.dataset)
             document.querySelector('#formCancelReservacion [name="id_reservacion"]').value = this.dataset.reservacion;
+            if(this.dataset.cancelacion == 1) document.querySelector('#MensajeCancelReservacion').innerHTML = "El tiempo de reservacion ah pasado por lo tanto ah perdido la clase";
         })
     });
 }

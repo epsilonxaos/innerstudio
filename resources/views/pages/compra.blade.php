@@ -80,9 +80,22 @@
                             </div>
                             <div class="col-12 col-md-12">
                             @if (env('APP_PAGOS') == 'CONEKTA')
-                            <div id="conektaIframeContainer" style="height: 568px;" class="row">
-                    
-                            </div>
+
+                                
+                                @if($id_tarjeta)
+                                    <input type="checkbox" id="new_Card" name="new_Card" >
+                                    <label for="new_Card">Quieres usar una nueva tarjeta?</label>
+                                    <input type="hidden" value="{{$id_tarjeta}}"/>
+                                    @if($marca_tarjeta == "visa")
+                                    <div class="blue">
+                                    @else
+                                    <div class="red">
+                                    @endif
+                                        <p>**** **** **** {{$tarjeta_numeros }}</p>
+                                        
+                                    </div>
+                                @endif
+                                <div id="conektaIframeContainer" style="height: 568px;" class="row"></div>
                             @else
                                 <div class="row">
                                     <div class="col-12"><input type="text" name="numeroTarjeta" id="numeroTarjeta" placeholder="Número de tarjeta" value="" required mask-tarjeta></div>
@@ -102,6 +115,7 @@
                                             <option value="12">12 Dic</option>
                                         </select>
                                     </div>
+                                </div>
                                     <div class="col-12 col-md-6">
                                         <select name="anyoExpiracion" id="anyoExpiracion" required>
                                             <option value="19">2019</option>
@@ -141,11 +155,10 @@
                                 <button class="btn btn-main do-pay" type="submit" >Comprar</button>
                                 <!--<button class="btn btn-main do-pay" type="submit" id="do-pay">Comprar</button>-->
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
     </section>
 @endsection
 
