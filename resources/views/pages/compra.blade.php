@@ -13,7 +13,7 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-12 col-lg-3 col-xl-3 info-paquete text-center">
                     <h5>Paquete</h5>
-                    <p class="m30">{{number_format($paquete -> no_class)}} {{$paquete -> title}}</p>
+                    <p class="m30">{{$paquete -> title}}</p>
                     <h5>Precio</h5>
                     <p class="m30">
                         ${{number_format($paquete -> price)}} MXN
