@@ -45,14 +45,13 @@ class FrontController extends Controller
         $paquete = Package::where("id_package", $id)-> first();
         $customer = self::getDataCustomer(Auth() -> User() -> id_customer);
 
+        $dataCard = [];
+
         if($customer->conekta_id){
-
             $res4 = Conekta_client::getClient($customer->conekta_id);
-            $marca_tarjeta = $res4->payment_sources[0]->brand;
-            $tarjeta_numeros = $res4->payment_sources[0]->last4;
-            $id_tarjeta = $res4->payment_sources[0]->id;
-
-
+            $dataCard['marca_tarjeta'] = $res4->payment_sources[0]->brand;
+            $dataCard['tarjeta_numeros'] = $res4->payment_sources[0]->last4;
+            $dataCard['id_tarjeta'] = $res4->payment_sources[0]->id;
         }
             
             $curl = curl_init();
@@ -84,13 +83,12 @@ class FrontController extends Controller
         } else {
             $resp = json_decode($response);
             return view('pages.compra', [
-                "status"=>200,"paquete" => $paquete,
+                "status"=>200,
+                "paquete" => $paquete,
                 "customer" => $customer,
                 "token"=>$resp->checkout->id,
                 "pkey"=>$resp->checkout->name,
-                "marca_tarjeta"=>$marca_tarjeta,
-                "tarjeta_numeros"=>$tarjeta_numeros,
-                "id_tarjeta"=>$id_tarjeta
+                "dataCard" => $dataCard
             ]);
         }
                 

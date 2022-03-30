@@ -4,6 +4,7 @@
 @push('style')
     {{-- Aqui van estilos de esta vista --}}
     <link rel="stylesheet" href="{{asset('css/comprar.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/card.css')}}">
 @endpush
 
 @section('contenido')
@@ -82,20 +83,23 @@
                             @if (env('APP_PAGOS') == 'CONEKTA')
 
                                 
-                                @if($id_tarjeta)
-                                    <input type="checkbox" id="new_Card" name="new_Card" >
-                                    <label for="new_Card">Quieres usar una nueva tarjeta?</label>
-                                    <input type="hidden" value="{{$id_tarjeta}}"/>
-                                    @if($marca_tarjeta == "visa")
-                                    <div class="blue">
-                                    @else
-                                    <div class="red">
-                                    @endif
-                                        <p>**** **** **** {{$tarjeta_numeros }}</p>
-                                        
+                                @if(count($dataCard) > 0)
+
+                                    @include('pages.components.card-info')
+
+                                    <div class="checkbox-terms m15">
+                                        <input type="checkbox" id="new_Card" name="new_Card" value="1" onclick="showIframe()">
+                                        <label for="new_Card"><span></span> Usar una nueva tarjeta</label>
                                     </div>
+                                    
+                                    <input type="hidden" value="{{$dataCard['id_tarjeta']}}"/>
+                                    
+                                    <div style="display: none" id="iframeAdd">
+                                        <div id="conektaIframeContainer" style="height: 568px;" class="row"></div>
+                                    </div>
+                                @else
+                                    <div id="conektaIframeContainer" style="height: 568px;" class="row"></div>
                                 @endif
-                                <div id="conektaIframeContainer" style="height: 568px;" class="row"></div>
                             @else
                                 <div class="row">
                                     <div class="col-12"><input type="text" name="numeroTarjeta" id="numeroTarjeta" placeholder="Número de tarjeta" value="" required mask-tarjeta></div>
@@ -219,6 +223,21 @@
     }
 
     showForm('{{$token}}','{{env("APP_PAGOS_KEY_P")}}')
+
+
+    function showIframe() {
+        // Get the checkbox
+        var checkBox = document.getElementById("new_Card");
+        // Get the output text
+        var text = document.getElementById("iframeAdd");
+
+        // If the checkbox is checked, display the output text
+        if (checkBox.checked == true){
+            text.style.display = "block";
+        } else {
+            text.style.display = "none";
+        }
+    }
 </script>
     {{-- Aqui van los scripts para esta vista     --}}
     @if(env('APP_PAGOS') != 'CONEKTA')
