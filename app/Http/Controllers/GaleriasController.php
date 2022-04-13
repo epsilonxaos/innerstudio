@@ -68,6 +68,7 @@ class GaleriasController extends Controller
         $add = new Galerias();
         $add -> cover = $cover;
         $add -> title = $request -> title;
+        $add -> seccion = $request -> seccion;
         $add -> save();
 
         return redirect() -> back() -> with('message', 'Slide guardado correctamente!');
@@ -116,6 +117,7 @@ class GaleriasController extends Controller
         }
 
         $add -> title = $request -> title;
+        $add -> seccion = $request -> seccion;
         $add -> save();
 
         return redirect() -> back() -> with('message', 'Slide actualizado correctamente!');

@@ -17,7 +17,9 @@ class Mailq extends Model
     }
     
     public static function getClientOnq($id){
-        return self::select('customer.email') -> join('customer','mailq.id_user','=','customer.id_customer')->get();
+        return self::select('customer.email') -> join('customer','mailq.id_user','=','customer.id_customer')
+            -> where('mailq.id_class', $id)    
+            -> get();
     }
 
     public static function validCustomerList($customer_id, $lesson_id)

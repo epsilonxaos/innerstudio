@@ -394,6 +394,7 @@ class FrontController extends Controller
 
     public function ReservationDestroy(Request $request)
     {
+
         $id = $request -> id_reservacion;
         $res = Reservation::where('id_customer', Auth::user() -> id_customer)
             ->join('_mat_per_class','_mat_per_class.id_mat_per_class','=','reservation.id_mat_per_class')
@@ -422,8 +423,9 @@ class FrontController extends Controller
             $data = Reservation::where('id_reservation', $id)
             ->join('_mat_per_class','_mat_per_class.id_mat_per_class','=','reservation.id_mat_per_class')
             ->join("lesson", "lesson.id_lesson", "=", "_mat_per_class.id_class")
-            -> get();
-            $clientes = Mailq::getClientOnq($data[0]->id_lesson);
+            -> first();
+            
+            $clientes = Mailq::getClientOnq($data -> id_lesson);
             // dd($clientes -> toArray());
             if(count($clientes) > 0) {
                 $mails = array();
@@ -433,13 +435,13 @@ class FrontController extends Controller
                 }
 
                 try {
-                    Mail::send('emails.message_mailq', ['lessonUrl' => env('APP_URL')."/reservar/clase/detalle/".$data[0]->id_lesson], function ($message) use ($mails) {
+                    Mail::send('emails.message_mailq', ['lessonUrl' => env('APP_URL')."/reservar/clase/detalle/".$data->id_lesson], function ($message) use ($mails) {
                         $message->to($mails)->subject('InnerStudio - Espacio disponible en clase!'); 
                     });
                 } catch (\Throwable $th) {}
     
             }
-            SendMailJob::dispatch("cancelacion_usuario", Auth::user() -> id_customer, $id) ->delay(now()->addMinutes(1));
+            // SendMailJob::dispatch("cancelacion_usuario", Auth::user() -> id_customer, $id) ->delay(now()->addMinutes(1));
             return back();
         }
     }
