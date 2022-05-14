@@ -33,17 +33,4 @@ class Mailq extends Model
         return ($exist > 0) ? false : true;
     }
 
-    public static function validCustomerOnLesson($idCustomer, $idLesson) {
-        $result = Reservation::select('reservation.id')
-            -> join('customer', 'reservation.id_customer', '=', 'customer.id_customer')
-            -> join('_mat_per_class', 'reservation.id_customer', '=', '_mat_per_class.id_mat_per_class')
-            -> where([
-                ['reservation.id_customer', '=', $idCustomer],
-                ['_mat_per_class.id_class', '=', $idLesson]
-            ])
-            -> count();
-
-        return $result;
-    }
-
 }

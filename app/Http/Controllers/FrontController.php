@@ -247,7 +247,7 @@ class FrontController extends Controller
                 -> count();
         }
 
-        dd(Mailq::validCustomerOnLesson(Auth::user() -> id_customer, $id));
+        dd($this -> validCustomerOnLesson(Auth::user() -> id_customer, $id));
 
         // dd(
         //     $customerInLesson,
@@ -257,6 +257,20 @@ class FrontController extends Controller
 
         return view('pages.reservacion-detalle',['data'=>$params,'mats'=>$mats, 'mats_disabled' => $mats_disabled, 'class'=>$id,"paquetes"=>$paquetes,"click"=>$saltedeaqui, "matActives" => $matActives, 'customerInLesson' => $customerInLesson]);
     }
+
+    public static function validCustomerOnLesson($idCustomer, $idLesson) {
+        $result = Reservation::select('reservation.id')
+            -> join('customer', 'reservation.id_customer', '=', 'customer.id_customer')
+            -> join('_mat_per_class', 'reservation.id_customer', '=', '_mat_per_class.id_mat_per_class')
+            -> where([
+                ['reservation.id_customer', '=', $idCustomer],
+                ['_mat_per_class.id_class', '=', $idLesson]
+            ])
+            -> count();
+
+        return $result;
+    }
+
     public function team_view(){
         $paquetes = self::getClases();
         $team = self::getTeam();
