@@ -58,7 +58,7 @@
                     <div class="col-12 text-center">
                         <h5>{{$data[0]->name}}</h5>
 
-                        @if ($customerInLesson > 0)
+                        @if ($customerInLesson == 0)
                             @if(
                                 (App\Lesson::isfull($class) >= $matActives)
                                  && 
