@@ -20,6 +20,7 @@ class Customer extends Model
         'state',
         'country',
         'zip',
-        'status'
+        'status',
+        'conekta_id'
     ];
 }

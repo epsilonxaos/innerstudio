@@ -17,6 +17,16 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Conekta_client;
 
+use Conekta\Charge;
+use Conekta\Conekta;
+use Conekta\Customer as ConektaCustomer;
+use Conekta\Handler;
+use Conekta\Order;
+use Conekta\ParameterValidationError;
+use Conekta\ProcessingError;
+
+
+
 
 
 class PurchaseController extends Controller
@@ -160,8 +170,8 @@ class PurchaseController extends Controller
                         }
                     }
                 }
-                SendMailJob::dispatch("compra", $purchase -> id_customer, $purchase -> id_purchase) ->delay(now()->addMinutes(1));
-                SendMailJob::dispatch("compra_staff", "", "") ->delay(now()->addMinutes(1));
+                #SendMailJob::dispatch("compra", $purchase -> id_customer, $purchase -> id_purchase) ->delay(now()->addMinutes(1));
+                #SendMailJob::dispatch("compra_staff", "", "") ->delay(now()->addMinutes(1));
                 return redirect()
                     -> back()
                     -> with('message', 'Se ha creado la venta correctamente');
@@ -381,9 +391,11 @@ class PurchaseController extends Controller
         }
     }
 
-    public function compra_update_data_conekta(Request $request){
-        /*
-        $updateCustomer = Customer::where('id_customer', $request -> id_customer) -> update([
+    public function compra_data_conekta(Request $request){
+        $today = date('Y-m-d H:i:s');
+        $package = Package::where('id_package', $request -> id_package) -> first();
+        $duration = $package -> duration;
+        $Client = Customer::where('id_customer', $request -> id_customer) -> update([
             'name' => $request -> nombre,
             'lastname' => $request -> apellidos,
             'phone' => $request -> celular,
@@ -395,40 +407,315 @@ class PurchaseController extends Controller
             'zip' => $request -> cp,
             'status' => 1,
         ]);
-        */
+        $Client = Customer::where('id_customer', $request -> id_customer)->first();
+        if(self::validatePackage($request -> id_package, $request -> id_customer)){
+            $purchase = Purchase::create([
+                'id_customer' => $request -> id_customer,
+                'id_package' => $request -> id_package,
+                'price' => $package -> price,
+                'no_class' => $package -> no_class,
+                'duration' => $duration,
+                'status' => 1,
+                'discount' => $request -> discount,
+                'date_expirate' => date('Y-m-d H:i:s', strtotime($today.' +'.$duration.' days')),
+                'method_pay' => "conekta",
+                'discount' => $request -> discount
+            ]);
+            PurchaseData::create([
+                'id_purchase' => $purchase -> id_purchase,
+                'name' => $Client -> name,
+                'lastname' => $Client -> lastname,
+                'phone' => $Client -> phone,
+                'email' => $Client -> email,
+                'address' => $Client -> address,
+                'cupon_name' => $request -> cupon,
+                'cupon_type' => $request -> cupon_type,
+                'cupon_value' => $request -> cupon_discount
+            ]);
+        }else{
+            return redirect() -> back() -> with('error', 'Error en algo');
+        }
+        $conekta = new Conekta_client();
 
-        $client = Customer::where('id_customer', $request -> id_customer)->first();
-        $c = new Conekta_client();
-        $order = $c->newOrder([
+        $customer_k = $conekta->newClient(
+            array(
+                "name" => $request -> nombre.' '.$request -> apellidos,
+                "email" => $Client -> email,
+                "phone" => $request -> celular,
+                "payment_sources" => [
+                    [
+                        "type" => "card",
+                        "token_id" => $request -> token
+                    ]
+                ]
+            )
+        );
+       
+
+        if($request -> discond > 0)
+        {
+            $info_descuento = Array(
+                array(
+                    "code" => $request -> cupon,
+                    "type" => "coupon",
+                    "amount" => $request -> cupon_discount
+                )
+            );
+        }else{
+            $info_descuento = [];
+        }
+
+        $order = $conekta->newOrder([
             'currency' => 'mxn',
             'line_items'=> [
                 [
                     'id'=> $request ->id_package,
-                    'name'        => 'pack of class',
+                    'name'        => 'Paquete de clases',
                     'unit_price'  => $request ->monto*100,
                     'quantity'    => 1,
                 ]
             ],
+            'discount_lines'=>$info_descuento,
             'charges'  => [
                 [
-                    'payment_method' => [
-                        'type'       => 'card',
-                        'token_id'=>  $request ->token
+                    "payment_method" => [
+                        "type" => "default",
                     ],
                     'amount' => $request ->monto*100,
                 ]
             ],
             'customer_info' => [
-                'name'=>$request -> nombre.' '.$request -> apellidos,
-                'email'=>$client -> email,
-                'phone'=>$request -> celular,
+                "customer_id" => $customer_k -> id
             ]
         ]);
-        dd($order);
-        return redirect()->route('profile');
-      
+        if(isset($order) && $order->payment_status == "paid"){
+            $purchase -> status = 3;
+            $free = false;
+            if($request -> discount > 0 && $request -> total == 0 && $request -> cupon != ''){ //Detectamos si existe algun descuento
+                    if(Cupon::where('title',$request -> cupon) -> exists() ){ //Verificamos que exista ese cupon
+                            $purchase -> method_pay = 'gratis';
+                            $cupon = Cupon::where('title', $request -> cupon)->first(); //Obtenemos el registro del cupon con el titulo
+                            $cupon -> uses = $cupon -> uses + 1; //Amentamos el uso del cupon
+                            $cupon -> save(); //Guardamos ese aumento
+                            $free = true;
+                        }
+                    }
+                    //mails
+                    // SendMailJob::dispatch("compra", $purchase -> id_customer, $purchase -> id_purchase) ->delay(now()->addMinutes(1));
+                    // SendMailJob::dispatch("compra_staff", "", "") ->delay(now()->addMinutes(1));
+            $purchase -> save();
+            return redirect() -> route('completado', ['free' => $free, 'success' => true, 'error' => '']);
+
+        }
+
+        return redirect() -> route('completado', ['free' => false, 'success' => false, 'error' => $order]);      
     }
 
+    public function compra_update_data_conekta(Request $request){
+        Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
+        Conekta::setApiVersion('2.0.0');
+        Conekta::setLocale('es');
+        
+        $today = date('Y-m-d H:i:s');
+        $client = Customer::where('id_customer', Auth() -> User() -> id_customer)->first();
+        $success_customer = false;
+
+        if($client->conekta_id){
+            $customerConekta =  Conektacustomer::find($client->conekta_id); //ubicamos al cliente
+            if($request->new_Card && $request -> token){
+                try {
+                    $antigua_tarjeta = $customerConekta->payment_sources[0]->id; //id de la tarjeta antigua
+                    $source = $customerConekta->createPaymentSource(['token_id' => $request -> token,'type' => 'card']); // creamos la tarjeta nueva
+                    $customerConekta->update(['default_payment_source_id' => $source -> id]);// configuramos la nueva tarjeta default
+                    $customerConekta->deletePaymentSourceById($antigua_tarjeta); // eliminamos la anterior tarjeta
+                } catch (ProcessingError $error) {
+                    $er = $error->getMessage(); 
+                } catch (ParameterValidationError $error) {
+                    $er = $error->getMessage();
+                } catch (Handler $error) {
+                    $er = $error->getMessage();
+                }
+            }
+            $success_customer = true;
+        }else{
+            try {
+                $customerConekta = ConektaCustomer::create(
+                    array(
+                        "name" => $request -> nombre.' '.$request -> apellidos,
+                        "email" => $client -> email,
+                        "phone" => $request -> celular,
+                        "payment_sources" => [
+                            [
+                                "type" => "card",
+                                "token_id" => $request -> token
+                            ]
+                        ]
+                    )//customer
+                );
+
+                $success_customer = true;
+            } catch (ProcessingError $error) {
+                $er = $error->getMessage(); 
+            } catch (ParameterValidationError $error) {
+                $er = $error->getMessage();
+            } catch (Handler $error) {
+                $er = $error->getMessage();
+            }
+
+        }
+        
+
+        $client -> update([
+            'name' => $request -> nombre,
+            'lastname' => $request -> apellidos,
+            'phone' => $request -> celular,
+            'address' => $request -> calleyNumero,
+            'colony' => $request -> colonia,
+            'city' => $request -> municipio,
+            'state' => $request -> estado,
+            'country' => $request -> pais,
+            'zip' => $request -> cp,
+            'status' => 1,
+            'conekta_id'=>$customerConekta->id
+        ]);
+
+        if(self::validatePackage($request -> id_package, $request -> id_customer)){
+            $package = Package::where('id_package', $request -> id_package) -> first();
+            $duration = $package -> duration;
+            $purchase = Purchase::create([
+                'id_customer' => $request -> id_customer,
+                'id_package' => $request -> id_package,
+                'price' => $package -> price,
+                'no_class' => $package -> no_class,
+                'duration' => $duration,
+                'status' => 1,
+                'date_expirate' => date('Y-m-d H:i:s', strtotime($today.' +'.$duration.' days')),
+                'method_pay' => "conekta",
+                'discount' => $request -> discount
+            ]);
+
+            //si la compra se crea el purchase data
+            if($purchase -> id_purchase){
+
+                PurchaseData::create([
+                    'id_purchase' => $purchase -> id_purchase,
+                    'name' => $client -> name,
+                    'lastname' => $client -> lastname,
+                    'phone' => $client -> phone,
+                    'email' => $client -> email,
+                    'address' => $client -> address,
+                    'cupon_name' => $request -> cupon,
+                    'cupon_type' => $request -> cupon_type,
+                    'cupon_value' => $request -> cupon_discount
+                ]);
+                
+               
+                 
+
+                if($success_customer){
+                    $success = false;
+
+                    try {
+                        $preOrder = array(
+                            "line_items" => array(
+                                array(
+                                    "name" => 'Paquete de clases',
+                                    'unit_price' => $request -> monto * 100,
+                                    'quantity' => 1,
+                                )
+                            ),
+                            "currency" => 'MXN',
+                            "metadata" => array(
+                                "pago_id" => $purchase -> id_purchase
+                            ),
+                            "customer_info" => array(
+                                "customer_id" => $customerConekta -> id
+                            ),
+                            "charges" => array(
+                                array(
+                                    "payment_method" => array(
+                                        "type" => "default",
+                                    )
+                                )
+                            )
+                        );
+
+                        // if($request -> discond > 0)
+                        // {
+                        //     $preOrder['discount_lines'] = Array(
+                        //         array(
+                        //             "code" => $request -> cupon,
+                        //             "type" => "coupon",
+                        //             "amount" => $request -> cupon_discount
+                        //         )
+                        //     );
+                        // }
+
+                        $order = Order::create( $preOrder );
+
+                        $success = true;
+                    } catch (\Conekta\ProcessingError $error) {
+                        $error = 'Error 1: ' . $error->getMessage();
+                    } catch (\Conekta\ParameterValidationError $error) {
+                        $error = 'Error 2: ' . $error->getMessage();
+                    } catch (\Conekta\Handler $error) {
+                        $error = 'Error 3: ' . $error->getMessage();
+                    } catch (\Conekta\ResourceNotFoundError $error) {
+                        $error = 'Error 4: ' . $error->getMessage();
+                    }
+
+                    if($success)
+                    {
+                        $status = $order -> charges[0] -> status;
+                        $free = 2;
+                        switch ($status) {
+                            case 'paid':
+                                $purchase -> status = 2;
+                                if($request -> discount > 0){ //Detectamos si existe algun descuento
+                                    $total = $request -> total; //Calculamos el total a pagar aplicando el cupon
+                                    if($total == 0){ //Verificamos si el total es igual a 0
+                                        $purchase -> method_pay = 'gratis';
+                                        if($request -> cupon != ''){ //Detectamos que el titulo del cupon no venga vacio
+                                            if(Cupon::where('title',$request -> cupon) -> exists() ){ //Verificamos que exista ese cupon
+                                                $cupon = Cupon::where('title', $request -> cupon)->first(); //Obtenemos el registro del cupon con el titulo
+                                                $cupon -> uses = $cupon -> uses + 1; //Amentamos el uso del cupon
+                                                $cupon -> save(); //Guardamos ese aumento
+
+                                                $free = 1;
+                                                $purchase -> status = 3;
+                                            }
+                                        }
+                                        // SendMailJob::dispatch("compra", $purchase -> id_customer, $purchase -> id_purchase) ->delay(now()->addMinutes(1));
+                                        // SendMailJob::dispatch("compra_staff", "", "") ->delay(now()->addMinutes(1));
+                                    }
+                                }
+
+                                $purchase -> save();
+                                // dd($order);
+                                return redirect() -> route('completado', ['free' => $free, 'success' => 'complete']);
+                            default:
+                                return redirect() -> route('completado', ['free' => $free, 'success' => 'fail']) -> with('error', $error);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        $purchase -> status = 4;
+                        $purchase -> save();
+                        return redirect() -> route('completado') -> with('error', $error);
+                    }
+                }
+                else 
+                {
+                    return redirect() -> route('completado') -> with('error', $er);
+                }
+            }
+        }
+
+        return redirect() -> route('completado') -> with('error', 'Desconocido');
+    }
+
+        
     public function compra_update_data(Request $request){
         $today = date('Y-m-d H:i:s');
         $updateCustomer = Customer::where('id_customer', $request -> id_customer) -> update([
@@ -558,6 +845,9 @@ class PurchaseController extends Controller
             break;
             case 'pagofacil':
                 return '<span class="badge light-blue darken-4"><i class="far fa-gem"></i> Pago Fácil</span>';
+            break;
+            case 'conekta':
+                return '<span class="badge light-blue darken-4"><i class="far fa-gem"></i> Conekta</span>';
             break;
             case 'gratis':
                 return '<span class="badge pink darken-1"><i class="fas fa-gift"></i> Gratis</span>';

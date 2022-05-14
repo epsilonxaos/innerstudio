@@ -50,6 +50,9 @@
                                     <a href="{{route('admin.cupon.list')}}">Cupones</a>
                                 </li>
                                 @endif
+                                <li class="{{ (request() -> is ('admin/gallery*') ? 'active' : '') }}" data-menu="">
+                                    <a href="{{route('admin.gallery.list')}}">Galerias</a>
+                                </li>
                                 @if(Auth::user()->checkPermiso("ver_paquetes"))
                                 <li class="{{( request() -> is ('admin/paquetes*') ) ? 'active' : ''}}" data-menu="">
                                     <a href="{{route('admin.package.list')}}"><span>Paquetes</span></a>

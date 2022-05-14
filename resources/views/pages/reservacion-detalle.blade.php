@@ -57,6 +57,39 @@
                 <div class="row">
                     <div class="col-12 text-center">
                         <h5>{{$data[0]->name}}</h5>
+
+                        @if (!$customerInLesson > 0)
+                            @if((App\Lesson::isfull($class) >= $matActives) && (Auth::id()) && (App\Mailq::isfull($class)))
+                                <div class="text-center">
+                                    <a href="{{ route('front.reservar.q',["id_lesson"  => $class]) }}" class="btn btn-main m15 mw" style="padding-top: 0.375rem; padding-bottom: 0.375rem">
+                                        Lista de espera
+                                    </a>
+                                </div>
+                            @endif
+                        @endif
+
+
+
+                        @if (Session::has('success'))
+                            <p style="background-color: #10a510;
+                            color: white;
+                            padding: 3px 15px;
+                            border-radius: 3px;
+                            width: max-content;
+                            margin: auto;
+                            margin-bottom: 20px;
+                            box-shadow: 0 0 4px 0 rgb(0 0 0 / 29%);">{{Session::get('success')}}</p>
+                        @endif
+                        @if (Session::has('error'))
+                            <p style="background-color: crimson;
+                            color: white;
+                            padding: 3px 15px;
+                            border-radius: 3px;
+                            width: max-content;
+                            margin: auto;
+                            margin-bottom: 20px;
+                            box-shadow: 0 0 4px 0 rgb(0 0 0 / 29%);">{{Session::get('error')}}</p>
+                        @endif
                         {{-- @include('pages.components.plantilla-tapetes') --}}
                         @include('pages.components.plantilla-tapetes-covid')
                     </div>

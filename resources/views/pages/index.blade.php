@@ -15,18 +15,26 @@
                {{-- <div class="swiper-slide">
                    <a target="_blank" href="https://home.innerstudio.mx/" ><div class="bg" style="background-image: url({{asset('images/slider/6.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div></a>
                 </div>--}}
-                <div class="swiper-slide">
-                    <div class="bg" style="background-image: url({{asset('images/slider/5.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="bg" style="background-image: url({{asset('images/slider/2.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="bg" style="background-image: url({{asset('images/slider/3.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="bg" style="background-image: url({{asset('images/slider/4.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
-                </div>
+                @if(count($front) > 0)
+                    @foreach ($front as $slides)
+                        <div class="swiper-slide">
+                            <div class="bg" style="background-image: url({{asset($slides->cover)}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="swiper-slide">
+                        <div class="bg" style="background-image: url({{asset('images/slider/5.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="bg" style="background-image: url({{asset('images/slider/2.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="bg" style="background-image: url({{asset('images/slider/3.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="bg" style="background-image: url({{asset('images/slider/4.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
+                    </div>
+                @endif
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -98,6 +106,13 @@
         <div class="container">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
+                @if(count($foo) > 0)
+                    @foreach ($foo as $slides)
+                    <div class="swiper-slide">
+                        <div class="bg" style="background-image: url({{asset($slides->cover)}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
+                    </div>
+                    @endforeach
+                @else
                     <div class="swiper-slide">
                         <div class="bg" style="background-image: url({{asset('images/galeria/1.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
                     </div>
@@ -110,6 +125,7 @@
                     <div class="swiper-slide">
                         <div class="bg" style="background-image: url({{asset('images/galeria/4.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
                     </div>
+                @endif
                     {{-- <div class="swiper-slide">
                         <div class="bg" style="background-image: url({{asset('images/galeria/5.jpg')}})"><img src="{{asset('images/blank-rect.png')}}" alt=""></div>
                     </div> --}}

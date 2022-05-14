@@ -17,19 +17,15 @@
 
 @section('contenido')
     <section class="paquetes text-center align-items-center justify-content-center">
-        @if(isset($response))
-            @if($response -> autorizado)
-                <h3 class="d-inline-block">¡MUCHAS GRACIAS POR <br> SU COMPRA! <br> <a href="{{route('front.reservar')}}" class="btn btn-main d-inline-block pt-2">Aceptar</a></h3>
-            @else
-                <h3 class="d-inline-block">:( <br> ¡HA OCURRIDO UN ERROR <br> INTENTELO MÁS TARDE!</h3>
-                <div class="row"></div>
-                <p> ERROR: {{isset($response -> texto) ? $response -> texto : 'Desconocido' }} <br> {{isset($response -> pf_message) ? $response -> pf_message : ''}} </p>
-                <a href="{{route('index')}}" class="btn btn-main d-inline-block pt-2">Regresar</a>
-            @endif
+        @if(isset($success))
+            <h3 class="d-inline-block">¡MUCHAS GRACIAS POR <br> SU COMPRA! <br> <a href="{{route('front.reservar')}}" class="btn btn-main d-inline-block pt-2">Aceptar</a></h3>
         @elseif(isset($free))
             <h3 class="d-inline-block">¡MUCHAS GRACIAS POR <br> SU COMPRA! <br> <a href="{{route('front.reservar')}}" class="btn btn-main d-inline-block pt-2">Aceptar</a></h3>
         @else
             <h3 class="d-inline-block">:( <br> ¡HA OCURRIDO UN ERROR <br> INTENTELO MÁS TARDE!</h3>
+            <div class="row"></div>
+            <p> {{$error }} <br> </p>
+            <a href="{{route('index')}}" class="btn btn-main d-inline-block pt-2">Regresar</a>
         @endif
     </section>
 @endsection
