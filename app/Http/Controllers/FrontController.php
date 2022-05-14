@@ -131,6 +131,7 @@ class FrontController extends Controller
             ->orderBy('reservation.created_at', 'DESC')
             ->get();
 
+        //dd($proximas_clases -> toArray());
         $clases_pasadas = Reservation::select("reservation.*", "mat.no_mat", "instructor.name", "lesson.start")
             ->join("_mat_per_class","_mat_per_class.id_mat_per_class","=","reservation.id_mat_per_class")
             ->join("lesson", "lesson.id_lesson", "=", "_mat_per_class.id_class")
@@ -152,7 +153,8 @@ class FrontController extends Controller
             // 'compensacion' => 0,
             'proximas_clases' => $proximas_clases,
             'clases_pasadas' => $clases_pasadas,
-            'compras' => $compras
+            'compras' => $compras,
+            'hoy' => $now
         ]);
     }
     public function reservacion_view($page = 0){
