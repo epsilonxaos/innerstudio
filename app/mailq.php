@@ -17,7 +17,8 @@ class Mailq extends Model
     }
     
     public static function getClientOnq($id){
-        return self::select('customer.email') -> join('customer','mailq.id_user','=','customer.id_customer')
+        return self::select('customer.email')
+            -> join('customer','mailq.id_user','=','customer.id_customer')
             -> where('mailq.id_class', $id)    
             -> get();
     }
@@ -30,6 +31,19 @@ class Mailq extends Model
         ]) -> count();
 
         return ($exist > 0) ? false : true;
+    }
+
+    public static function validCustomerOnLesson($idCustomer, $idLesson) {
+        $result = Reservation::select('reservation.id')
+            -> join('customer', 'reservation.id_customer', '=', 'customer.id_customer')
+            -> join('_mat_per_class', 'reservation.id_customer', '=', '_mat_per_class.id_mat_per_class')
+            -> where([
+                ['reservation.id_customer', '=', $idCustomer],
+                ['_mat_per_class.id_class', '=', $idLesson]
+            ])
+            -> count();
+
+        return $result;
     }
 
 }

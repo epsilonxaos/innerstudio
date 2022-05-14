@@ -247,6 +247,8 @@ class FrontController extends Controller
                 -> count();
         }
 
+        dd(Mailq::validCustomerOnLesson(Auth::user() -> id_customer, $id));
+
         // dd(
         //     $customerInLesson,
         //     Lesson::isfull($id),
