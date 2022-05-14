@@ -247,6 +247,11 @@ class FrontController extends Controller
                 -> count();
         }
 
+        // dd(
+        //     $customerInLesson,
+        //     Lesson::isfull($id),
+        //     Mailq::isfull($id)
+        // );
 
         return view('pages.reservacion-detalle',['data'=>$params,'mats'=>$mats, 'mats_disabled' => $mats_disabled, 'class'=>$id,"paquetes"=>$paquetes,"click"=>$saltedeaqui, "matActives" => $matActives, 'customerInLesson' => $customerInLesson]);
     }
