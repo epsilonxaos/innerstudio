@@ -18,7 +18,11 @@
 @section('contenido')
     <section class="paquetes text-center align-items-center justify-content-center">
         @if(isset($success))
-            <h3 class="d-inline-block">¡MUCHAS GRACIAS POR <br> SU COMPRA! <br> <a href="{{route('front.reservar')}}" class="btn btn-main d-inline-block pt-2">Aceptar</a></h3>
+            <div >
+                <h3 class="d-inline-block">¡MUCHAS GRACIAS POR <br> SU COMPRA!</h3>
+                <p style="max-width: 650px;" class="mx-auto">Estamos procesando tu compra, en un breve momento se vera reflejado tu compra!</p>
+                <a href="{{route('front.reservar')}}" class="btn btn-main d-inline-block pt-2">Aceptar</a>
+            </div>
         @elseif(isset($free))
             <h3 class="d-inline-block">¡MUCHAS GRACIAS POR <br> SU COMPRA! <br> <a href="{{route('front.reservar')}}" class="btn btn-main d-inline-block pt-2">Aceptar</a></h3>
         @else
