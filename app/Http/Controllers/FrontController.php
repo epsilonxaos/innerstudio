@@ -236,13 +236,16 @@ class FrontController extends Controller
 
         $matActives = mat::where('status', '=', 1)->count();
 
-        $customerInLesson = Reservation::select('reservation.id_mat_per_class')
-            -> join('_mat_per_class', 'reservation.id_mat_per_class', '=', '_mat_per_class.id_mat_per_class')
-            -> where([
-                ['reservation.id_customer', '=', Auth::user() -> id_customer],
-                ['_mat_per_class.id_class', '=', $id]
-            ])
-            -> count();
+        $customerInLesson = [];
+        if(Auth::check()) {
+            $customerInLesson = Reservation::select('reservation.id_mat_per_class')
+                -> join('_mat_per_class', 'reservation.id_mat_per_class', '=', '_mat_per_class.id_mat_per_class')
+                -> where([
+                    ['reservation.id_customer', '=', Auth::user() -> id_customer],
+                    ['_mat_per_class.id_class', '=', $id]
+                ])
+                -> count();
+        }
 
 
         return view('pages.reservacion-detalle',['data'=>$params,'mats'=>$mats, 'mats_disabled' => $mats_disabled, 'class'=>$id,"paquetes"=>$paquetes,"click"=>$saltedeaqui, "matActives" => $matActives, 'customerInLesson' => $customerInLesson]);
