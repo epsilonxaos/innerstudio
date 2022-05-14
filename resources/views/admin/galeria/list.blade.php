@@ -36,13 +36,13 @@
         <div class="row">
             <div class="col s12">
                 <div class="container">
-                    @if(Auth::user()->checkPermiso("cre_galeria"))
-                    <!-- Add new contact popup -->
                     <div style="bottom: 54px; right: 19px;" class="fixed-action-btn direction-top">
                         <a class="btn-floating btn-large primary-text gradient-shadow modal-trigger" href="{{route('admin.gallery.create')}}">
                             <i class="material-icons">person_add</i>
                         </a>
                     </div>
+                    @if(Auth::user()->checkPermiso("cre_galeria"))
+                    <!-- Add new contact popup -->
                      @endif
                     
                     <!-- Content Area Starts -->
