@@ -20,7 +20,7 @@
         @if(isset($success))
             <div >
                 <h3 class="d-inline-block">¡MUCHAS GRACIAS POR <br> SU COMPRA!</h3>
-                <p style="max-width: 650px;" class="mx-auto">Estamos procesando tu compra, en un breve momento se vera reflejado tu compra!</p>
+                <p style="max-width: 650px;" class="mx-auto">Estamos procesando tu pago, en un breve momento, podras ver reflejado tu compra!</p>
                 <a href="{{route('front.reservar')}}" class="btn btn-main d-inline-block pt-2">Aceptar</a>
             </div>
         @elseif(isset($free))
