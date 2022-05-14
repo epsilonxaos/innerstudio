@@ -58,7 +58,7 @@
                     <div class="col-12 text-center">
                         <h5>{{$data[0]->name}}</h5>
 
-                        @if (count($customerInLesson) > 0)
+                        @if ($customerInLesson > 0)
                             @if((App\Lesson::isfull($class) >= $matActives) && (Auth::id()) && (App\Mailq::isfull($class)))
                                 <div class="text-center">
                                     <a href="{{ route('front.reservar.q',["id_lesson"  => $class]) }}" class="btn btn-main m15 mw" style="padding-top: 0.375rem; padding-bottom: 0.375rem">

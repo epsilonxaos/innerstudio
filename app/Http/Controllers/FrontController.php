@@ -236,7 +236,7 @@ class FrontController extends Controller
 
         $matActives = mat::where('status', '=', 1)->count();
 
-        $customerInLesson = [];
+        $customerInLesson = 0;
         if(Auth::check()) {
             $customerInLesson = Reservation::select('reservation.id_mat_per_class')
                 -> join('_mat_per_class', 'reservation.id_mat_per_class', '=', '_mat_per_class.id_mat_per_class')
