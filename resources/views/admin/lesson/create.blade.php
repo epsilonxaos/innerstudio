@@ -95,12 +95,20 @@
                                                 <select name="tipo" id="tipo" class="browser-default @error('tipo') invalid @enderror">
                                                     <!-- añadir old-->
                                                     <option value="" selected>Tipo</option>
-                                                    <option {{(old('tipo') == 'classic') ? 'selected' : '' }}  value="classic">Classic</option>
-                                                    <option {{(old('tipo') == 'power') ? 'selected' : '' }}  value="power">Power</option>
                                                     <option {{(old('tipo') == 'interval') ? 'selected' : '' }}  value="interval">Interval</option>
+                                                    <option {{(old('tipo') == 'resistance') ? 'selected' : '' }}  value="resistance">Resistance</option>
+                                                    <option {{(old('tipo') == 'x-press') ? 'selected' : '' }}  value="x-press">X-Press</option>
+                                                    <option {{(old('tipo') == 'core') ? 'selected' : '' }}  value="core">Core</option>
+                                                    <option {{(old('tipo') == 'flow') ? 'selected' : '' }}  value="flow">Flow</option>
+                                                    <option {{(old('tipo') == 'stretch') ? 'selected' : '' }}  value="stretch">Stretch</option>
+                                                    <option {{(old('tipo') == 'hipopresivos') ? 'selected' : '' }}  value="hipopresivos">Hipopresivos</option>
+                                                    <option {{(old('tipo') == 'yoga') ? 'selected' : '' }}  value="yoga">Yoga</option>
+
+                                                    {{-- <option {{(old('tipo') == 'classic') ? 'selected' : '' }}  value="classic">Classic</option>
+                                                    <option {{(old('tipo') == 'power') ? 'selected' : '' }}  value="power">Power</option>
                                                     <option {{(old('tipo') == 'sculpt') ? 'selected' : '' }}  value="sculpt">Sculpt</option>
                                                     <option {{(old('tipo') == 'full body flow') ? 'selected' : '' }}  value="full body flow">Full Body Flow</option>
-                                                    <option {{(old('tipo') == 'yoga') ? 'selected' : '' }}  value="yoga">Yoga</option>
+                                                    <option {{(old('tipo') == 'yoga') ? 'selected' : '' }}  value="yoga">Yoga</option> --}}
                                                 </select>
                                             </div>
                                             <div class="col s12" style="padding-top: 10px; padding-bottom: 10px">

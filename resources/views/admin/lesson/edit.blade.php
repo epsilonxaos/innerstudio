@@ -78,12 +78,21 @@
                                                 <label>Elije un tipo</label>
                                                 <select name="tipo" id="tipo" class="browser-default @error('tipo') invalid @enderror">
                                                     <option value="" selected>Tipo</option>
-                                                    <option {{ ($lesson -> tipo == 'classic') ? 'selected' : '' }} value="classic">Classic</option>
-                                                    <option {{ ($lesson -> tipo == 'power') ? 'selected' : '' }} value="power">Power</option>
                                                     <option {{ ($lesson -> tipo == 'interval') ? 'selected' : '' }} value="interval">Interval</option>
+                                                    <option {{ ($lesson -> tipo == 'resistance') ? 'selected' : '' }}  value="resistance">Resistance</option>
+                                                    <option {{ ($lesson -> tipo == 'x-press') ? 'selected' : '' }}  value="x-press">X-Press</option>
+                                                    <option {{ ($lesson -> tipo == 'core') ? 'selected' : '' }}  value="core">Core</option>
+                                                    <option {{ ($lesson -> tipo == 'flow') ? 'selected' : '' }}  value="flow">Flow</option>
+                                                    <option {{ ($lesson -> tipo == 'stretch') ? 'selected' : '' }}  value="stretch">Stretch</option>
+                                                    <option {{ ($lesson -> tipo == 'hipopresivos') ? 'selected' : '' }}  value="hipopresivos">Hipopresivos</option>
+                                                    <option {{ ($lesson -> tipo == 'yoga') ? 'selected' : '' }}  value="yoga">Yoga</option>
+
+
+                                                    {{-- <option {{ ($lesson -> tipo == 'classic') ? 'selected' : '' }} value="classic">Classic</option>
+                                                    <option {{ ($lesson -> tipo == 'power') ? 'selected' : '' }} value="power">Power</option>
                                                     <option {{ ($lesson -> tipo == 'sculpt') ? 'selected' : '' }} value="sculpt">Sculpt</option>
                                                     <option {{ ($lesson -> tipo == 'full body flow') ? 'selected' : '' }} value="full body flow">Full body flow</option>
-                                                    <option {{ ($lesson -> tipo == 'yoga') ? 'selected' : '' }} value="yoga">Yoga</option>
+                                                    <option {{ ($lesson -> tipo == 'yoga') ? 'selected' : '' }} value="yoga">Yoga</option> --}}
 
 
                                                 </select>
