@@ -231,6 +231,10 @@
         // Get the output text
         var text = document.getElementById("iframeAdd");
 
+        setTimeout(() => {
+            document.querySelector('.frontino-button__content').innerHTML = 'Guardar tarjeta'
+        }, 1000);
+
         // If the checkbox is checked, display the output text
         if (checkBox.checked == true){
             text.style.display = "block";
@@ -240,9 +244,14 @@
     }
 </script>
     {{-- Aqui van los scripts para esta vista     --}}
-    @if(env('APP_PAGOS') != 'CONEKTA')
+    @if(count($dataCard) > 0)
         
     @else
+        <script>
+            setTimeout(() => {
+                document.querySelector('.frontino-button__content').innerHTML = 'Guardar tarjeta'
+            }, 1000);
+        </script>
     @endif
 
 @endpush
