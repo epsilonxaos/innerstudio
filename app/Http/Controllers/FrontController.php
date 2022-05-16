@@ -52,9 +52,7 @@ class FrontController extends Controller
             $dataCard['marca_tarjeta'] = $res4->payment_sources[0]->brand;
             $dataCard['tarjeta_numeros'] = $res4->payment_sources[0]->last4;
             $dataCard['id_tarjeta'] = $res4->payment_sources[0]->id;
-        }
-
-        env('PRO_APP_PAGOS_KEY_S', 'key_2sTgHXfvMrkpEXRyqzAeAw')
+        }        
             
             $curl = curl_init();
             curl_setopt_array($curl, [
