@@ -31,8 +31,8 @@ return [
     ],
 
     'pagos'=>[
-        'skey'=> env('APP_PAGOS_KEY_S',"key"),
-        'pkey'=> env('APP_PAGOS_KEY_P',"key")
+        'skey'=> env('PRO_APP_PAGOS_KEY_S',"key"),
+        'pkey'=> env('PRO_APP_PAGOS_KEY_P',"key")
     ]
 
 ];

@@ -512,7 +512,7 @@ class PurchaseController extends Controller
     }
 
     public function compra_update_data_conekta(Request $request){
-        Conekta::setApiKey(env('APP_PAGOS_KEY_S'));
+        Conekta::setApiKey(env('PRO_APP_PAGOS_KEY_S'));
         Conekta::setApiVersion('2.0.0');
         Conekta::setLocale('es');
         
