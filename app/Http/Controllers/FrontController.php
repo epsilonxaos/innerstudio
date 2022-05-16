@@ -49,9 +49,11 @@ class FrontController extends Controller
 
         if($customer->conekta_id){
             $res4 = Conekta_client::getClient($customer->conekta_id);
-            $dataCard['marca_tarjeta'] = $res4->payment_sources[0]->brand;
-            $dataCard['tarjeta_numeros'] = $res4->payment_sources[0]->last4;
-            $dataCard['id_tarjeta'] = $res4->payment_sources[0]->id;
+            if(isset($res4->payment_sources[0]->brand)) {
+                $dataCard['marca_tarjeta'] = $res4->payment_sources[0]->brand;
+                $dataCard['tarjeta_numeros'] = $res4->payment_sources[0]->last4;
+                $dataCard['id_tarjeta'] = $res4->payment_sources[0]->id;
+            }
         }
             
             $curl = curl_init();
