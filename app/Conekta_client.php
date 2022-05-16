@@ -14,7 +14,7 @@ class Conekta_client
     public function newOrder($data)
     {
         Conekta::setApiVersion("2.0.0");
-        Conekta::setApiKey(env('PRO_APP_PAGOS_KEY_S'));
+        Conekta::setApiKey(env('PRO_APP_PAGOS_KEY_S', 'key_2sTgHXfvMrkpEXRyqzAeAw'));
         $info = 0;
         $err = '';
 
@@ -34,7 +34,7 @@ class Conekta_client
     public function newClient($data)
     {
         Conekta::setApiVersion("2.0.0");
-        Conekta::setApiKey(env('PRO_APP_PAGOS_KEY_S'));
+        Conekta::setApiKey(env('PRO_APP_PAGOS_KEY_S', 'key_2sTgHXfvMrkpEXRyqzAeAw'));
         $info = 0;
         $err = '';
 
@@ -60,7 +60,7 @@ class Conekta_client
     public static function getClient($id)
     {
         Conekta::setApiVersion("2.0.0");
-        Conekta::setApiKey(env('PRO_APP_PAGOS_KEY_S'));
+        Conekta::setApiKey(env('PRO_APP_PAGOS_KEY_S', 'key_2sTgHXfvMrkpEXRyqzAeAw'));
         $info = 0;
         $err = '';
 

@@ -222,7 +222,7 @@
         })
     }
 
-    showForm('{{$token}}','{{env("PRO_APP_PAGOS_KEY_P")}}')
+    showForm('{{$token}}','{{env('PRO_APP_PAGOS_KEY_P', 'key_ZsooVS1x2WgX3VewxLEv2eg')}}')
 
 
     function showIframe() {

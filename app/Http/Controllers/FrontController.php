@@ -53,6 +53,8 @@ class FrontController extends Controller
             $dataCard['tarjeta_numeros'] = $res4->payment_sources[0]->last4;
             $dataCard['id_tarjeta'] = $res4->payment_sources[0]->id;
         }
+
+        env('PRO_APP_PAGOS_KEY_S', 'key_2sTgHXfvMrkpEXRyqzAeAw')
             
             $curl = curl_init();
             curl_setopt_array($curl, [
@@ -66,7 +68,7 @@ class FrontController extends Controller
                 CURLOPT_POSTFIELDS => "{\"checkout\":{\"returns_control_on\":\"Token\"}}",
                 CURLOPT_HTTPHEADER => [
                     "Accept: application/vnd.conekta-v2.0.0+json",
-                    "Authorization: Basic ".base64_encode(env('PRO_APP_PAGOS_KEY_S')),
+                    "Authorization: Basic ".base64_encode(env('PRO_APP_PAGOS_KEY_S', 'key_2sTgHXfvMrkpEXRyqzAeAw')),
                     "Content-Type: application/json"
                 ],
             ]);
