@@ -231,9 +231,9 @@
         // Get the output text
         var text = document.getElementById("iframeAdd");
 
-        setTimeout(() => {
-            document.querySelector('.frontino-button__content').innerHTML = 'Guardar tarjeta'
-        }, 1000);
+        // setTimeout(() => {
+        //     document.querySelector('.frontino-button__content').innerHTML = 'Guardar tarjeta'
+        // }, 1000);
 
         // If the checkbox is checked, display the output text
         if (checkBox.checked == true){
@@ -248,9 +248,9 @@
         
     @else
         <script>
-            setTimeout(() => {
-                document.querySelector('.frontino-button__content').innerHTML = 'Guardar tarjeta'
-            }, 1000);
+            // setTimeout(() => {
+            //     document.querySelector('.frontino-button__content').innerHTML = 'Guardar tarjeta'
+            // }, 1000);
         </script>
     @endif
 
