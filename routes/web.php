@@ -17,7 +17,7 @@
 // ------------------------------------------------------
 // Rutas de Front
 // ------------------------------------------------------
-// Route::get('/', function () { return view('mantenimiento'); });
+//Route::get('/', function () { return view('mantenimiento'); });
 
 use Illuminate\Support\Facades\Route;
 

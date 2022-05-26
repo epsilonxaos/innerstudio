@@ -35,12 +35,8 @@
                     <input type="hidden" getform name="subtotal" value="{{$paquete -> price}}">
                     <input type="hidden" getform name="discount" value="0">
                     <input type="hidden" getform name="total" value="{{$paquete -> price}}">
-                    @if (env('APP_PAGOS') == 'CONEKTA')
                     <form id="pago" method="POST" action="{{ route('comprarConecta')}}">
                         @csrf
-                    @else
-                    <form id="3ds-form" method="post">
-                    @endif
                         <input type="hidden" getform name="id_package" value="{{$paquete -> id_package}}">
                         <input type="hidden" getform name="id_customer" value="{{$customer -> id_customer}}">
                         <input type="hidden" name="monto" id="monto" value="{{$paquete -> price}}">
@@ -80,9 +76,6 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-12">
-                            @if (env('APP_PAGOS') == 'CONEKTA')
-
-                                
                                 @if(count($dataCard) > 0)
 
                                     @include('pages.components.card-info')
@@ -100,50 +93,6 @@
                                 @else
                                     <div id="conektaIframeContainer" style="height: 568px;" class="row"></div>
                                 @endif
-                            @else
-                                <div class="row">
-                                    <div class="col-12"><input type="text" name="numeroTarjeta" id="numeroTarjeta" placeholder="Número de tarjeta" value="" required mask-tarjeta></div>
-                                    <div class="col-12 col-md-6">
-                                        <select name="mesExpiracion" id="mesExpiracion" required>
-                                            <option value="01">01 Ene</option>
-                                            <option value="02">02 Feb</option>
-                                            <option value="03">03 Mar</option>
-                                            <option value="04">04 Abr</option>
-                                            <option value="05">05 May</option>
-                                            <option value="06">06 Jun</option>
-                                            <option value="07">07 Jul</option>
-                                            <option value="08">08 Ago</option>
-                                            <option value="09">09 Sep</option>
-                                            <option value="10">10 Oct</option>
-                                            <option value="11">11 Nov</option>
-                                            <option value="12">12 Dic</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                    <div class="col-12 col-md-6">
-                                        <select name="anyoExpiracion" id="anyoExpiracion" required>
-                                            <option value="19">2019</option>
-                                            <option value="20">2020</option>
-                                            <option value="21">2021</option>
-                                            <option value="22">2022</option>
-                                            <option value="23">2023</option>
-                                            <option value="24">2024</option>
-                                            <option value="25">2025</option>
-                                            <option value="26">2026</option>
-                                            <option value="27">2027</option>
-                                            <option value="28">2028</option>
-                                            <option value="29">2029</option>
-                                            <option value="30">2030</option>
-                                            <option value="31">2031</option>
-                                            <option value="32">2032</option>
-                                            <option value="33">2033</option>
-                                            <option value="34">2034</option>
-                                            <option value="35">2035</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12"><input type="password" name="cvt" id="cvt" placeholder="CVC" value="" required mask-cvv></div>
-                                </div>
-                            @endif
                             </div>
                             <div class="col-12 text-center">
                                 <small class="mr-1">Aceptamos</small>
@@ -167,7 +116,7 @@
 @endsection
 
 @push('js')
-    <script type="text/javascript" src="{{asset('js/compra.js?v=1.0.4')}}"></script>
+    <script type="text/javascript" src="{{asset('js/compra.js?v=344.0.4')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.12.0/alertify.min.js" integrity="sha512-Gnn8QFymbPDnz7C6NMHEKh2MosYchPK+vikiwNQiyEYA6CSqNfvNMCNoCXuS/q3R00DuaWktPimB5E9DQpDEQg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.12.0/css/alertify.min.css" integrity="sha512-XZbnmcIg60BDZy/AWhTVqZRe/JoFy+EXdi7EozU73a3AxhPOxLzA1/nguU50EzCS9PlMZ/GiANuIeTO8YBlvyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script>
@@ -222,7 +171,7 @@
         })
     }
 
-    showForm('{{$token}}','{{env('PRO_APP_PAGOS_KEY_P', 'key_ZsooVS1x2WgX3VewxLEv2eg')}}')
+    showForm('{{$token}}','{{env("PRO_APP_PAGOS_KEY_P", "key_ZsooVS1x2WgX3VewxLEv2eg")}}')
 
 
     function showIframe() {

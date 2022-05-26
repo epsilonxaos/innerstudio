@@ -564,6 +564,7 @@ class PurchaseController extends Controller
 
         }
         
+        //dd($customerConekta);
 
         $client -> update([
             'name' => $request -> nombre,
